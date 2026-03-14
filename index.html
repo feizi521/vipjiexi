@@ -141,6 +141,9 @@
                   <button type="button" class="btn btn-secondary" id="tab-image" onclick="switchTab('image')">
                     <i class="fa fa-picture-o"></i> 图片工具
                   </button>
+                  <button type="button" class="btn btn-secondary" id="tab-audio" onclick="switchTab('audio')">
+                    <i class="fa fa-music"></i> 音频工具
+                  </button>
                 </div>
               </div>
               
@@ -259,6 +262,48 @@
                 </div>
               </div>
               <!-- 图片工具区域结束 -->
+              
+              <!-- 音频工具区域 -->
+              <div id="audio-section" style="display: none;">
+                <div class="text-center mb-3">
+                  <h4 style="color: #FF6B6B;"><i class="fa fa-music"></i> 音频工具</h4>
+                  <p class="text-muted">在线音频格式转换、播放预览</p>
+                </div>
+                <div class="form-group row">
+                  <span class="col-sm-2 col-form-label text-right">选择音频:</span>
+                  <div class="col-sm-10">
+                    <input type="file" class="form-control" id="audioInput" accept="audio/*" onchange="previewAudio(this)">
+                  </div>
+                </div>
+                <!-- 预览区域 -->
+                <div id="audioPreview" style="display: none; margin-bottom: 20px;">
+                  <div class="text-center mb-3">
+                    <h5>预览:</h5>
+                    <audio id="previewAudioPlayer" controls style="width: 100%; max-width: 500px;">
+                    </audio>
+                    <p id="audioInfo" class="text-muted mt-2" style="font-size: 14px;"></p>
+                  </div>
+                </div>
+                <!-- 转换选项 -->
+                <div id="audioOptions" style="display: none;">
+                  <div class="form-group row">
+                    <span class="col-sm-2 col-form-label text-right">输出格式:</span>
+                    <div class="col-sm-10">
+                      <select class="form-control" id="audioOutputFormat">
+                        <option value="webm">WebM</option>
+                        <option value="wav">WAV</option>
+                      </select>
+                      <small class="text-muted">注意：浏览器支持有限，推荐使用 WebM 或 WAV 格式</small>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button class="btn btn-danger btn-round" onclick="convertAudio()">
+                      <i class="fa fa-download"></i> 转换并下载
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- 音频工具区域结束 -->
 
                   <div class="main text-center sr-only sr-only-focusable">
                       <div class="form-horizontal">
@@ -384,9 +429,11 @@ $("#play").click(function(){
     $('#vip-section').hide();
     $('#short-section').hide();
     $('#image-section').hide();
+    $('#audio-section').hide();
     $('#tab-vip').removeClass('btn-primary active').addClass('btn-secondary');
     $('#tab-short').removeClass('btn-primary active').addClass('btn-secondary');
     $('#tab-image').removeClass('btn-primary active').addClass('btn-secondary');
+    $('#tab-audio').removeClass('btn-primary active').addClass('btn-secondary');
     
     if(tab === 'vip') {
       $('#vip-section').show();
@@ -397,6 +444,9 @@ $("#play").click(function(){
     } else if(tab === 'image') {
       $('#image-section').show();
       $('#tab-image').addClass('btn-primary active').removeClass('btn-secondary');
+    } else if(tab === 'audio') {
+      $('#audio-section').show();
+      $('#tab-audio').addClass('btn-primary active').removeClass('btn-secondary');
     }
   }
   
@@ -559,6 +609,137 @@ $("#play").click(function(){
       });
     }
   });
+  
+  // 音频工具功能
+  let originalAudioBlob = null;
+  
+  function previewAudio(input) {
+    if(input.files && input.files[0]) {
+      const file = input.files[0];
+      originalAudioBlob = file;
+      
+      const url = URL.createObjectURL(file);
+      const audioPlayer = document.getElementById('previewAudioPlayer');
+      audioPlayer.src = url;
+      
+      document.getElementById('audioInfo').textContent = `文件名: ${file.name} | 大小: ${(file.size / 1024 / 1024).toFixed(2)} MB`;
+      document.getElementById('audioPreview').style.display = 'block';
+      document.getElementById('audioOptions').style.display = 'block';
+    }
+  }
+  
+  function convertAudio() {
+    if(!originalAudioBlob) {
+      alert('请先选择一个音频文件');
+      return;
+    }
+    
+    const format = document.getElementById('audioOutputFormat').value;
+    const mimeType = format === 'webm' ? 'audio/webm' : 'audio/wav';
+    
+    // 使用Web Audio API进行简单转换
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const fileReader = new FileReader();
+    
+    fileReader.onload = async function(e) {
+      try {
+        const audioBuffer = await audioContext.decodeAudioData(e.target.result);
+        
+        // 创建离线渲染器
+        const offlineContext = new OfflineAudioContext(
+          audioBuffer.numberOfChannels,
+          audioBuffer.length,
+          audioBuffer.sampleRate
+        );
+        
+        // 复制音频数据
+        const source = offlineContext.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(offlineContext.destination);
+        source.start();
+        
+        // 渲染音频
+        const renderedBuffer = await offlineContext.startRendering();
+        
+        // 转换为WAV
+        const wavBlob = audioBufferToWav(renderedBuffer);
+        
+        // 如果需要WebM格式，需要特殊处理（浏览器支持有限）
+        if(format === 'webm') {
+          // 注意：浏览器对WebM编码支持有限
+          // 这里提供WAV作为替代
+          alert('注意：WebM编码支持有限，已转换为WAV格式');
+        }
+        
+        // 下载文件
+        const link = document.createElement('a');
+        link.download = 'converted_audio.' + (format === 'webm' ? 'wav' : format);
+        link.href = URL.createObjectURL(wavBlob);
+        link.click();
+        URL.revokeObjectURL(link.href);
+        
+      } catch(error) {
+        console.error('音频转换错误:', error);
+        alert('音频转换失败: ' + error.message);
+      }
+    };
+    
+    fileReader.readAsArrayBuffer(originalAudioBlob);
+  }
+  
+  function audioBufferToWav(buffer) {
+    const numChannels = buffer.numberOfChannels;
+    const sampleRate = buffer.sampleRate;
+    const format = 1; // PCM
+    const bitDepth = 16;
+    
+    const bytesPerSample = bitDepth / 8;
+    const blockAlign = numChannels * bytesPerSample;
+    
+    const dataLength = buffer.length * blockAlign;
+    const bufferLength = 44 + dataLength;
+    
+    const arrayBuffer = new ArrayBuffer(bufferLength);
+    const view = new DataView(arrayBuffer);
+    
+    // WAV文件头
+    writeString(view, 0, 'RIFF');
+    view.setUint32(4, 36 + dataLength, true);
+    writeString(view, 8, 'WAVE');
+    writeString(view, 12, 'fmt ');
+    view.setUint32(16, 16, true);
+    view.setUint16(20, format, true);
+    view.setUint16(22, numChannels, true);
+    view.setUint32(24, sampleRate, true);
+    view.setUint32(28, sampleRate * blockAlign, true);
+    view.setUint16(32, blockAlign, true);
+    view.setUint16(34, bitDepth, true);
+    writeString(view, 36, 'data');
+    view.setUint32(40, dataLength, true);
+    
+    // 写入音频数据
+    const channels = [];
+    for(let i = 0; i < numChannels; i++) {
+      channels.push(buffer.getChannelData(i));
+    }
+    
+    let offset = 44;
+    for(let i = 0; i < buffer.length; i++) {
+      for(let channel = 0; channel < numChannels; channel++) {
+        const sample = Math.max(-1, Math.min(1, channels[channel][i]));
+        view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+        offset += 2;
+      }
+    }
+    
+    return new Blob([arrayBuffer], { type: 'audio/wav' });
+  }
+  
+  function writeString(view, offset, string) {
+    for(let i = 0; i < string.length; i++) {
+      view.setUint8(offset + i, string.charCodeAt(i));
+    }
+  }
   
 	console.group("欢迎使用视频解析系统");
 		console.log("github地址：eoeml");

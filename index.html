@@ -329,10 +329,10 @@
         id="navbar-main"
         class="navbar navbar-main navbar-expand-lg navbar-light headroom"
       >
-        <div class="container" style="justify-content: center;">
+        <div class="container" style="justify-content: space-between; align-items: center;">
             <a class="navbar-brand smooth" style="font-size: large; text-align: center; color: #ffffff; font-weight: 600; letter-spacing: -0.5px;" href="https://www.farholme.com/">
               <span style="display: inline-block; animation: bounce 2s infinite;">🦊</span>
-              小狐狸VIP视频解析网
+              <span class="lang-text" data-simplified="小狐狸VIP视频解析网" data-traditional="小狐狸VIP視頻解析網">小狐狸VIP视频解析网</span>
             </a>
           <button
             class="navbar-toggler"
@@ -346,6 +346,11 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="navbar-collapse collapse" id="navbar_global">
+            <div class="navbar-nav ml-auto">
+              <button id="langToggle" class="btn btn-sm" style="background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 6px 16px; font-size: 13px; cursor: pointer; transition: all 0.3s ease;" onclick="toggleSiteLanguage()">
+                <span class="lang-text" data-simplified="繁體" data-traditional="简体">繁體</span>
+              </button>
+            </div>
           </div>
         </div>
       </nav>
@@ -381,27 +386,27 @@
             <div class="tool-card" onclick="toggleCard(this, event)">
               <div class="tool-card-header">
                 <div class="tool-icon">🎬</div>
-                <h3 class="tool-title">VIP视频解析</h3>
-                <p class="tool-description">支持爱奇艺、优酷、腾讯等VIP视频解析</p>
-                <div class="tool-expand-hint">点击展开 ▼</div>
+                <h3 class="tool-title lang-text" data-simplified="VIP视频解析" data-traditional="VIP視頻解析">VIP视频解析</h3>
+                <p class="tool-description lang-text" data-simplified="支持爱奇艺、优酷、腾讯等VIP视频解析" data-traditional="支持愛奇藝、優酷、騰訊等VIP視頻解析">支持爱奇艺、优酷、腾讯等VIP视频解析</p>
+                <div class="tool-expand-hint lang-text" data-simplified="点击展开 ▼" data-traditional="點擊展開 ▼">点击展开 ▼</div>
               </div>
               <div class="tool-card-content" id="vip-card-content">
                 <div class="form-group">
-                  <label class="desert-text">请选择API:</label>
+                  <label class="desert-text lang-text" data-simplified="请选择API:" data-traditional="請選擇API:">请选择API:</label>
                   <select id="api" name="api" class="form-control form-control-desert"></select>
                 </div>
                 <div class="form-group">
-                  <label class="desert-text">视频地址:</label>
+                  <label class="desert-text lang-text" data-simplified="视频地址:" data-traditional="視頻地址:">视频地址:</label>
                   <input type="text" class="form-control form-control-desert" id="url" placeholder="视频地址">
                 </div>
                 <div class="text-center">
                   <button id="play" class="btn btn-desert-primary btn-block btn-round">
-                    <i class="fa fa-send-o"></i> 开始解析
+                    <i class="fa fa-send-o"></i> <span class="lang-text" data-simplified="开始解析" data-traditional="開始解析">开始解析</span>
                   </button>
                 </div>
                 <div class="text-center mt-2">
                   <small class="desert-text">
-                    <i class="fa fa-info-circle"></i> 复制任意视频网站VIP链接，粘贴到视频地址栏，点击开始解析即可
+                    <i class="fa fa-info-circle"></i> <span class="lang-text" data-simplified="复制任意视频网站VIP链接，粘贴到视频地址栏，点击开始解析即可" data-traditional="複製任意視頻網站VIP鏈接，粘貼到視頻地址欄，點擊開始解析即可">复制任意视频网站VIP链接，粘贴到视频地址栏，点击开始解析即可</span>
                   </small>
                 </div>
               </div>
@@ -411,13 +416,13 @@
             <div class="tool-card" onclick="toggleCard(this, event)">
               <div class="tool-card-header">
                 <div class="tool-icon">🎥</div>
-                <h3 class="tool-title">短视频去水印</h3>
-                <p class="tool-description">支持抖音、快手等短视频平台去水印</p>
-                <div class="tool-expand-hint">点击展开 ▼</div>
+                <h3 class="tool-title lang-text" data-simplified="短视频去水印" data-traditional="短視頻去水印">短视频去水印</h3>
+                <p class="tool-description lang-text" data-simplified="支持抖音、快手等短视频平台去水印" data-traditional="支持抖音、快手等短視頻平台去水印">支持抖音、快手等短视频平台去水印</p>
+                <div class="tool-expand-hint lang-text" data-simplified="点击展开 ▼" data-traditional="點擊展開 ▼">点击展开 ▼</div>
               </div>
               <div class="tool-card-content" id="short-card-content">
                 <div class="form-group">
-                  <label class="desert-text">视频链接:</label>
+                  <label class="desert-text lang-text" data-simplified="视频链接:" data-traditional="視頻鏈接:">视频链接:</label>
                   <input type="text" class="form-control form-control-desert" id="shortUrl" placeholder="在这里粘贴短视频链接">
                 </div>
                 <div class="text-center">
@@ -441,26 +446,26 @@
             <div class="tool-card" onclick="toggleCard(this, event)">
               <div class="tool-card-header">
                 <div class="tool-icon">🖼️</div>
-                <h3 class="tool-title">图片工具</h3>
-                <p class="tool-description">图片格式转换、压缩、调整大小</p>
-                <div class="tool-expand-hint">点击展开 ▼</div>
+                <h3 class="tool-title lang-text" data-simplified="图片工具" data-traditional="圖片工具">图片工具</h3>
+                <p class="tool-description lang-text" data-simplified="图片格式转换、压缩、调整大小" data-traditional="圖片格式轉換、壓縮、調整大小">图片格式转换、压缩、调整大小</p>
+                <div class="tool-expand-hint lang-text" data-simplified="点击展开 ▼" data-traditional="點擊展開 ▼">点击展开 ▼</div>
               </div>
               <div class="tool-card-content" id="image-card-content">
                 <div class="form-group">
-                  <label class="desert-text">选择图片:</label>
+                  <label class="desert-text lang-text" data-simplified="选择图片:" data-traditional="選擇圖片:">选择图片:</label>
                   <input type="file" class="form-control form-control-desert" id="imageInput" accept="image/*" onchange="previewImage(this)">
                 </div>
                 <!-- 预览区域 -->
                 <div id="imagePreview" style="display: none; margin-bottom: 15px;">
                   <div class="text-center">
-                    <h6 class="desert-title">预览:</h6>
+                    <h6 class="desert-title lang-text" data-simplified="预览:" data-traditional="預覽:">预览:</h6>
                     <img id="previewImg" style="max-width: 100%; max-height: 200px; border-radius: 10px;">
                   </div>
                 </div>
                 <!-- 转换选项 -->
                 <div id="imageOptions" style="display: none;">
                   <div class="form-group">
-                    <label class="desert-text">输出格式:</label>
+                    <label class="desert-text lang-text" data-simplified="输出格式:" data-traditional="輸出格式:">输出格式:</label>
                     <select class="form-control form-control-desert" id="outputFormat">
                       <option value="png">PNG</option>
                       <option value="jpeg">JPEG</option>
@@ -468,22 +473,22 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="desert-text">图片质量: <span id="qualityValue">90%</span></label>
+                    <label class="desert-text lang-text" data-simplified="图片质量:" data-traditional="圖片質量:">图片质量: <span id="qualityValue">90%</span></label>
                     <input type="range" class="form-control-range" id="imageQuality" min="10" max="100" value="90">
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-6">
-                      <label class="desert-text">宽度 (px):</label>
+                      <label class="desert-text lang-text" data-simplified="宽度 (px):" data-traditional="寬度 (px):">宽度 (px):</label>
                       <input type="number" class="form-control form-control-desert" id="resizeWidth" placeholder="宽度">
                     </div>
                     <div class="form-group col-md-6">
-                      <label class="desert-text">高度 (px):</label>
+                      <label class="desert-text lang-text" data-simplified="高度 (px):" data-traditional="高度 (px):">高度 (px):</label>
                       <input type="number" class="form-control form-control-desert" id="resizeHeight" placeholder="高度">
                     </div>
                   </div>
                   <div class="text-center">
                     <button class="btn btn-desert-success btn-block btn-round" onclick="convertImage(event)">
-                      <i class="fa fa-download"></i> 转换并下载
+                      <i class="fa fa-download"></i> <span class="lang-text" data-simplified="转换并下载" data-traditional="轉換並下載">转换并下载</span>
                     </button>
                   </div>
                 </div>
@@ -494,19 +499,19 @@
             <div class="tool-card" onclick="toggleCard(this, event)">
               <div class="tool-card-header">
                 <div class="tool-icon">🎵</div>
-                <h3 class="tool-title">音频工具</h3>
-                <p class="tool-description">在线音频格式转换、播放预览</p>
-                <div class="tool-expand-hint">点击展开 ▼</div>
+                <h3 class="tool-title lang-text" data-simplified="音频工具" data-traditional="音頻工具">音频工具</h3>
+                <p class="tool-description lang-text" data-simplified="在线音频格式转换、播放预览" data-traditional="在線音頻格式轉換、播放預覽">在线音频格式转换、播放预览</p>
+                <div class="tool-expand-hint lang-text" data-simplified="点击展开 ▼" data-traditional="點擊展開 ▼">点击展开 ▼</div>
               </div>
               <div class="tool-card-content" id="audio-card-content">
                 <div class="form-group">
-                  <label class="desert-text">选择音频:</label>
+                  <label class="desert-text lang-text" data-simplified="选择音频:" data-traditional="選擇音頻:">选择音频:</label>
                   <input type="file" class="form-control form-control-desert" id="audioInput" accept="audio/*" onchange="previewAudio(this)">
                 </div>
                 <!-- 预览区域 -->
                 <div id="audioPreview" style="display: none; margin-bottom: 15px;">
                   <div class="text-center">
-                    <h6 class="desert-title">预览:</h6>
+                    <h6 class="desert-title lang-text" data-simplified="预览:" data-traditional="預覽:">预览:</h6>
                     <audio id="previewAudioPlayer" controls style="width: 100%;">
                     </audio>
                     <p id="audioInfo" class="desert-text mt-2" style="font-size: 13px;"></p>
@@ -515,18 +520,53 @@
                 <!-- 转换选项 -->
                 <div id="audioOptions" style="display: none;">
                   <div class="form-group">
-                    <label class="desert-text">输出格式:</label>
+                    <label class="desert-text lang-text" data-simplified="输出格式:" data-traditional="輸出格式:">输出格式:</label>
                     <select class="form-control form-control-desert" id="audioOutputFormat">
                       <option value="webm">WebM</option>
                       <option value="wav">WAV</option>
                     </select>
-                    <small class="desert-text">注意：浏览器支持有限，推荐使用 WebM 或 WAV 格式</small>
+                    <small class="desert-text lang-text" data-simplified="注意：浏览器支持有限，推荐使用 WebM 或 WAV 格式" data-traditional="注意：瀏覽器支持有限，推薦使用 WebM 或 WAV 格式">注意：浏览器支持有限，推荐使用 WebM 或 WAV 格式</small>
                   </div>
                   <div class="text-center">
                     <button class="btn btn-desert-danger btn-block btn-round" onclick="convertAudio(event)">
-                      <i class="fa fa-download"></i> 转换并下载
+                      <i class="fa fa-download"></i> <span class="lang-text" data-simplified="转换并下载" data-traditional="轉換並下載">转换并下载</span>
                     </button>
                   </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 简繁转换工具卡片 -->
+            <div class="tool-card" onclick="toggleCard(this, event)">
+              <div class="tool-card-header">
+                <div class="tool-icon">🔤</div>
+                <h3 class="tool-title lang-text" data-simplified="简繁转换" data-traditional="簡繁轉換">简繁转换</h3>
+                <p class="tool-description lang-text" data-simplified="简体中文与繁体中文互转" data-traditional="簡體中文與繁體中文互轉">简体中文与繁体中文互转</p>
+                <div class="tool-expand-hint lang-text" data-simplified="点击展开 ▼" data-traditional="點擊展開 ▼">点击展开 ▼</div>
+              </div>
+              <div class="tool-card-content" id="zhconvert-card-content">
+                <div class="form-group">
+                  <label class="desert-text lang-text" data-simplified="输入文本:" data-traditional="輸入文本:">输入文本:</label>
+                  <textarea class="form-control form-control-desert" id="zhInput" rows="4" placeholder="请输入要转换的文本"></textarea>
+                </div>
+                <div class="form-group text-center">
+                  <div class="btn-group" role="group" style="width: 100%;">
+                    <button type="button" class="btn btn-desert-primary" onclick="convertToTraditional(event)" style="flex: 1;">
+                      <span class="lang-text" data-simplified="转 繁体" data-traditional="轉 繁體">转 繁体</span>
+                    </button>
+                    <button type="button" class="btn btn-desert-success" onclick="convertToSimplified(event)" style="flex: 1;">
+                      <span class="lang-text" data-simplified="转 简体" data-traditional="轉 簡體">转 简体</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="desert-text lang-text" data-simplified="转换结果:" data-traditional="轉換結果:">转换结果:</label>
+                  <textarea class="form-control form-control-desert" id="zhOutput" rows="4" readonly placeholder="转换结果将显示在这里"></textarea>
+                </div>
+                <div class="text-center">
+                  <button class="btn btn-desert-secondary btn-block btn-round" onclick="copyZhResult(event)">
+                    <i class="fa fa-copy"></i> <span class="lang-text" data-simplified="复制结果" data-traditional="複製結果">复制结果</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -534,7 +574,7 @@
           
           <!-- 友情链接区域 -->
           <div class="stats-section mt-4">
-            <h4 class="text-center desert-title mb-4" style="font-weight: 600;">友情链接</h4>
+            <h4 class="text-center desert-title mb-4 lang-text" data-simplified="友情链接" data-traditional="友情鏈接" style="font-weight: 600;">友情链接</h4>
             <div class="text-center">
               <a class="btn btn-desert-secondary m-1" href="http://www.le.com/" rel="nofollow" target="_blank">乐视视频</a>
               <a class="btn btn-desert-secondary m-1" href="http://www.iqiyi.com/" rel="nofollow" target="_blank">奇艺视频</a>
@@ -605,13 +645,69 @@ http://www.jzmhtt.com/zdy/vip/?url=
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"></script>
 <script>
+  // 简繁转换器
+  const s2tConverter = OpenCC.Converter({ from: 'cn', to: 'tw' });
+  const t2sConverter = OpenCC.Converter({ from: 'tw', to: 'cn' });
+  
+  function convertToTraditional(event) {
+    if(event) event.stopPropagation();
+    const input = document.getElementById('zhInput').value;
+    const output = s2tConverter(input);
+    document.getElementById('zhOutput').value = output;
+  }
+  
+  function convertToSimplified(event) {
+    if(event) event.stopPropagation();
+    const input = document.getElementById('zhInput').value;
+    const output = t2sConverter(input);
+    document.getElementById('zhOutput').value = output;
+  }
+  
+  function copyZhResult(event) {
+    if(event) event.stopPropagation();
+    const output = document.getElementById('zhOutput');
+    output.select();
+    document.execCommand('copy');
+    alert('已复制到剪贴板！');
+  }
+  
+  // 网站语言切换功能
+  let currentLang = 'simplified';
+  
+  function toggleSiteLanguage() {
+    currentLang = currentLang === 'simplified' ? 'traditional' : 'simplified';
+    updateAllText();
+    localStorage.setItem('siteLang', currentLang);
+  }
+  
+  function updateAllText() {
+    const langTexts = document.querySelectorAll('.lang-text');
+    langTexts.forEach(el => {
+      const simplified = el.getAttribute('data-simplified');
+      const traditional = el.getAttribute('data-traditional');
+      if(simplified && traditional) {
+        el.textContent = currentLang === 'simplified' ? simplified : traditional;
+      }
+    });
+  }
+  
+  function initLanguage() {
+    const savedLang = localStorage.getItem('siteLang');
+    if(savedLang) {
+      currentLang = savedLang;
+      updateAllText();
+    }
+  }
+  
   // 卡片展开/收起功能
   function toggleCard(card, event) {
     if(event && event.target.tagName === 'BUTTON') return;
     if(event && event.target.tagName === 'INPUT') return;
     if(event && event.target.tagName === 'SELECT') return;
     if(event && event.target.tagName === 'LABEL') return;
+    if(event && event.target.tagName === 'TEXTAREA') return;
     
     const isExpanded = card.classList.contains('expanded');
     
@@ -653,6 +749,7 @@ $("#play").click(function(e){
       $("#apiList").val(ckapi);
     }
     setApi();
+    initLanguage();
   }
   init();
   function setDefault(){

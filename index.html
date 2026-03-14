@@ -28,17 +28,144 @@
         40% { transform: translateY(-10px); }
         60% { transform: translateY(-5px); }
       }
+      
+      body {
+        background: linear-gradient(135deg, #d4a574 0%, #e6c89f 25%, #f0d9b5 50%, #e6c89f 75%, #d4a574 100%);
+        min-height: 100vh;
+      }
+      
+      .desert-overlay {
+        background-image: 
+          radial-gradient(circle at 20% 80%, rgba(255, 165, 0, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(255, 140, 0, 0.15) 0%, transparent 40%),
+          radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.08) 0%, transparent 60%);
+      }
+      
+      .card-desert {
+        background: linear-gradient(145deg, #f5e6d3 0%, #e8d4bc 100%);
+        border: 2px solid #c9a66b;
+        box-shadow: 
+          0 8px 32px rgba(139, 90, 43, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
+      
+      .btn-desert-primary {
+        background: linear-gradient(145deg, #d2691e, #cd853f);
+        border: none;
+        color: white;
+        box-shadow: 0 4px 15px rgba(210, 105, 30, 0.4);
+        transition: all 0.3s ease;
+      }
+      
+      .btn-desert-primary:hover {
+        background: linear-gradient(145deg, #cd853f, #daa520);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(210, 105, 30, 0.5);
+        color: white;
+      }
+      
+      .btn-desert-secondary {
+        background: linear-gradient(145deg, #8b7355, #a0826d);
+        border: none;
+        color: white;
+        box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);
+        transition: all 0.3s ease;
+      }
+      
+      .btn-desert-secondary:hover {
+        background: linear-gradient(145deg, #a0826d, #b8860b);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(139, 115, 85, 0.4);
+        color: white;
+      }
+      
+      .btn-desert-success {
+        background: linear-gradient(145deg, #6b8e23, #8fbc8f);
+        border: none;
+        color: white;
+        box-shadow: 0 4px 15px rgba(107, 142, 35, 0.4);
+        transition: all 0.3s ease;
+      }
+      
+      .btn-desert-success:hover {
+        background: linear-gradient(145deg, #8fbc8f, #9acd32);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(107, 142, 35, 0.5);
+        color: white;
+      }
+      
+      .btn-desert-danger {
+        background: linear-gradient(145deg, #b22222, #cd5c5c);
+        border: none;
+        color: white;
+        box-shadow: 0 4px 15px rgba(178, 34, 34, 0.4);
+        transition: all 0.3s ease;
+      }
+      
+      .btn-desert-danger:hover {
+        background: linear-gradient(145deg, #cd5c5c, #dc143c);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(178, 34, 34, 0.5);
+        color: white;
+      }
+      
+      .desert-title {
+        color: #8b4513;
+        text-shadow: 2px 2px 4px rgba(139, 69, 19, 0.2);
+      }
+      
+      .desert-text {
+        color: #5c4033;
+      }
+      
+      .form-control-desert {
+        background: rgba(255, 255, 255, 0.7);
+        border: 2px solid #c9a66b;
+        color: #5c4033;
+      }
+      
+      .form-control-desert:focus {
+        background: rgba(255, 255, 255, 0.9);
+        border-color: #d2691e;
+        box-shadow: 0 0 0 0.2rem rgba(210, 105, 30, 0.25);
+        color: #5c4033;
+      }
+      
+      .header-desert {
+        background: linear-gradient(180deg, #cd853f 0%, #d2691e 50%, #8b4513 100%);
+        box-shadow: 0 4px 20px rgba(139, 69, 19, 0.4);
+      }
+      
+      .footer-desert {
+        background: linear-gradient(0deg, #8b4513 0%, #a0522d 50%, #cd853f 100%);
+        color: #f5e6d3;
+      }
+      
+      .sand-dune {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 200px;
+        background: 
+          radial-gradient(ellipse 80% 50% at 20% 100%, #e6c89f 0%, transparent 70%),
+          radial-gradient(ellipse 60% 40% at 60% 100%, #d4a574 0%, transparent 60%),
+          radial-gradient(ellipse 70% 45% at 85% 100%, #e6c89f 0%, transparent 65%);
+        pointer-events: none;
+        z-index: -1;
+      }
     </style>
   </head>
 
-  <body>
-    <header class="header-global">
+  <body class="desert-overlay">
+    <div class="sand-dune"></div>
+    <header class="header-global header-desert">
       <nav
         id="navbar-main"
-        class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light headroom"
+        class="navbar navbar-main navbar-expand-lg navbar-light headroom"
       >
         <div class="container" style="justify-content: center;">
-            <a class="navbar-brand smooth" style="font-size: large; text-align: center;" href="https://www.farholme.com/">
+            <a class="navbar-brand smooth" style="font-size: large; text-align: center; color: #f5e6d3;" href="https://www.farholme.com/">
               <span style="display: inline-block; animation: bounce 2s infinite;">🦊</span>
               小狐狸VIP视频解析网-免费分享用心快乐
             </a>
@@ -61,19 +188,7 @@
 
     <!---->
     <main class="profile-page">
-      <section class="section-profile-cover section-shaped my-0" style="min-height: 80px; max-height: 100px;">
-        <!-- Circles background -->
-        <div class="shape shape-style-1 shape-primary alpha-4">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+      <section class="section-profile-cover section-shaped my-0" style="min-height: 60px; max-height: 80px; background: linear-gradient(180deg, #8b4513 0%, #cd853f 100%);">
         <!-- SVG separator -->
         <div class="separator separator-bottom separator-skew">
           <svg
@@ -86,6 +201,7 @@
           >
             <polygon
               class="fill-white"
+              style="fill: #f0d9b5;"
               points="2560 0 2560 100 0 100"
             ></polygon>
           </svg>
@@ -93,7 +209,7 @@
       </section>
       <section class="section">
         <div class="container" >
-          <div class="card card-profile shadow" style="margin-top: -50px;">
+          <div class="card card-desert shadow" style="margin-top: -40px; border-radius: 20px;">
             <div class="px-4" style="padding-bottom: 0.5rem;">
               <div class="row justify-content-center">
                 <div class="col-lg-3 order-lg-2">
@@ -132,16 +248,16 @@
               <!-- Tab导航 -->
               <div class="text-center mb-4">
                 <div class="btn-group" role="group">
-                  <button type="button" class="btn btn-primary active" id="tab-vip" onclick="switchTab('vip')">
+                  <button type="button" class="btn btn-desert-primary active" id="tab-vip" onclick="switchTab('vip')">
                     <i class="fa fa-play-circle"></i> VIP视频解析
                   </button>
-                  <button type="button" class="btn btn-secondary" id="tab-short" onclick="switchTab('short')">
+                  <button type="button" class="btn btn-desert-secondary" id="tab-short" onclick="switchTab('short')">
                     <i class="fa fa-video-camera"></i> 短视频去水印
                   </button>
-                  <button type="button" class="btn btn-secondary" id="tab-image" onclick="switchTab('image')">
+                  <button type="button" class="btn btn-desert-secondary" id="tab-image" onclick="switchTab('image')">
                     <i class="fa fa-picture-o"></i> 图片工具
                   </button>
-                  <button type="button" class="btn btn-secondary" id="tab-audio" onclick="switchTab('audio')">
+                  <button type="button" class="btn btn-desert-secondary" id="tab-audio" onclick="switchTab('audio')">
                     <i class="fa fa-music"></i> 音频工具
                   </button>
                 </div>
@@ -151,26 +267,26 @@
               <div id="vip-section">
               <form>
                     <div class="form-group row">
-                      <span class="col-sm-2 col-form-label text-right">请选择API:</span>
+                      <span class="col-sm-2 col-form-label text-right desert-text">请选择API:</span>
                       <div class="col-sm-10">
-                          <select id="api" name="api" class="form-control"></select>
+                          <select id="api" name="api" class="form-control form-control-desert"></select>
                       </div>
                     </div>
                     <div class="form-group row">
-                            <span class="col-sm-2 col-form-label text-right ">视频地址:</span>
+                            <span class="col-sm-2 col-form-label text-right desert-text">视频地址:</span>
                       <div class="col-sm-10">
-                        <input type="" class="form-control" id="url" placeholder="视频地址">
+                        <input type="" class="form-control form-control-desert" id="url" placeholder="视频地址">
                       </div>
                     </div>
                     <div class=" text-center">
-                            <button id="play" class="btn btn-primary btn-round"
+                            <button id="play" class="btn btn-desert-primary btn-round"
                               ><i class="fa fa-send-o"></i> 开 始 解 析</button
                             >
                           </div>
                           </br>
                           <div class=" text-center">
-                         <button href=""  class="btn btn-primary btn-round"
-                              ><i class="fa fa-send-o"></i> 使用方法：复制任意视频网站VIP链接，粘贴到视频地址栏，点击开始解析即可</button
+                         <button href=""  class="btn btn-desert-secondary btn-round"
+                              ><i class="fa fa-info-circle"></i> 使用方法：复制任意视频网站VIP链接，粘贴到视频地址栏，点击开始解析即可</button
                             >
 </div>
                   </form>
@@ -180,17 +296,17 @@
               <!-- 短视频去水印区域 -->
               <div id="short-section" style="display: none;">
                 <div class="text-center mb-3">
-                  <h4 style="color: #6A5ACD;"><i class="fa fa-film"></i> 聚合短视频去水印</h4>
-                  <p class="text-muted">支持抖音、快手等短视频平台</p>
+                  <h4 class="desert-title"><i class="fa fa-film"></i> 聚合短视频去水印</h4>
+                  <p class="desert-text">支持抖音、快手等短视频平台</p>
                 </div>
                 <div class="form-group row">
-                  <span class="col-sm-2 col-form-label text-right">视频链接:</span>
+                  <span class="col-sm-2 col-form-label text-right desert-text">视频链接:</span>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="shortUrl" placeholder="在这里粘贴短视频链接">
+                    <input type="text" class="form-control form-control-desert" id="shortUrl" placeholder="在这里粘贴短视频链接">
                   </div>
                 </div>
                 <div class="text-center">
-                  <button id="parseShort" class="btn btn-success btn-round" onclick="parseShortVideo()">
+                  <button id="parseShort" class="btn btn-desert-success btn-round" onclick="parseShortVideo()">
                     <i class="fa fa-magic"></i> 魔法解析
                   </button>
                 </div>
@@ -210,13 +326,13 @@
               <!-- 图片工具区域 -->
               <div id="image-section" style="display: none;">
                 <div class="text-center mb-3">
-                  <h4 style="color: #28a745;"><i class="fa fa-picture-o"></i> 图片工具</h4>
-                  <p class="text-muted">图片格式转换、压缩、调整大小</p>
+                  <h4 class="desert-title"><i class="fa fa-picture-o"></i> 图片工具</h4>
+                  <p class="desert-text">图片格式转换、压缩、调整大小</p>
                 </div>
                 <div class="form-group row">
-                  <span class="col-sm-2 col-form-label text-right">选择图片:</span>
+                  <span class="col-sm-2 col-form-label text-right desert-text">选择图片:</span>
                   <div class="col-sm-10">
-                    <input type="file" class="form-control" id="imageInput" accept="image/*" onchange="previewImage(this)">
+                    <input type="file" class="form-control form-control-desert" id="imageInput" accept="image/*" onchange="previewImage(this)">
                   </div>
                 </div>
                 <!-- 预览区域 -->
@@ -229,9 +345,9 @@
                 <!-- 转换选项 -->
                 <div id="imageOptions" style="display: none;">
                   <div class="form-group row">
-                    <span class="col-sm-2 col-form-label text-right">输出格式:</span>
+                    <span class="col-sm-2 col-form-label text-right desert-text">输出格式:</span>
                     <div class="col-sm-10">
-                      <select class="form-control" id="outputFormat">
+                      <select class="form-control form-control-desert" id="outputFormat">
                         <option value="png">PNG</option>
                         <option value="jpeg">JPEG</option>
                         <option value="webp">WebP</option>
@@ -239,23 +355,23 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <span class="col-sm-2 col-form-label text-right">图片质量:</span>
+                    <span class="col-sm-2 col-form-label text-right desert-text">图片质量:</span>
                     <div class="col-sm-10">
                       <input type="range" class="form-control-range" id="imageQuality" min="10" max="100" value="90">
-                      <small class="text-muted" id="qualityValue">90%</small>
+                      <small class="desert-text" id="qualityValue">90%</small>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <span class="col-sm-2 col-form-label text-right">调整大小:</span>
+                    <span class="col-sm-2 col-form-label text-right desert-text">调整大小:</span>
                     <div class="col-sm-5">
-                      <input type="number" class="form-control" id="resizeWidth" placeholder="宽度 (px)">
+                      <input type="number" class="form-control form-control-desert" id="resizeWidth" placeholder="宽度 (px)">
                     </div>
                     <div class="col-sm-5">
-                      <input type="number" class="form-control" id="resizeHeight" placeholder="高度 (px)">
+                      <input type="number" class="form-control form-control-desert" id="resizeHeight" placeholder="高度 (px)">
                     </div>
                   </div>
                   <div class="text-center">
-                    <button class="btn btn-success btn-round" onclick="convertImage()">
+                    <button class="btn btn-desert-success btn-round" onclick="convertImage()">
                       <i class="fa fa-download"></i> 转换并下载
                     </button>
                   </div>
@@ -266,13 +382,13 @@
               <!-- 音频工具区域 -->
               <div id="audio-section" style="display: none;">
                 <div class="text-center mb-3">
-                  <h4 style="color: #FF6B6B;"><i class="fa fa-music"></i> 音频工具</h4>
-                  <p class="text-muted">在线音频格式转换、播放预览</p>
+                  <h4 class="desert-title"><i class="fa fa-music"></i> 音频工具</h4>
+                  <p class="desert-text">在线音频格式转换、播放预览</p>
                 </div>
                 <div class="form-group row">
-                  <span class="col-sm-2 col-form-label text-right">选择音频:</span>
+                  <span class="col-sm-2 col-form-label text-right desert-text">选择音频:</span>
                   <div class="col-sm-10">
-                    <input type="file" class="form-control" id="audioInput" accept="audio/*" onchange="previewAudio(this)">
+                    <input type="file" class="form-control form-control-desert" id="audioInput" accept="audio/*" onchange="previewAudio(this)">
                   </div>
                 </div>
                 <!-- 预览区域 -->
@@ -287,17 +403,17 @@
                 <!-- 转换选项 -->
                 <div id="audioOptions" style="display: none;">
                   <div class="form-group row">
-                    <span class="col-sm-2 col-form-label text-right">输出格式:</span>
+                    <span class="col-sm-2 col-form-label text-right desert-text">输出格式:</span>
                     <div class="col-sm-10">
-                      <select class="form-control" id="audioOutputFormat">
+                      <select class="form-control form-control-desert" id="audioOutputFormat">
                         <option value="webm">WebM</option>
                         <option value="wav">WAV</option>
                       </select>
-                      <small class="text-muted">注意：浏览器支持有限，推荐使用 WebM 或 WAV 格式</small>
+                      <small class="desert-text">注意：浏览器支持有限，推荐使用 WebM 或 WAV 格式</small>
                     </div>
                   </div>
                   <div class="text-center">
-                    <button class="btn btn-danger btn-round" onclick="convertAudio()">
+                    <button class="btn btn-desert-danger btn-round" onclick="convertAudio()">
                       <i class="fa fa-download"></i> 转换并下载
                     </button>
                   </div>
@@ -338,16 +454,16 @@ http://www.jzmhtt.com/zdy/vip/?url=
               <div class="mt-1 pt-1 border-top text-center">
                 <div class="row justify-content-center">
                   <div class="col-sm-9">
-                      <a class="btn btn-success mt-1" href="http://www.le.com/" rel="nofollow" target="_blank">乐视视频</a>
-                      <a class="btn btn-danger mt-1" href="http://www.iqiyi.com/" rel="nofollow" target="_blank">奇艺视频</a>
-                      <a class="btn btn-info mt-1" href="http://www.mgtv.com/" rel="nofollow" target="_blank">芒果视频</a>
-                      <a class="btn btn-warning mt-1" href="http://www.tudou.com/" rel="nofollow" target="_blank">土豆视频</a>
+                      <a class="btn btn-desert-success mt-1" href="http://www.le.com/" rel="nofollow" target="_blank">乐视视频</a>
+                      <a class="btn btn-desert-danger mt-1" href="http://www.iqiyi.com/" rel="nofollow" target="_blank">奇艺视频</a>
+                      <a class="btn btn-desert-secondary mt-1" href="http://www.mgtv.com/" rel="nofollow" target="_blank">芒果视频</a>
+                      <a class="btn btn-desert-primary mt-1" href="http://www.tudou.com/" rel="nofollow" target="_blank">土豆视频</a>
                   <br>
                   <div class="hr mb-1"></div>
-                      <a class="btn btn-primary mt-1" href="http://v.qq.com/" rel="nofollow" target="_blank">腾讯视频</a>
-                      <a class="btn btn-info mt-1" href="http://www.youku.com/" rel="nofollow" target="_blank">优酷视频</a>
-                      <a class="btn btn-success mt-1" href="http://tv.sohu.com/" rel="nofollow" target="_blank">搜狐视频</a>
-                      <a class="btn btn-primary mt-1" href="http://www.pptv.com/" rel="nofollow" target="_blank">pptv视频</a>
+                      <a class="btn btn-desert-primary mt-1" href="http://v.qq.com/" rel="nofollow" target="_blank">腾讯视频</a>
+                      <a class="btn btn-desert-secondary mt-1" href="http://www.youku.com/" rel="nofollow" target="_blank">优酷视频</a>
+                      <a class="btn btn-desert-success mt-1" href="http://tv.sohu.com/" rel="nofollow" target="_blank">搜狐视频</a>
+                      <a class="btn btn-desert-primary mt-1" href="http://www.pptv.com/" rel="nofollow" target="_blank">pptv视频</a>
                   </div>
                 </div>
               </div>
@@ -357,21 +473,21 @@ http://www.jzmhtt.com/zdy/vip/?url=
       </section>
     </main>
 
-    <footer class="footer">
+    <footer class="footer footer-desert">
       <div class="container">
         <div class="row row-grid align-items-center mb-2">
           <div class="col-lg-12 text-center">
-            <h5 class="text-primary font-weight-light mb-1">
+            <h5 class="font-weight-light mb-1" style="color: #f5e6d3;">
               欢迎使用VIP视频解析系统!
             </h5>
           </div>
         </div>
-        <hr class="my-2" />
+        <hr class="my-2" style="border-color: rgba(245, 230, 211, 0.3);" />
         <div class="row align-items-center justify-content-md-center">
           <div class="col-md-12 text-center">
-            <div class="copyright">
+            <div class="copyright" style="color: #e8d4bc;">
               &copy; 2025 小狐狸VIP视频解析网 |
-              <a href="https://www.farholme.com/" target="_blank"
+              <a href="https://www.farholme.com/" target="_blank" style="color: #f5e6d3;"
                 >友情链接</a
               >
             </div>
@@ -430,23 +546,23 @@ $("#play").click(function(){
     $('#short-section').hide();
     $('#image-section').hide();
     $('#audio-section').hide();
-    $('#tab-vip').removeClass('btn-primary active').addClass('btn-secondary');
-    $('#tab-short').removeClass('btn-primary active').addClass('btn-secondary');
-    $('#tab-image').removeClass('btn-primary active').addClass('btn-secondary');
-    $('#tab-audio').removeClass('btn-primary active').addClass('btn-secondary');
+    $('#tab-vip').removeClass('btn-desert-primary active').addClass('btn-desert-secondary');
+    $('#tab-short').removeClass('btn-desert-primary active').addClass('btn-desert-secondary');
+    $('#tab-image').removeClass('btn-desert-primary active').addClass('btn-desert-secondary');
+    $('#tab-audio').removeClass('btn-desert-primary active').addClass('btn-desert-secondary');
     
     if(tab === 'vip') {
       $('#vip-section').show();
-      $('#tab-vip').addClass('btn-primary active').removeClass('btn-secondary');
+      $('#tab-vip').addClass('btn-desert-primary active').removeClass('btn-desert-secondary');
     } else if(tab === 'short') {
       $('#short-section').show();
-      $('#tab-short').addClass('btn-primary active').removeClass('btn-secondary');
+      $('#tab-short').addClass('btn-desert-primary active').removeClass('btn-desert-secondary');
     } else if(tab === 'image') {
       $('#image-section').show();
-      $('#tab-image').addClass('btn-primary active').removeClass('btn-secondary');
+      $('#tab-image').addClass('btn-desert-primary active').removeClass('btn-desert-secondary');
     } else if(tab === 'audio') {
       $('#audio-section').show();
-      $('#tab-audio').addClass('btn-primary active').removeClass('btn-secondary');
+      $('#tab-audio').addClass('btn-desert-primary active').removeClass('btn-desert-secondary');
     }
   }
   

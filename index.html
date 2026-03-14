@@ -133,10 +133,13 @@
               <div class="text-center mb-4">
                 <div class="btn-group" role="group">
                   <button type="button" class="btn btn-primary active" id="tab-vip" onclick="switchTab('vip')">
-                    <i class="fas fa-play-circle"></i> VIP视频解析
+                    <i class="fa fa-play-circle"></i> VIP视频解析
                   </button>
                   <button type="button" class="btn btn-secondary" id="tab-short" onclick="switchTab('short')">
-                    <i class="fas fa-video"></i> 短视频去水印
+                    <i class="fa fa-video-camera"></i> 短视频去水印
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="tab-image" onclick="switchTab('image')">
+                    <i class="fa fa-picture-o"></i> 图片工具
                   </button>
                 </div>
               </div>
@@ -174,7 +177,7 @@
               <!-- 短视频去水印区域 -->
               <div id="short-section" style="display: none;">
                 <div class="text-center mb-3">
-                  <h4 style="color: #6A5ACD;"><i class="fas fa-film"></i> 聚合短视频去水印</h4>
+                  <h4 style="color: #6A5ACD;"><i class="fa fa-film"></i> 聚合短视频去水印</h4>
                   <p class="text-muted">支持抖音、快手等短视频平台</p>
                 </div>
                 <div class="form-group row">
@@ -185,7 +188,7 @@
                 </div>
                 <div class="text-center">
                   <button id="parseShort" class="btn btn-success btn-round" onclick="parseShortVideo()">
-                    <i class="fas fa-wand-magic-sparkles"></i> 魔法解析
+                    <i class="fa fa-magic"></i> 魔法解析
                   </button>
                 </div>
                 <br>
@@ -200,6 +203,62 @@
                 <div id="shortResult" style="margin-top: 20px;"></div>
               </div>
               <!-- 短视频去水印区域结束 -->
+              
+              <!-- 图片工具区域 -->
+              <div id="image-section" style="display: none;">
+                <div class="text-center mb-3">
+                  <h4 style="color: #28a745;"><i class="fa fa-picture-o"></i> 图片工具</h4>
+                  <p class="text-muted">图片格式转换、压缩、调整大小</p>
+                </div>
+                <div class="form-group row">
+                  <span class="col-sm-2 col-form-label text-right">选择图片:</span>
+                  <div class="col-sm-10">
+                    <input type="file" class="form-control" id="imageInput" accept="image/*" onchange="previewImage(this)">
+                  </div>
+                </div>
+                <!-- 预览区域 -->
+                <div id="imagePreview" style="display: none; margin-bottom: 20px;">
+                  <div class="text-center mb-3">
+                    <h5>预览:</h5>
+                    <img id="previewImg" style="max-width: 300px; max-height: 300px; border-radius: 10px;">
+                  </div>
+                </div>
+                <!-- 转换选项 -->
+                <div id="imageOptions" style="display: none;">
+                  <div class="form-group row">
+                    <span class="col-sm-2 col-form-label text-right">输出格式:</span>
+                    <div class="col-sm-10">
+                      <select class="form-control" id="outputFormat">
+                        <option value="png">PNG</option>
+                        <option value="jpeg">JPEG</option>
+                        <option value="webp">WebP</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <span class="col-sm-2 col-form-label text-right">图片质量:</span>
+                    <div class="col-sm-10">
+                      <input type="range" class="form-control-range" id="imageQuality" min="10" max="100" value="90">
+                      <small class="text-muted" id="qualityValue">90%</small>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <span class="col-sm-2 col-form-label text-right">调整大小:</span>
+                    <div class="col-sm-5">
+                      <input type="number" class="form-control" id="resizeWidth" placeholder="宽度 (px)">
+                    </div>
+                    <div class="col-sm-5">
+                      <input type="number" class="form-control" id="resizeHeight" placeholder="高度 (px)">
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button class="btn btn-success btn-round" onclick="convertImage()">
+                      <i class="fa fa-download"></i> 转换并下载
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- 图片工具区域结束 -->
 
                   <div class="main text-center sr-only sr-only-focusable">
                       <div class="form-horizontal">
@@ -322,16 +381,22 @@ $("#play").click(function(){
   
   // Tab切换功能
   function switchTab(tab) {
+    $('#vip-section').hide();
+    $('#short-section').hide();
+    $('#image-section').hide();
+    $('#tab-vip').removeClass('btn-primary active').addClass('btn-secondary');
+    $('#tab-short').removeClass('btn-primary active').addClass('btn-secondary');
+    $('#tab-image').removeClass('btn-primary active').addClass('btn-secondary');
+    
     if(tab === 'vip') {
       $('#vip-section').show();
-      $('#short-section').hide();
       $('#tab-vip').addClass('btn-primary active').removeClass('btn-secondary');
-      $('#tab-short').addClass('btn-secondary').removeClass('btn-primary active');
-    } else {
-      $('#vip-section').hide();
+    } else if(tab === 'short') {
       $('#short-section').show();
       $('#tab-short').addClass('btn-primary active').removeClass('btn-secondary');
-      $('#tab-vip').addClass('btn-secondary').removeClass('btn-primary active');
+    } else if(tab === 'image') {
+      $('#image-section').show();
+      $('#tab-image').addClass('btn-primary active').removeClass('btn-secondary');
     }
   }
   
@@ -354,11 +419,9 @@ $("#play").click(function(){
         return;
       }
       
-      // 显示加载动画
       $('#shortLoading').show();
       $('#shortResult').empty();
       
-      // 调用解析API
       const apiUrl = `https://api.kxzjoker.cn/api/jiexi_video?url=${encodeURIComponent(url)}`;
       const response = await fetch(apiUrl);
       
@@ -372,7 +435,6 @@ $("#play").click(function(){
         throw new Error('解析失败，请检查链接是否正确');
       }
       
-      // 渲染结果
       renderShortResult(data.data);
       
     } catch(error) {
@@ -386,16 +448,14 @@ $("#play").click(function(){
     }
   }
   
-  // 渲染短视频解析结果
   function renderShortResult(data) {
     const resultBox = document.getElementById('shortResult');
     
     if(data.video_url) {
-      // 视频结果
       resultBox.innerHTML = `
         <div class="card shadow-sm" style="border-radius: 15px; overflow: hidden;">
           <div class="card-header bg-success text-white">
-            <h5 class="mb-0"><i class="fas fa-video"></i> ${data.video_title || '未命名视频'}</h5>
+            <h5 class="mb-0"><i class="fa fa-video-camera"></i> ${data.video_title || '未命名视频'}</h5>
           </div>
           <div class="card-body">
             <div style="position: relative; padding-top: 56.25%; margin-bottom: 15px;">
@@ -406,14 +466,13 @@ $("#play").click(function(){
             </div>
             <div class="text-center">
               <a href="${data.download_url || data.video_url}" target="_blank" class="btn btn-success btn-round">
-                <i class="fas fa-download"></i> 下载视频
+                <i class="fa fa-download"></i> 下载视频
               </a>
             </div>
           </div>
         </div>
       `;
     } else if(data.images) {
-      // 图集结果
       const galleryHTML = data.images.map((img, index) => `
         <div class="col-6 col-md-4 col-lg-3 mb-3">
           <div style="position: relative; border-radius: 10px; overflow: hidden;">
@@ -426,7 +485,7 @@ $("#play").click(function(){
       resultBox.innerHTML = `
         <div class="card shadow-sm" style="border-radius: 15px;">
           <div class="card-header bg-info text-white">
-            <h5 class="mb-0"><i class="fas fa-images"></i> ${data.title || '未命名图集'}</h5>
+            <h5 class="mb-0"><i class="fa fa-images"></i> ${data.title || '未命名图集'}</h5>
           </div>
           <div class="card-body">
             <div class="row">
@@ -439,6 +498,67 @@ $("#play").click(function(){
       resultBox.innerHTML = '<div class="alert alert-warning">未找到可下载的内容</div>';
     }
   }
+  
+  // 图片工具功能
+  let originalImage = null;
+  
+  function previewImage(input) {
+    if(input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        originalImage = new Image();
+        originalImage.onload = function() {
+          document.getElementById('previewImg').src = e.target.result;
+          document.getElementById('imagePreview').style.display = 'block';
+          document.getElementById('imageOptions').style.display = 'block';
+        };
+        originalImage.src = e.target.result;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  
+  function convertImage() {
+    if(!originalImage) {
+      alert('请先选择一张图片');
+      return;
+    }
+    
+    const format = document.getElementById('outputFormat').value;
+    const quality = document.getElementById('imageQuality').value / 100;
+    const width = document.getElementById('resizeWidth').value;
+    const height = document.getElementById('resizeHeight').value;
+    
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    let targetWidth = width ? parseInt(width) : originalImage.width;
+    let targetHeight = height ? parseInt(height) : originalImage.height;
+    
+    canvas.width = targetWidth;
+    canvas.height = targetHeight;
+    ctx.drawImage(originalImage, 0, 0, targetWidth, targetHeight);
+    
+    canvas.toBlob(function(blob) {
+      const link = document.createElement('a');
+      link.download = 'converted_image.' + format;
+      link.href = URL.createObjectURL(blob);
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }, 'image/' + format, quality);
+  }
+  
+  // 页面加载完成后初始化
+  document.addEventListener('DOMContentLoaded', function() {
+    // 更新质量显示
+    const qualitySlider = document.getElementById('imageQuality');
+    const qualityValue = document.getElementById('qualityValue');
+    if(qualitySlider && qualityValue) {
+      qualitySlider.addEventListener('input', function() {
+        qualityValue.textContent = this.value + '%';
+      });
+    }
+  });
   
 	console.group("欢迎使用视频解析系统");
 		console.log("github地址：eoeml");

@@ -171,6 +171,7 @@
           0 8px 32px rgba(139, 90, 43, 0.2),
           inset 0 1px 0 rgba(255, 255, 255, 0.3);
         transition: all 0.3s ease;
+        cursor: pointer;
       }
       
       .tool-card:hover {
@@ -178,6 +179,17 @@
         box-shadow: 
           0 15px 40px rgba(139, 90, 43, 0.3),
           inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
+      
+      .tool-card.expanded {
+        cursor: default;
+      }
+      
+      .tool-card-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        user-select: none;
       }
       
       .tool-icon {
@@ -198,8 +210,43 @@
       .tool-description {
         color: #5c4033;
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         font-size: 14px;
+      }
+      
+      .tool-expand-hint {
+        color: #8b4513;
+        font-size: 12px;
+        text-align: center;
+        margin-top: 5px;
+        opacity: 0.7;
+        transition: all 0.3s ease;
+      }
+      
+      .tool-card:hover .tool-expand-hint {
+        opacity: 1;
+      }
+      
+      .tool-card.expanded .tool-expand-hint {
+        display: none;
+      }
+      
+      .tool-card-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.4s ease;
+        margin-top: 0;
+      }
+      
+      .tool-card.expanded .tool-card-content {
+        max-height: 1000px;
+        opacity: 1;
+        margin-top: 20px;
+      }
+      
+      .tool-card.expanded .tool-card-header {
+        cursor: pointer;
       }
       
       .stats-section {
@@ -314,11 +361,14 @@
           <!-- 网格瀑布流布局 -->
           <div class="grid-container">
             <!-- VIP视频解析卡片 -->
-            <div class="tool-card">
-              <div class="tool-icon">🎬</div>
-              <h3 class="tool-title">VIP视频解析</h3>
-              <p class="tool-description">支持爱奇艺、优酷、腾讯等VIP视频解析</p>
-              <div id="vip-card-content">
+            <div class="tool-card" onclick="toggleCard(this, event)">
+              <div class="tool-card-header">
+                <div class="tool-icon">🎬</div>
+                <h3 class="tool-title">VIP视频解析</h3>
+                <p class="tool-description">支持爱奇艺、优酷、腾讯等VIP视频解析</p>
+                <div class="tool-expand-hint">点击展开 ▼</div>
+              </div>
+              <div class="tool-card-content" id="vip-card-content">
                 <div class="form-group">
                   <label class="desert-text">请选择API:</label>
                   <select id="api" name="api" class="form-control form-control-desert"></select>
@@ -341,11 +391,14 @@
             </div>
             
             <!-- 短视频去水印卡片 -->
-            <div class="tool-card">
-              <div class="tool-icon">🎥</div>
-              <h3 class="tool-title">短视频去水印</h3>
-              <p class="tool-description">支持抖音、快手等短视频平台去水印</p>
-              <div id="short-card-content">
+            <div class="tool-card" onclick="toggleCard(this, event)">
+              <div class="tool-card-header">
+                <div class="tool-icon">🎥</div>
+                <h3 class="tool-title">短视频去水印</h3>
+                <p class="tool-description">支持抖音、快手等短视频平台去水印</p>
+                <div class="tool-expand-hint">点击展开 ▼</div>
+              </div>
+              <div class="tool-card-content" id="short-card-content">
                 <div class="form-group">
                   <label class="desert-text">视频链接:</label>
                   <input type="text" class="form-control form-control-desert" id="shortUrl" placeholder="在这里粘贴短视频链接">
@@ -368,11 +421,14 @@
             </div>
             
             <!-- 图片工具卡片 -->
-            <div class="tool-card">
-              <div class="tool-icon">🖼️</div>
-              <h3 class="tool-title">图片工具</h3>
-              <p class="tool-description">图片格式转换、压缩、调整大小</p>
-              <div id="image-card-content">
+            <div class="tool-card" onclick="toggleCard(this, event)">
+              <div class="tool-card-header">
+                <div class="tool-icon">🖼️</div>
+                <h3 class="tool-title">图片工具</h3>
+                <p class="tool-description">图片格式转换、压缩、调整大小</p>
+                <div class="tool-expand-hint">点击展开 ▼</div>
+              </div>
+              <div class="tool-card-content" id="image-card-content">
                 <div class="form-group">
                   <label class="desert-text">选择图片:</label>
                   <input type="file" class="form-control form-control-desert" id="imageInput" accept="image/*" onchange="previewImage(this)">
@@ -418,11 +474,14 @@
             </div>
             
             <!-- 音频工具卡片 -->
-            <div class="tool-card">
-              <div class="tool-icon">🎵</div>
-              <h3 class="tool-title">音频工具</h3>
-              <p class="tool-description">在线音频格式转换、播放预览</p>
-              <div id="audio-card-content">
+            <div class="tool-card" onclick="toggleCard(this, event)">
+              <div class="tool-card-header">
+                <div class="tool-icon">🎵</div>
+                <h3 class="tool-title">音频工具</h3>
+                <p class="tool-description">在线音频格式转换、播放预览</p>
+                <div class="tool-expand-hint">点击展开 ▼</div>
+              </div>
+              <div class="tool-card-content" id="audio-card-content">
                 <div class="form-group">
                   <label class="desert-text">选择音频:</label>
                   <input type="file" class="form-control form-control-desert" id="audioInput" accept="audio/*" onchange="previewAudio(this)">
@@ -531,6 +590,22 @@ http://www.jzmhtt.com/zdy/vip/?url=
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script>
+  // 卡片展开/收起功能
+  function toggleCard(card, event) {
+    if(event && event.target.tagName === 'BUTTON') return;
+    if(event && event.target.tagName === 'INPUT') return;
+    if(event && event.target.tagName === 'SELECT') return;
+    if(event && event.target.tagName === 'LABEL') return;
+    
+    const isExpanded = card.classList.contains('expanded');
+    
+    if(isExpanded) {
+      card.classList.remove('expanded');
+    } else {
+      card.classList.add('expanded');
+    }
+  }
+  
   function setApi(){
     $("#api").children().remove();
   var apilist = $("#apiList").val().split(/\r?\n/);

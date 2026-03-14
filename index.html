@@ -154,15 +154,106 @@
       }
       
       body {
-        background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
       }
       
-      .grid-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      .sidebar-layout {
+        display: flex;
+        min-height: calc(100vh - 120px);
         gap: 24px;
-        padding: 20px 0;
+      }
+      
+      .sidebar {
+        width: 280px;
+        flex-shrink: 0;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        height: fit-content;
+        position: sticky;
+        top: 20px;
+      }
+      
+      .sidebar-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .sidebar-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .sidebar-item {
+        padding: 14px 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border: 2px solid transparent;
+      }
+      
+      .sidebar-item:hover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      
+      .sidebar-item.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: #667eea;
+      }
+      
+      .sidebar-item-icon {
+        font-size: 20px;
+      }
+      
+      .sidebar-item-text {
+        font-weight: 600;
+        font-size: 14px;
+      }
+      
+      .main-content {
+        flex: 1;
+        min-width: 0;
+      }
+      
+      .tool-panel {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        display: none;
+      }
+      
+      .tool-panel.active {
+        display: block;
+      }
+      
+      .tool-panel-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      
+      .tool-panel-description {
+        color: #6b7280;
+        margin-bottom: 24px;
+        font-size: 15px;
       }
       
       .tool-card {
@@ -380,17 +471,50 @@
             </div>
           </div>
           
-          <!-- 网格瀑布流布局 -->
-          <div class="grid-container">
-            <!-- VIP视频解析卡片 -->
-            <div class="tool-card" onclick="toggleCard(this, event)">
-              <div class="tool-card-header">
-                <div class="tool-icon">🎬</div>
-                <h3 class="tool-title lang-text" data-simplified="VIP视频解析" data-traditional="VIP視頻解析">VIP视频解析</h3>
-                <p class="tool-description lang-text" data-simplified="支持爱奇艺、优酷、腾讯等VIP视频解析" data-traditional="支持愛奇藝、優酷、騰訊等VIP視頻解析">支持爱奇艺、优酷、腾讯等VIP视频解析</p>
-                <div class="tool-expand-hint lang-text" data-simplified="点击展开 ▼" data-traditional="點擊展開 ▼">点击展开 ▼</div>
+          <!-- 侧边栏布局 -->
+          <div class="sidebar-layout">
+            <!-- 侧边栏 -->
+            <div class="sidebar">
+              <div class="sidebar-title">
+                📦 <span class="lang-text" data-simplified="工具箱" data-traditional="工具箱">工具箱</span>
               </div>
-              <div class="tool-card-content" id="vip-card-content">
+              <div class="sidebar-menu">
+                <div class="sidebar-item active" onclick="switchTool('vip', this)">
+                  <span class="sidebar-item-icon">🎬</span>
+                  <span class="sidebar-item-text lang-text" data-simplified="VIP视频解析" data-traditional="VIP視頻解析">VIP视频解析</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTool('short', this)">
+                  <span class="sidebar-item-icon">🎥</span>
+                  <span class="sidebar-item-text lang-text" data-simplified="短视频去水印" data-traditional="短視頻去水印">短视频去水印</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTool('image', this)">
+                  <span class="sidebar-item-icon">🖼️</span>
+                  <span class="sidebar-item-text lang-text" data-simplified="图片工具" data-traditional="圖片工具">图片工具</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTool('audio', this)">
+                  <span class="sidebar-item-icon">🎵</span>
+                  <span class="sidebar-item-text lang-text" data-simplified="音频工具" data-traditional="音頻工具">音频工具</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTool('zhconvert', this)">
+                  <span class="sidebar-item-icon">🔤</span>
+                  <span class="sidebar-item-text lang-text" data-simplified="简繁转换" data-traditional="簡繁轉換">简繁转换</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTool('asstools', this)">
+                  <span class="sidebar-item-icon">📝</span>
+                  <span class="sidebar-item-text lang-text" data-simplified="ASS字幕工具" data-traditional="ASS字幕工具">ASS字幕工具</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 主内容区 -->
+            <div class="main-content">
+              <!-- VIP视频解析面板 -->
+              <div class="tool-panel active" id="panel-vip">
+                <div class="tool-panel-title">
+                  <span>🎬</span>
+                  <span class="lang-text" data-simplified="VIP视频解析" data-traditional="VIP視頻解析">VIP视频解析</span>
+                </div>
+                <p class="tool-panel-description lang-text" data-simplified="支持爱奇艺、优酷、腾讯等VIP视频解析" data-traditional="支持愛奇藝、優酷、騰訊等VIP視頻解析">支持爱奇艺、优酷、腾讯等VIP视频解析</p>
                 <div class="form-group">
                   <label class="desert-text lang-text" data-simplified="请选择API:" data-traditional="請選擇API:">请选择API:</label>
                   <select id="api" name="api" class="form-control form-control-desert"></select>
@@ -404,23 +528,20 @@
                     <i class="fa fa-send-o"></i> <span class="lang-text" data-simplified="开始解析" data-traditional="開始解析">开始解析</span>
                   </button>
                 </div>
-                <div class="text-center mt-2">
+                <div class="text-center mt-3">
                   <small class="desert-text">
                     <i class="fa fa-info-circle"></i> <span class="lang-text" data-simplified="复制任意视频网站VIP链接，粘贴到视频地址栏，点击开始解析即可" data-traditional="複製任意視頻網站VIP鏈接，粘貼到視頻地址欄，點擊開始解析即可">复制任意视频网站VIP链接，粘贴到视频地址栏，点击开始解析即可</span>
                   </small>
                 </div>
               </div>
-            </div>
-            
-            <!-- 短视频去水印卡片 -->
-            <div class="tool-card" onclick="toggleCard(this, event)">
-              <div class="tool-card-header">
-                <div class="tool-icon">🎥</div>
-                <h3 class="tool-title lang-text" data-simplified="短视频去水印" data-traditional="短視頻去水印">短视频去水印</h3>
-                <p class="tool-description lang-text" data-simplified="支持抖音、快手等短视频平台去水印" data-traditional="支持抖音、快手等短視頻平台去水印">支持抖音、快手等短视频平台去水印</p>
-                <div class="tool-expand-hint lang-text" data-simplified="点击展开 ▼" data-traditional="點擊展開 ▼">点击展开 ▼</div>
-              </div>
-              <div class="tool-card-content" id="short-card-content">
+              
+              <!-- 短视频去水印面板 -->
+              <div class="tool-panel" id="panel-short">
+                <div class="tool-panel-title">
+                  <span>🎥</span>
+                  <span class="lang-text" data-simplified="短视频去水印" data-traditional="短視頻去水印">短视频去水印</span>
+                </div>
+                <p class="tool-panel-description lang-text" data-simplified="支持抖音、快手等短视频平台去水印" data-traditional="支持抖音、快手等短視頻平台去水印">支持抖音、快手等短视频平台去水印</p>
                 <div class="form-group">
                   <label class="desert-text lang-text" data-simplified="视频链接:" data-traditional="視頻鏈接:">视频链接:</label>
                   <input type="text" class="form-control form-control-desert" id="shortUrl" placeholder="在这里粘贴短视频链接">
@@ -430,39 +551,32 @@
                     <i class="fa fa-magic"></i> 魔法解析
                   </button>
                 </div>
-                <!-- 加载动画 -->
                 <div id="shortLoading" style="display: none; text-align: center; margin-top: 15px;">
                   <div class="spinner-border" role="status" style="color: #6b8e23;">
                     <span class="sr-only">Loading...</span>
                   </div>
                   <p class="desert-text" style="margin-top: 10px;">正在施展解析魔法... ✨</p>
                 </div>
-                <!-- 结果显示区域 -->
                 <div id="shortResult" style="margin-top: 15px;"></div>
               </div>
-            </div>
-            
-            <!-- 图片工具卡片 -->
-            <div class="tool-card" onclick="toggleCard(this, event)">
-              <div class="tool-card-header">
-                <div class="tool-icon">🖼️</div>
-                <h3 class="tool-title lang-text" data-simplified="图片工具" data-traditional="圖片工具">图片工具</h3>
-                <p class="tool-description lang-text" data-simplified="图片格式转换、压缩、调整大小" data-traditional="圖片格式轉換、壓縮、調整大小">图片格式转换、压缩、调整大小</p>
-                <div class="tool-expand-hint lang-text" data-simplified="点击展开 ▼" data-traditional="點擊展開 ▼">点击展开 ▼</div>
-              </div>
-              <div class="tool-card-content" id="image-card-content">
+              
+              <!-- 图片工具面板 -->
+              <div class="tool-panel" id="panel-image">
+                <div class="tool-panel-title">
+                  <span>🖼️</span>
+                  <span class="lang-text" data-simplified="图片工具" data-traditional="圖片工具">图片工具</span>
+                </div>
+                <p class="tool-panel-description lang-text" data-simplified="图片格式转换、压缩、调整大小" data-traditional="圖片格式轉換、壓縮、調整大小">图片格式转换、压缩、调整大小</p>
                 <div class="form-group">
                   <label class="desert-text lang-text" data-simplified="选择图片:" data-traditional="選擇圖片:">选择图片:</label>
                   <input type="file" class="form-control form-control-desert" id="imageInput" accept="image/*" onchange="previewImage(this)">
                 </div>
-                <!-- 预览区域 -->
                 <div id="imagePreview" style="display: none; margin-bottom: 15px;">
                   <div class="text-center">
                     <h6 class="desert-title lang-text" data-simplified="预览:" data-traditional="預覽:">预览:</h6>
                     <img id="previewImg" style="max-width: 100%; max-height: 200px; border-radius: 10px;">
                   </div>
                 </div>
-                <!-- 转换选项 -->
                 <div id="imageOptions" style="display: none;">
                   <div class="form-group">
                     <label class="desert-text lang-text" data-simplified="输出格式:" data-traditional="輸出格式:">输出格式:</label>
@@ -493,22 +607,18 @@
                   </div>
                 </div>
               </div>
-            </div>
-            
-            <!-- 音频工具卡片 -->
-            <div class="tool-card" onclick="toggleCard(this, event)">
-              <div class="tool-card-header">
-                <div class="tool-icon">🎵</div>
-                <h3 class="tool-title lang-text" data-simplified="音频工具" data-traditional="音頻工具">音频工具</h3>
-                <p class="tool-description lang-text" data-simplified="在线音频格式转换、播放预览" data-traditional="在線音頻格式轉換、播放預覽">在线音频格式转换、播放预览</p>
-                <div class="tool-expand-hint lang-text" data-simplified="点击展开 ▼" data-traditional="點擊展開 ▼">点击展开 ▼</div>
-              </div>
-              <div class="tool-card-content" id="audio-card-content">
+              
+              <!-- 音频工具面板 -->
+              <div class="tool-panel" id="panel-audio">
+                <div class="tool-panel-title">
+                  <span>🎵</span>
+                  <span class="lang-text" data-simplified="音频工具" data-traditional="音頻工具">音频工具</span>
+                </div>
+                <p class="tool-panel-description lang-text" data-simplified="在线音频格式转换、播放预览" data-traditional="在線音頻格式轉換、播放預覽">在线音频格式转换、播放预览</p>
                 <div class="form-group">
                   <label class="desert-text lang-text" data-simplified="选择音频:" data-traditional="選擇音頻:">选择音频:</label>
                   <input type="file" class="form-control form-control-desert" id="audioInput" accept="audio/*" onchange="previewAudio(this)">
                 </div>
-                <!-- 预览区域 -->
                 <div id="audioPreview" style="display: none; margin-bottom: 15px;">
                   <div class="text-center">
                     <h6 class="desert-title lang-text" data-simplified="预览:" data-traditional="預覽:">预览:</h6>
@@ -517,7 +627,6 @@
                     <p id="audioInfo" class="desert-text mt-2" style="font-size: 13px;"></p>
                   </div>
                 </div>
-                <!-- 转换选项 -->
                 <div id="audioOptions" style="display: none;">
                   <div class="form-group">
                     <label class="desert-text lang-text" data-simplified="输出格式:" data-traditional="輸出格式:">输出格式:</label>
@@ -534,17 +643,14 @@
                   </div>
                 </div>
               </div>
-            </div>
-            
-            <!-- 简繁转换工具卡片 -->
-            <div class="tool-card" onclick="toggleCard(this, event)">
-              <div class="tool-card-header">
-                <div class="tool-icon">🔤</div>
-                <h3 class="tool-title lang-text" data-simplified="简繁转换" data-traditional="簡繁轉換">简繁转换</h3>
-                <p class="tool-description lang-text" data-simplified="简体中文与繁体中文互转" data-traditional="簡體中文與繁體中文互轉">简体中文与繁体中文互转</p>
-                <div class="tool-expand-hint lang-text" data-simplified="点击展开 ▼" data-traditional="點擊展開 ▼">点击展开 ▼</div>
-              </div>
-              <div class="tool-card-content" id="zhconvert-card-content">
+              
+              <!-- 简繁转换面板 -->
+              <div class="tool-panel" id="panel-zhconvert">
+                <div class="tool-panel-title">
+                  <span>🔤</span>
+                  <span class="lang-text" data-simplified="简繁转换" data-traditional="簡繁轉換">简繁转换</span>
+                </div>
+                <p class="tool-panel-description lang-text" data-simplified="简体中文与繁体中文互转" data-traditional="簡體中文與繁體中文互轉">简体中文与繁体中文互转</p>
                 <div class="form-group">
                   <label class="desert-text lang-text" data-simplified="输入文本:" data-traditional="輸入文本:">输入文本:</label>
                   <textarea class="form-control form-control-desert" id="zhInput" rows="4" placeholder="请输入要转换的文本"></textarea>
@@ -569,17 +675,14 @@
                   </button>
                 </div>
               </div>
-            </div>
-            
-            <!-- ASS字幕处理工具卡片 -->
-            <div class="tool-card" onclick="toggleCard(this, event)">
-              <div class="tool-card-header">
-                <div class="tool-icon">📝</div>
-                <h3 class="tool-title lang-text" data-simplified="ASS字幕工具" data-traditional="ASS字幕工具">ASS字幕工具</h3>
-                <p class="tool-description lang-text" data-simplified="ASS字幕优化与字体提取工具" data-traditional="ASS字幕優化與字體提取工具">ASS字幕优化与字体提取工具</p>
-                <div class="tool-expand-hint lang-text" data-simplified="点击展开 ▼" data-traditional="點擊展開 ▼">点击展开 ▼</div>
-              </div>
-              <div class="tool-card-content" id="asstools-card-content">
+              
+              <!-- ASS字幕工具面板 -->
+              <div class="tool-panel" id="panel-asstools">
+                <div class="tool-panel-title">
+                  <span>📝</span>
+                  <span class="lang-text" data-simplified="ASS字幕工具" data-traditional="ASS字幕工具">ASS字幕工具</span>
+                </div>
+                <p class="tool-panel-description lang-text" data-simplified="ASS字幕优化与字体提取工具" data-traditional="ASS字幕優化與字體提取工具">ASS字幕优化与字体提取工具</p>
                 <div class="form-group">
                   <h5 class="desert-title lang-text" data-simplified="工具介绍" data-traditional="工具介紹">工具介绍</h5>
                   <p class="desert-text lang-text" data-simplified="ASS Tools 是一套高级字幕处理工具，可以将ASS字幕中的矢量绘图指令转换为嵌入字体，显著减小文件体积并提升兼容性。" data-traditional="ASS Tools 是一套高級字幕處理工具，可以將ASS字幕中的矢量繪圖指令轉換為嵌入字體，顯著減小文件體積並提升兼容性。">ASS Tools 是一套高级字幕处理工具，可以将ASS字幕中的矢量绘图指令转换为嵌入字体，显著减小文件体积并提升兼容性。</p>
@@ -1140,6 +1243,23 @@ $("#play").click(function(e){
     }
   }
   
+  function switchTool(toolId, element) {
+    event.stopPropagation();
+    
+    document.querySelectorAll('.sidebar-item').forEach(item => {
+      item.classList.remove('active');
+    });
+    element.classList.add('active');
+    
+    document.querySelectorAll('.tool-panel').forEach(panel => {
+      panel.classList.remove('active');
+    });
+    const targetPanel = document.getElementById('panel-' + toolId);
+    if(targetPanel) {
+      targetPanel.classList.add('active');
+    }
+  }
+
 	console.group("欢迎使用视频解析系统");
 		console.log("github地址：eoeml");
 		console.log("vip视频解析: 域名/");

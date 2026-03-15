@@ -44,8 +44,8 @@
         position: relative;
       }
       
-      /* 科幻背景图片 */
-      .scifi-bg-container {
+      /* 背景图片容器 */
+      .bg-container {
         position: fixed;
         top: 0;
         left: 0;
@@ -55,15 +55,24 @@
         overflow: hidden;
       }
       
-      .scifi-bg-container img {
+      .bg-container img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         object-position: center;
       }
       
+      /* 电脑端背景 */
+      .bg-desktop {
+        display: block;
+      }
+      
+      .bg-mobile {
+        display: none;
+      }
+      
       /* 背景遮罩层 */
-      .scifi-bg-overlay {
+      .bg-overlay {
         position: fixed;
         top: 0;
         left: 0;
@@ -74,20 +83,22 @@
         pointer-events: none;
       }
       
-      /* 手机端适配 */
+      /* 手机端适配 - 切换背景 */
       @media (max-width: 768px) {
-        .scifi-bg-container img {
-          object-position: 60% center;
+        .bg-desktop {
+          display: none;
         }
         
-        .scifi-bg-overlay {
-          background: rgba(0, 0, 0, 0.4);
+        .bg-mobile {
+          display: block;
         }
-      }
-      
-      @media (max-width: 480px) {
-        .scifi-bg-container img {
-          object-position: 70% center;
+        
+        .bg-container img {
+          object-position: center;
+        }
+        
+        .bg-overlay {
+          background: rgba(0, 0, 0, 0.4);
         }
       }
       
@@ -624,11 +635,14 @@
   </head>
 
   <body class="desert-overlay">
-    <!-- 海边日落背景图片容器 - 自动适配手机端 -->
-    <div class="scifi-bg-container">
+    <!-- 背景图片容器 - 电脑端海边日落，移动端黑白流体 -->
+    <div class="bg-container bg-desktop">
       <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80" alt="海边日落风景" />
     </div>
-    <div class="scifi-bg-overlay"></div>
+    <div class="bg-container bg-mobile">
+      <img src="https://images.unsplash.com/photo-1557683316-973673baf926?w=1080&q=80" alt="黑白流体艺术" />
+    </div>
+    <div class="bg-overlay"></div>
     <div class="sand-dune"></div>
     <header class="header-global header-desert">
       <nav

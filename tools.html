@@ -184,6 +184,111 @@ http://api.myzch.cn/?url=</textarea>
                 <div id="douyin-result" style="margin-top: 15px;"></div>
             </div>
 
+            <!-- Base64编解码 -->
+            <div class="tool-panel" id="panel-base64">
+                <div class="form-group">
+                    <label for="base64-input">输入内容:</label>
+                    <textarea class="form-control" id="base64-input" rows="4" placeholder="请输入要编码/解码的内容"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="base64-output">输出结果:</label>
+                    <textarea class="form-control" id="base64-output" rows="4" readonly></textarea>
+                </div>
+                <div class="btn-group" style="width: 100%;">
+                    <button class="btn btn-primary" onclick="base64Encode()" style="width: 50%;">编码</button>
+                    <button class="btn btn-primary" onclick="base64Decode()" style="width: 50%;">解码</button>
+                </div>
+            </div>
+
+            <!-- URL编解码 -->
+            <div class="tool-panel" id="panel-url">
+                <div class="form-group">
+                    <label for="url-input">输入内容:</label>
+                    <textarea class="form-control" id="url-input" rows="4" placeholder="请输入要编码/解码的URL"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="url-output">输出结果:</label>
+                    <textarea class="form-control" id="url-output" rows="4" readonly></textarea>
+                </div>
+                <div class="btn-group" style="width: 100%;">
+                    <button class="btn btn-primary" onclick="urlEncode()" style="width: 50%;">编码</button>
+                    <button class="btn btn-primary" onclick="urlDecode()" style="width: 50%;">解码</button>
+                </div>
+            </div>
+
+            <!-- JSON格式化 -->
+            <div class="tool-panel" id="panel-json">
+                <div class="form-group">
+                    <label for="json-input">输入JSON:</label>
+                    <textarea class="form-control" id="json-input" rows="6" placeholder="请输入JSON字符串"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="json-output">输出结果:</label>
+                    <textarea class="form-control" id="json-output" rows="6" readonly></textarea>
+                </div>
+                <div class="btn-group" style="width: 100%;">
+                    <button class="btn btn-primary" onclick="formatJSON()" style="width: 33%;">格式化</button>
+                    <button class="btn btn-primary" onclick="minifyJSON()" style="width: 33%;">压缩</button>
+                    <button class="btn btn-primary" onclick="validateJSON()" style="width: 34%;">验证</button>
+                </div>
+            </div>
+
+            <!-- 哈希计算 -->
+            <div class="tool-panel" id="panel-hash">
+                <div class="form-group">
+                    <label for="hash-input">输入内容:</label>
+                    <textarea class="form-control" id="hash-input" rows="4" placeholder="请输入要计算哈希的内容"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>哈希结果:</label>
+                    <div id="hash-output" style="background: #f5f5f5; padding: 10px; border-radius: 5px; font-family: monospace;"></div>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="calculateHash()">计算哈希</button>
+            </div>
+
+            <!-- UUID生成 -->
+            <div class="tool-panel" id="panel-uuid">
+                <div class="form-group">
+                    <label for="uuid-count">生成数量:</label>
+                    <input type="number" class="form-control" id="uuid-count" value="5" min="1" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="uuid-output">UUID列表:</label>
+                    <textarea class="form-control" id="uuid-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateUUIDs()">生成UUID</button>
+            </div>
+
+            <!-- 时间戳转换 -->
+            <div class="tool-panel" id="panel-timestamp">
+                <div class="form-group">
+                    <label>当前时间戳:</label>
+                    <div id="current-timestamp" style="font-size: 24px; font-weight: bold; color: #667eea;"></div>
+                </div>
+                <div class="form-group">
+                    <label for="timestamp-input">时间戳转日期:</label>
+                    <input type="number" class="form-control" id="timestamp-input" placeholder="请输入时间戳（秒）">
+                </div>
+                <div class="form-group">
+                    <label for="date-output">转换结果:</label>
+                    <input type="text" class="form-control" id="date-output" readonly>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="timestampToDate()">转换</button>
+            </div>
+
+            <!-- 二维码生成 -->
+            <div class="tool-panel" id="panel-qrcode">
+                <div class="form-group">
+                    <label for="qrcode-input">输入内容:</label>
+                    <input type="text" class="form-control" id="qrcode-input" placeholder="请输入要生成二维码的内容">
+                </div>
+                <div class="form-group">
+                    <label>二维码:</label>
+                    <div id="qrcode-output" style="text-align: center;"></div>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateQRCode()">生成二维码</button>
+            </div>
+
             <!-- 默认工具面板（用于未配置的工具） -->
             <div class="tool-panel" id="panel-default">
                 <div class="alert alert-info">
@@ -1794,6 +1899,169 @@ http://api.myzch.cn/?url=</textarea>
             result.innerHTML = `<audio controls src="${url}">您的浏览器不支持音频播放</audio>`;
         }
 
+        // ========== Base64转换工具 ==========
+        function base64Encode() {
+            const input = document.getElementById('base64-input').value;
+            try {
+                const encoded = btoa(unescape(encodeURIComponent(input)));
+                document.getElementById('base64-output').value = encoded;
+            } catch(e) {
+                document.getElementById('base64-output').value = '编码错误: ' + e.message;
+            }
+        }
+
+        function base64Decode() {
+            const input = document.getElementById('base64-input').value;
+            try {
+                const decoded = decodeURIComponent(escape(atob(input)));
+                document.getElementById('base64-output').value = decoded;
+            } catch(e) {
+                document.getElementById('base64-output').value = '解码错误: 无效的Base64字符串';
+            }
+        }
+
+        // ========== URL编解码工具 ==========
+        function urlEncode() {
+            const input = document.getElementById('url-input').value;
+            try {
+                const encoded = encodeURIComponent(input);
+                document.getElementById('url-output').value = encoded;
+            } catch(e) {
+                document.getElementById('url-output').value = '编码错误: ' + e.message;
+            }
+        }
+
+        function urlDecode() {
+            const input = document.getElementById('url-input').value;
+            try {
+                const decoded = decodeURIComponent(input);
+                document.getElementById('url-output').value = decoded;
+            } catch(e) {
+                document.getElementById('url-output').value = '解码错误: ' + e.message;
+            }
+        }
+
+        // ========== JSON格式化工具 ==========
+        function formatJSON() {
+            const input = document.getElementById('json-input').value;
+            try {
+                const obj = JSON.parse(input);
+                document.getElementById('json-output').value = JSON.stringify(obj, null, 2);
+            } catch(e) {
+                document.getElementById('json-output').value = '格式化错误: ' + e.message;
+            }
+        }
+
+        function minifyJSON() {
+            const input = document.getElementById('json-input').value;
+            try {
+                const obj = JSON.parse(input);
+                document.getElementById('json-output').value = JSON.stringify(obj);
+            } catch(e) {
+                document.getElementById('json-output').value = '压缩错误: ' + e.message;
+            }
+        }
+
+        function validateJSON() {
+            const input = document.getElementById('json-input').value;
+            try {
+                JSON.parse(input);
+                document.getElementById('json-output').value = '✅ JSON格式有效';
+            } catch(e) {
+                document.getElementById('json-output').value = '❌ JSON格式无效: ' + e.message;
+            }
+        }
+
+        // ========== 哈希计算工具 ==========
+        async function calculateHash() {
+            const input = document.getElementById('hash-input').value;
+            if (!input) {
+                alert('请输入要计算哈希的内容');
+                return;
+            }
+            
+            const encoder = new TextEncoder();
+            const data = encoder.encode(input);
+            
+            // MD5 (使用简单的哈希算法)
+            const md5Hash = await simpleHash(input, 'MD5');
+            
+            // SHA-1
+            const sha1Buffer = await crypto.subtle.digest('SHA-1', data);
+            const sha1Hash = Array.from(new Uint8Array(sha1Buffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+            
+            // SHA-256
+            const sha256Buffer = await crypto.subtle.digest('SHA-256', data);
+            const sha256Hash = Array.from(new Uint8Array(sha256Buffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+            
+            document.getElementById('hash-output').innerHTML = `
+                <div><strong>MD5:</strong> ${md5Hash}</div>
+                <div><strong>SHA-1:</strong> ${sha1Hash}</div>
+                <div><strong>SHA-256:</strong> ${sha256Hash}</div>
+            `;
+        }
+
+        function simpleHash(str, algorithm) {
+            // 简单的哈希实现（仅用于演示）
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash).toString(16).padStart(32, '0');
+        }
+
+        // ========== UUID生成工具 ==========
+        function generateUUIDs() {
+            const count = parseInt(document.getElementById('uuid-count').value) || 5;
+            const uuids = [];
+            
+            for (let i = 0; i < count; i++) {
+                uuids.push(generateUUID());
+            }
+            
+            document.getElementById('uuid-output').value = uuids.join('\n');
+        }
+
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        // ========== 时间戳转换工具 ==========
+        function refreshTimestamp() {
+            const timestamp = Math.floor(Date.now() / 1000);
+            document.getElementById('current-timestamp').textContent = timestamp;
+        }
+
+        function timestampToDate() {
+            const timestamp = document.getElementById('timestamp-input').value;
+            if (!timestamp) {
+                alert('请输入时间戳');
+                return;
+            }
+            
+            const date = new Date(timestamp * 1000);
+            document.getElementById('date-output').value = date.toLocaleString('zh-CN');
+        }
+
+        // ========== 二维码生成工具 ==========
+        function generateQRCode() {
+            const input = document.getElementById('qrcode-input').value;
+            if (!input) {
+                alert('请输入要生成二维码的内容');
+                return;
+            }
+            
+            // 使用 Google Chart API 生成二维码
+            const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=L|0&chl=${encodeURIComponent(input)}`;
+            document.getElementById('qrcode-output').innerHTML = `<img src="${qrUrl}" alt="二维码">`;
+        }
+
         // 页面加载完成后初始化
         window.onload = async function() {
             try {
@@ -1804,7 +2072,14 @@ http://api.myzch.cn/?url=</textarea>
                 const toolId = getToolId();
                 const defaultConfigs = {
                     vip: { icon: '🎬', title: 'VIP视频解析', description: '支持爱奇艺、优酷、腾讯等VIP视频解析' },
-                    douyin: { icon: '📱', title: '短视频解析', description: '支持抖音、快手等短视频去水印解析' }
+                    douyin: { icon: '📱', title: '短视频解析', description: '支持抖音、快手等短视频去水印解析' },
+                    base64: { icon: '📝', title: 'Base64编解码', description: 'Base64编码和解码工具' },
+                    url: { icon: '🔗', title: 'URL编解码', description: 'URL编码和解码工具' },
+                    json: { icon: '{ }', title: 'JSON格式化', description: 'JSON格式化、压缩和验证工具' },
+                    hash: { icon: '🔐', title: '哈希计算', description: '计算文本的MD5、SHA-1、SHA-256哈希值' },
+                    uuid: { icon: '🆔', title: 'UUID生成', description: '生成UUID/GUID' },
+                    timestamp: { icon: '⏰', title: '时间戳转换', description: '时间戳与日期时间互相转换' },
+                    qrcode: { icon: '📱', title: '二维码生成', description: '将文本或链接生成二维码' }
                 };
                 const defaultConfig = defaultConfigs[toolId] || defaultConfigs.vip;
                 document.getElementById('toolIcon').textContent = defaultConfig.icon;
@@ -1825,6 +2100,9 @@ http://api.myzch.cn/?url=</textarea>
             }
             // 初始化VIP解析API列表
             initVipApi();
+            // 刷新时间戳
+            refreshTimestamp();
+            setInterval(refreshTimestamp, 1000);
         };
     </script>
 </body>

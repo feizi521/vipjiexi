@@ -305,6 +305,1114 @@ http://api.myzch.cn/?url=</textarea>
                 <button class="btn btn-primary btn-block" onclick="generateQRCode()">生成二维码</button>
             </div>
 
+            <!-- Token生成器 -->
+            <div class="tool-panel" id="panel-token">
+                <div class="form-group">
+                    <label>长度:</label>
+                    <input type="number" class="form-control" id="token-length" value="32" min="1" max="256">
+                </div>
+                <div class="form-group">
+                    <label>字符类型:</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" id="token-upper" checked> 大写字母 (A-Z)</label>
+                        <label><input type="checkbox" id="token-lower" checked> 小写字母 (a-z)</label>
+                        <label><input type="checkbox" id="token-numbers" checked> 数字 (0-9)</label>
+                        <label><input type="checkbox" id="token-symbols"> 特殊符号 (!@#$%^&*)</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>生成的Token:</label>
+                    <textarea class="form-control" id="token-output" rows="3" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateToken()">生成Token</button>
+            </div>
+
+            <!-- Bcrypt加密 -->
+            <div class="tool-panel" id="panel-bcrypt">
+                <div class="form-group">
+                    <label>输入密码:</label>
+                    <input type="text" class="form-control" id="bcrypt-input" placeholder="请输入要加密的密码">
+                </div>
+                <div class="form-group">
+                    <label>轮数 (Cost):</label>
+                    <input type="number" class="form-control" id="bcrypt-rounds" value="10" min="4" max="12">
+                </div>
+                <div class="form-group">
+                    <label>加密结果:</label>
+                    <textarea class="form-control" id="bcrypt-output" rows="2" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="bcryptHash()">加密</button>
+                <hr>
+                <div class="form-group">
+                    <label>验证密码:</label>
+                    <input type="text" class="form-control" id="bcrypt-verify-input" placeholder="输入密码">
+                </div>
+                <div class="form-group">
+                    <label>Hash值:</label>
+                    <input type="text" class="form-control" id="bcrypt-verify-hash" placeholder="输入之前生成的Hash">
+                </div>
+                <div id="bcrypt-verify-result"></div>
+                <button class="btn btn-secondary btn-block" onclick="bcryptVerify()">验证</button>
+            </div>
+
+            <!-- ULID生成 -->
+            <div class="tool-panel" id="panel-ulid">
+                <div class="form-group">
+                    <label>生成数量:</label>
+                    <input type="number" class="form-control" id="ulid-count" value="5" min="1" max="100">
+                </div>
+                <div class="form-group">
+                    <label>ULID列表:</label>
+                    <textarea class="form-control" id="ulid-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateULIDs()">生成ULID</button>
+            </div>
+
+            <!-- AES加密解密 -->
+            <div class="tool-panel" id="panel-aes">
+                <div class="form-group">
+                    <label>输入内容:</label>
+                    <textarea class="form-control" id="aes-input" rows="3" placeholder="请输入要加密/解密的内容"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>密钥:</label>
+                    <input type="text" class="form-control" id="aes-key" placeholder="请输入密钥">
+                </div>
+                <div class="form-group">
+                    <label>结果:</label>
+                    <textarea class="form-control" id="aes-output" rows="3" readonly></textarea>
+                </div>
+                <div class="btn-group" style="width: 100%;">
+                    <button class="btn btn-primary" onclick="aesEncrypt()" style="width: 50%;">加密</button>
+                    <button class="btn btn-primary" onclick="aesDecrypt()" style="width: 50%;">解密</button>
+                </div>
+            </div>
+
+            <!-- HMAC生成器 -->
+            <div class="tool-panel" id="panel-hmac">
+                <div class="form-group">
+                    <label>输入内容:</label>
+                    <textarea class="form-control" id="hmac-input" rows="3" placeholder="请输入内容"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>密钥:</label>
+                    <input type="text" class="form-control" id="hmac-key" placeholder="请输入密钥">
+                </div>
+                <div class="form-group">
+                    <label>算法:</label>
+                    <select class="form-control" id="hmac-algo">
+                        <option value="SHA-256">SHA-256</option>
+                        <option value="SHA-1">SHA-1</option>
+                        <option value="SHA-512">SHA-512</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>HMAC结果:</label>
+                    <textarea class="form-control" id="hmac-output" rows="2" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateHMAC()">生成HMAC</button>
+            </div>
+
+            <!-- RSA密钥生成 -->
+            <div class="tool-panel" id="panel-rsa">
+                <div class="form-group">
+                    <label>密钥长度:</label>
+                    <select class="form-control" id="rsa-bits">
+                        <option value="2048">2048 bits</option>
+                        <option value="4096">4096 bits</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>公钥:</label>
+                    <textarea class="form-control" id="rsa-public" rows="4" readonly></textarea>
+                </div>
+                <div class="form-group">
+                    <label>私钥:</label>
+                    <textarea class="form-control" id="rsa-private" rows="4" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateRSA()">生成密钥对</button>
+            </div>
+
+            <!-- 密码强度分析 -->
+            <div class="tool-panel" id="panel-password">
+                <div class="form-group">
+                    <label>输入密码:</label>
+                    <input type="text" class="form-control" id="password-input" placeholder="请输入密码">
+                </div>
+                <div class="form-group">
+                    <label>强度:</label>
+                    <div id="password-strength" style="height: 20px; background: #eee; border-radius: 10px;"></div>
+                </div>
+                <div id="password-analysis"></div>
+            </div>
+
+            <!-- BIP39助记词 -->
+            <div class="tool-panel" id="panel-bip39">
+                <div class="form-group">
+                    <label>单词数:</label>
+                    <select class="form-control" id="bip39-words">
+                        <option value="12">12个单词</option>
+                        <option value="15">15个单词</option>
+                        <option value="18">18个单词</option>
+                        <option value="21">21个单词</option>
+                        <option value="24">24个单词</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>助记词:</label>
+                    <textarea class="form-control" id="bip39-output" rows="3" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateBIP39()">生成助记词</button>
+            </div>
+
+            <!-- 文件转Base64 -->
+            <div class="tool-panel" id="panel-base64file">
+                <div class="form-group">
+                    <label>选择文件:</label>
+                    <input type="file" class="form-control" id="base64file-input" onchange="fileToBase64()">
+                </div>
+                <div class="form-group">
+                    <label>Base64结果:</label>
+                    <textarea class="form-control" id="base64file-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-secondary btn-block" onclick="copyBase64File()">复制</button>
+            </div>
+
+            <!-- HTML实体转义 -->
+            <div class="tool-panel" id="panel-htmlentity">
+                <div class="form-group">
+                    <label>输入内容:</label>
+                    <textarea class="form-control" id="htmlentity-input" rows="4" placeholder="请输入HTML或文本"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>结果:</label>
+                    <textarea class="form-control" id="htmlentity-output" rows="4" readonly></textarea>
+                </div>
+                <div class="btn-group" style="width: 100%;">
+                    <button class="btn btn-primary" onclick="htmlEntityEncode()" style="width: 50%;">转义</button>
+                    <button class="btn btn-primary" onclick="htmlEntityDecode()" style="width: 50%;">反转义</button>
+                </div>
+            </div>
+
+            <!-- Unicode转换 -->
+            <div class="tool-panel" id="panel-unicode">
+                <div class="form-group">
+                    <label>输入内容:</label>
+                    <textarea class="form-control" id="unicode-input" rows="4" placeholder="请输入文本或Unicode"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>结果:</label>
+                    <textarea class="form-control" id="unicode-output" rows="4" readonly></textarea>
+                </div>
+                <div class="btn-group" style="width: 100%;">
+                    <button class="btn btn-primary" onclick="textToUnicode()" style="width: 50%;">文本转Unicode</button>
+                    <button class="btn btn-primary" onclick="unicodeToText()" style="width: 50%;">Unicode转文本</button>
+                </div>
+            </div>
+
+            <!-- 进制转换 -->
+            <div class="tool-panel" id="panel-baseconverter">
+                <div class="form-group">
+                    <label>输入数值:</label>
+                    <input type="text" class="form-control" id="baseconv-input" placeholder="请输入数值">
+                </div>
+                <div class="form-group">
+                    <label>输入进制:</label>
+                    <select class="form-control" id="baseconv-from">
+                        <option value="2">二进制</option>
+                        <option value="8">八进制</option>
+                        <option value="10" selected>十进制</option>
+                        <option value="16">十六进制</option>
+                    </select>
+                </div>
+                <div id="baseconv-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+                <button class="btn btn-primary btn-block" onclick="convertBase()" style="margin-top: 15px;">转换</button>
+            </div>
+
+            <!-- 颜色转换器 -->
+            <div class="tool-panel" id="panel-color">
+                <div class="form-group">
+                    <label>选择颜色:</label>
+                    <input type="color" class="form-control" id="color-picker" value="#667eea" onchange="colorConvert()">
+                </div>
+                <div class="form-group">
+                    <label>或输入颜色值:</label>
+                    <input type="text" class="form-control" id="color-input" placeholder="#667eea 或 rgb(102,126,234)" onchange="colorConvert()">
+                </div>
+                <div id="color-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+            </div>
+
+            <!-- 大小写转换 -->
+            <div class="tool-panel" id="panel-case">
+                <div class="form-group">
+                    <label>输入文本:</label>
+                    <textarea class="form-control" id="case-input" rows="4" placeholder="请输入文本"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>转换结果:</label>
+                    <textarea class="form-control" id="case-output" rows="4" readonly></textarea>
+                </div>
+                <div class="btn-group" style="width: 100%; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="convertCase('upper')" style="width: 33%;">大写</button>
+                    <button class="btn btn-primary" onclick="convertCase('lower')" style="width: 33%;">小写</button>
+                    <button class="btn btn-primary" onclick="convertCase('title')" style="width: 34%;">首字母大写</button>
+                    <button class="btn btn-primary" onclick="convertCase('sentence')" style="width: 33%;">句首大写</button>
+                    <button class="btn btn-primary" onclick="convertCase('camel')" style="width: 33%;">camelCase</button>
+                    <button class="btn btn-primary" onclick="convertCase('snake')" style="width: 34%;">snake_case</button>
+                </div>
+            </div>
+
+            <!-- 罗马数字转换 -->
+            <div class="tool-panel" id="panel-roman">
+                <div class="form-group">
+                    <label>输入数值:</label>
+                    <input type="text" class="form-control" id="roman-input" placeholder="输入数字或罗马数字">
+                </div>
+                <div class="form-group">
+                    <label>结果:</label>
+                    <input type="text" class="form-control" id="roman-output" readonly>
+                </div>
+                <div class="btn-group" style="width: 100%;">
+                    <button class="btn btn-primary" onclick="toRoman()" style="width: 50%;">数字转罗马</button>
+                    <button class="btn btn-primary" onclick="fromRoman()" style="width: 50%;">罗马转数字</button>
+                </div>
+            </div>
+
+            <!-- 北约音标转换 -->
+            <div class="tool-panel" id="panel-nato">
+                <div class="form-group">
+                    <label>输入文本:</label>
+                    <input type="text" class="form-control" id="nato-input" placeholder="请输入文本">
+                </div>
+                <div class="form-group">
+                    <label>北约音标:</label>
+                    <textarea class="form-control" id="nato-output" rows="4" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="convertToNATO()">转换</button>
+            </div>
+
+            <!-- ASCII二进制 -->
+            <div class="tool-panel" id="panel-ascii">
+                <div class="form-group">
+                    <label>输入内容:</label>
+                    <textarea class="form-control" id="ascii-input" rows="4" placeholder="请输入文本或二进制"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>结果:</label>
+                    <textarea class="form-control" id="ascii-output" rows="4" readonly></textarea>
+                </div>
+                <div class="btn-group" style="width: 100%;">
+                    <button class="btn btn-primary" onclick="textToBinary()" style="width: 50%;">文本转二进制</button>
+                    <button class="btn btn-primary" onclick="binaryToText()" style="width: 50%;">二进制转文本</button>
+                </div>
+            </div>
+
+            <!-- YAML转JSON -->
+            <div class="tool-panel" id="panel-yaml2json">
+                <div class="form-group">
+                    <label>YAML输入:</label>
+                    <textarea class="form-control" id="yaml2json-input" rows="6" placeholder="请输入YAML"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>JSON输出:</label>
+                    <textarea class="form-control" id="yaml2json-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="yamlToJson()">转换</button>
+            </div>
+
+            <!-- JSON转YAML -->
+            <div class="tool-panel" id="panel-json2yaml">
+                <div class="form-group">
+                    <label>JSON输入:</label>
+                    <textarea class="form-control" id="json2yaml-input" rows="6" placeholder="请输入JSON"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>YAML输出:</label>
+                    <textarea class="form-control" id="json2yaml-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="jsonToYaml()">转换</button>
+            </div>
+
+            <!-- XML转JSON -->
+            <div class="tool-panel" id="panel-xml2json">
+                <div class="form-group">
+                    <label>XML输入:</label>
+                    <textarea class="form-control" id="xml2json-input" rows="6" placeholder="请输入XML"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>JSON输出:</label>
+                    <textarea class="form-control" id="xml2json-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="xmlToJson()">转换</button>
+            </div>
+
+            <!-- JSON转XML -->
+            <div class="tool-panel" id="panel-json2xml">
+                <div class="form-group">
+                    <label>JSON输入:</label>
+                    <textarea class="form-control" id="json2xml-input" rows="6" placeholder="请输入JSON"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>XML输出:</label>
+                    <textarea class="form-control" id="json2xml-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="jsonToXml()">转换</button>
+            </div>
+
+            <!-- Markdown转HTML -->
+            <div class="tool-panel" id="panel-md2html">
+                <div class="form-group">
+                    <label>Markdown输入:</label>
+                    <textarea class="form-control" id="md2html-input" rows="6" placeholder="请输入Markdown"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>HTML输出:</label>
+                    <textarea class="form-control" id="md2html-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="markdownToHtml()">转换</button>
+            </div>
+
+            <!-- TOML转JSON -->
+            <div class="tool-panel" id="panel-toml2json">
+                <div class="form-group">
+                    <label>TOML输入:</label>
+                    <textarea class="form-control" id="toml2json-input" rows="6" placeholder="请输入TOML"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>JSON输出:</label>
+                    <textarea class="form-control" id="toml2json-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="tomlToJson()">转换</button>
+            </div>
+
+            <!-- JSON转CSV -->
+            <div class="tool-panel" id="panel-json2csv">
+                <div class="form-group">
+                    <label>JSON输入:</label>
+                    <textarea class="form-control" id="json2csv-input" rows="6" placeholder="请输入JSON数组"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>CSV输出:</label>
+                    <textarea class="form-control" id="json2csv-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="jsonToCsv()">转换</button>
+            </div>
+
+            <!-- URL解析器 -->
+            <div class="tool-panel" id="panel-urlparser">
+                <div class="form-group">
+                    <label>输入URL:</label>
+                    <input type="text" class="form-control" id="urlparser-input" placeholder="https://example.com/path?query=value">
+                </div>
+                <div id="urlparser-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+                <button class="btn btn-primary btn-block" onclick="parseUrl()" style="margin-top: 15px;">解析</button>
+            </div>
+
+            <!-- UA解析器 -->
+            <div class="tool-panel" id="panel-useragent">
+                <div class="form-group">
+                    <label>输入User-Agent:</label>
+                    <textarea class="form-control" id="useragent-input" rows="3" placeholder="Mozilla/5.0 ..."></textarea>
+                </div>
+                <div id="useragent-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+                <button class="btn btn-primary btn-block" onclick="parseUserAgent()" style="margin-top: 15px;">解析</button>
+            </div>
+
+            <!-- 设备信息 -->
+            <div class="tool-panel" id="panel-deviceinfo">
+                <div id="deviceinfo-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+                <button class="btn btn-primary btn-block" onclick="getDeviceInfo()" style="margin-top: 15px;">刷新设备信息</button>
+            </div>
+
+            <!-- Basic Auth生成 -->
+            <div class="tool-panel" id="panel-basicauth">
+                <div class="form-group">
+                    <label>用户名:</label>
+                    <input type="text" class="form-control" id="basicauth-user" placeholder="请输入用户名">
+                </div>
+                <div class="form-group">
+                    <label>密码:</label>
+                    <input type="text" class="form-control" id="basicauth-pass" placeholder="请输入密码">
+                </div>
+                <div class="form-group">
+                    <label>Basic Auth Header:</label>
+                    <textarea class="form-control" id="basicauth-output" rows="2" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateBasicAuth()">生成</button>
+            </div>
+
+            <!-- OG标签生成 -->
+            <div class="tool-panel" id="panel-opengraph">
+                <div class="form-group">
+                    <label>网站标题:</label>
+                    <input type="text" class="form-control" id="og-title" placeholder="网站标题">
+                </div>
+                <div class="form-group">
+                    <label>描述:</label>
+                    <textarea class="form-control" id="og-desc" rows="2" placeholder="网站描述"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>图片URL:</label>
+                    <input type="text" class="form-control" id="og-image" placeholder="https://example.com/image.jpg">
+                </div>
+                <div class="form-group">
+                    <label>网站URL:</label>
+                    <input type="text" class="form-control" id="og-url" placeholder="https://example.com">
+                </div>
+                <div class="form-group">
+                    <label>HTML代码:</label>
+                    <textarea class="form-control" id="og-output" rows="8" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateOpenGraph()">生成</button>
+            </div>
+
+            <!-- OTP生成器 -->
+            <div class="tool-panel" id="panel-otp">
+                <div class="form-group">
+                    <label>密钥 (Base32):</label>
+                    <input type="text" class="form-control" id="otp-secret" placeholder="请输入Base32密钥">
+                </div>
+                <div class="form-group">
+                    <label>OTP代码:</label>
+                    <div id="otp-code" style="font-size: 36px; font-weight: bold; text-align: center; letter-spacing: 5px;"></div>
+                </div>
+                <div class="form-group">
+                    <label>剩余时间:</label>
+                    <div id="otp-timer" style="text-align: center;"></div>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateOTP()">生成OTP</button>
+            </div>
+
+            <!-- JWT解析器 -->
+            <div class="tool-panel" id="panel-jwt">
+                <div class="form-group">
+                    <label>JWT Token:</label>
+                    <textarea class="form-control" id="jwt-input" rows="3" placeholder="请输入JWT Token"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Header:</label>
+                    <textarea class="form-control" id="jwt-header" rows="3" readonly></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Payload:</label>
+                    <textarea class="form-control" id="jwt-payload" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="parseJWT()">解析</button>
+            </div>
+
+            <!-- 按键码查询 -->
+            <div class="tool-panel" id="panel-keycode">
+                <div class="form-group">
+                    <label>按下任意键查看按键码:</label>
+                    <input type="text" class="form-control" id="keycode-input" placeholder="点击此处并按键" onkeydown="getKeyCode(event)">
+                </div>
+                <div id="keycode-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+            </div>
+
+            <!-- HTTP状态码 -->
+            <div class="tool-panel" id="panel-httpcode">
+                <div class="form-group">
+                    <label>搜索状态码:</label>
+                    <input type="text" class="form-control" id="httpcode-search" placeholder="输入状态码或关键词" oninput="searchHttpCode()">
+                </div>
+                <div id="httpcode-list" style="max-height: 400px; overflow-y: auto;"></div>
+            </div>
+
+            <!-- MIME类型 -->
+            <div class="tool-panel" id="panel-mime">
+                <div class="form-group">
+                    <label>搜索MIME类型:</label>
+                    <input type="text" class="form-control" id="mime-search" placeholder="输入扩展名或MIME类型" oninput="searchMime()">
+                </div>
+                <div id="mime-list" style="max-height: 400px; overflow-y: auto;"></div>
+            </div>
+
+            <!-- URL友好化 -->
+            <div class="tool-panel" id="panel-slugify">
+                <div class="form-group">
+                    <label>输入文本:</label>
+                    <input type="text" class="form-control" id="slugify-input" placeholder="请输入要转换的文本">
+                </div>
+                <div class="form-group">
+                    <label>Slug结果:</label>
+                    <input type="text" class="form-control" id="slugify-output" readonly>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="slugifyText()">转换</button>
+            </div>
+
+            <!-- HTML编辑器 -->
+            <div class="tool-panel" id="panel-htmlwysiwyg">
+                <div class="form-group">
+                    <label>编辑区域:</label>
+                    <div id="html-editor" contenteditable="true" style="min-height: 200px; border: 1px solid #ddd; padding: 10px; border-radius: 5px;"></div>
+                </div>
+                <div class="btn-group" style="margin-bottom: 10px;">
+                    <button class="btn btn-sm btn-secondary" onclick="document.execCommand('bold')"><b>B</b></button>
+                    <button class="btn btn-sm btn-secondary" onclick="document.execCommand('italic')"><i>I</i></button>
+                    <button class="btn btn-sm btn-secondary" onclick="document.execCommand('underline')"><u>U</u></button>
+                    <button class="btn btn-sm btn-secondary" onclick="document.execCommand('insertUnorderedList')">列表</button>
+                    <button class="btn btn-sm btn-secondary" onclick="document.execCommand('createLink', true, prompt('URL:'))">链接</button>
+                </div>
+                <div class="form-group">
+                    <label>HTML代码:</label>
+                    <textarea class="form-control" id="html-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="getHtmlCode()">获取HTML</button>
+            </div>
+
+            <!-- Git速查表 -->
+            <div class="tool-panel" id="panel-git">
+                <div id="git-cheatsheet" style="max-height: 500px; overflow-y: auto;"></div>
+            </div>
+
+            <!-- Crontab生成 -->
+            <div class="tool-panel" id="panel-crontab">
+                <div class="form-group">
+                    <label>分钟 (0-59):</label>
+                    <input type="text" class="form-control" id="cron-minute" value="*">
+                </div>
+                <div class="form-group">
+                    <label>小时 (0-23):</label>
+                    <input type="text" class="form-control" id="cron-hour" value="*">
+                </div>
+                <div class="form-group">
+                    <label>日期 (1-31):</label>
+                    <input type="text" class="form-control" id="cron-day" value="*">
+                </div>
+                <div class="form-group">
+                    <label>月份 (1-12):</label>
+                    <input type="text" class="form-control" id="cron-month" value="*">
+                </div>
+                <div class="form-group">
+                    <label>星期 (0-7):</label>
+                    <input type="text" class="form-control" id="cron-weekday" value="*">
+                </div>
+                <div class="form-group">
+                    <label>Crontab表达式:</label>
+                    <input type="text" class="form-control" id="cron-output" readonly>
+                </div>
+                <div class="form-group">
+                    <label>说明:</label>
+                    <div id="cron-description" style="background: #f5f5f5; padding: 10px; border-radius: 5px;"></div>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateCrontab()">生成</button>
+            </div>
+
+            <!-- SQL格式化 -->
+            <div class="tool-panel" id="panel-sql">
+                <div class="form-group">
+                    <label>SQL输入:</label>
+                    <textarea class="form-control" id="sql-input" rows="6" placeholder="SELECT * FROM table WHERE id=1"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>格式化结果:</label>
+                    <textarea class="form-control" id="sql-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="formatSQL()">格式化</button>
+            </div>
+
+            <!-- Chmod计算器 -->
+            <div class="tool-panel" id="panel-chmod">
+                <div class="form-group">
+                    <label>权限设置:</label>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center;">
+                        <div></div>
+                        <div>读(R)</div>
+                        <div>写(W)</div>
+                        <div>执行(X)</div>
+                        <div>所有者</div>
+                        <div><input type="checkbox" id="chmod-ur" onchange="calcChmod()"></div>
+                        <div><input type="checkbox" id="chmod-uw" onchange="calcChmod()"></div>
+                        <div><input type="checkbox" id="chmod-ux" onchange="calcChmod()"></div>
+                        <div>组</div>
+                        <div><input type="checkbox" id="chmod-gr" onchange="calcChmod()"></div>
+                        <div><input type="checkbox" id="chmod-gw" onchange="calcChmod()"></div>
+                        <div><input type="checkbox" id="chmod-gx" onchange="calcChmod()"></div>
+                        <div>其他</div>
+                        <div><input type="checkbox" id="chmod-or" onchange="calcChmod()"></div>
+                        <div><input type="checkbox" id="chmod-ow" onchange="calcChmod()"></div>
+                        <div><input type="checkbox" id="chmod-ox" onchange="calcChmod()"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>数字表示:</label>
+                    <input type="text" class="form-control" id="chmod-numeric" readonly style="font-size: 24px; text-align: center;">
+                </div>
+                <div class="form-group">
+                    <label>符号表示:</label>
+                    <input type="text" class="form-control" id="chmod-symbolic" readonly>
+                </div>
+                <div class="form-group">
+                    <label>命令:</label>
+                    <input type="text" class="form-control" id="chmod-command" readonly>
+                </div>
+            </div>
+
+            <!-- Docker转换 -->
+            <div class="tool-panel" id="panel-docker">
+                <div class="form-group">
+                    <label>Docker Run命令:</label>
+                    <textarea class="form-control" id="docker-input" rows="4" placeholder="docker run -d -p 8080:80 --name myapp nginx"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>docker-compose.yml:</label>
+                    <textarea class="form-control" id="docker-output" rows="10" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="convertDocker()">转换</button>
+            </div>
+
+            <!-- 正则测试 -->
+            <div class="tool-panel" id="panel-regex">
+                <div class="form-group">
+                    <label>正则表达式:</label>
+                    <input type="text" class="form-control" id="regex-pattern" placeholder="/pattern/flags">
+                </div>
+                <div class="form-group">
+                    <label>测试文本:</label>
+                    <textarea class="form-control" id="regex-text" rows="4" placeholder="输入测试文本"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>匹配结果:</label>
+                    <div id="regex-result" style="background: #f5f5f5; padding: 10px; border-radius: 5px; min-height: 50px;"></div>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="testRegex()">测试</button>
+            </div>
+
+            <!-- 正则速查 -->
+            <div class="tool-panel" id="panel-regexcheat">
+                <div id="regex-cheatsheet" style="max-height: 500px; overflow-y: auto;"></div>
+            </div>
+
+            <!-- JSON对比 -->
+            <div class="tool-panel" id="panel-jsondiff">
+                <div class="form-group">
+                    <label>JSON 1:</label>
+                    <textarea class="form-control" id="jsondiff-1" rows="5" placeholder="第一个JSON"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>JSON 2:</label>
+                    <textarea class="form-control" id="jsondiff-2" rows="5" placeholder="第二个JSON"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>差异:</label>
+                    <div id="jsondiff-result" style="background: #f5f5f5; padding: 10px; border-radius: 5px; max-height: 300px; overflow-y: auto;"></div>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="compareJson()">对比</button>
+            </div>
+
+            <!-- XML格式化 -->
+            <div class="tool-panel" id="panel-xmlformat">
+                <div class="form-group">
+                    <label>XML输入:</label>
+                    <textarea class="form-control" id="xmlformat-input" rows="6" placeholder="请输入XML"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>格式化结果:</label>
+                    <textarea class="form-control" id="xmlformat-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="formatXml()">格式化</button>
+            </div>
+
+            <!-- YAML格式化 -->
+            <div class="tool-panel" id="panel-yamlformat">
+                <div class="form-group">
+                    <label>YAML输入:</label>
+                    <textarea class="form-control" id="yamlformat-input" rows="6" placeholder="请输入YAML"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>格式化结果:</label>
+                    <textarea class="form-control" id="yamlformat-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="formatYaml()">格式化</button>
+            </div>
+
+            <!-- IPv4子网计算 -->
+            <div class="tool-panel" id="panel-ipv4subnet">
+                <div class="form-group">
+                    <label>CIDR (如 192.168.1.0/24):</label>
+                    <input type="text" class="form-control" id="ipv4subnet-input" placeholder="192.168.1.0/24">
+                </div>
+                <div id="ipv4subnet-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+                <button class="btn btn-primary btn-block" onclick="calcIPv4Subnet()" style="margin-top: 15px;">计算</button>
+            </div>
+
+            <!-- IPv4地址转换 -->
+            <div class="tool-panel" id="panel-ipv4converter">
+                <div class="form-group">
+                    <label>IPv4地址:</label>
+                    <input type="text" class="form-control" id="ipv4conv-input" placeholder="192.168.1.1">
+                </div>
+                <div id="ipv4conv-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+                <button class="btn btn-primary btn-block" onclick="convertIPv4()" style="margin-top: 15px;">转换</button>
+            </div>
+
+            <!-- MAC地址查询 -->
+            <div class="tool-panel" id="panel-maclookup">
+                <div class="form-group">
+                    <label>MAC地址:</label>
+                    <input type="text" class="form-control" id="maclookup-input" placeholder="00:1A:2B:3C:4D:5E">
+                </div>
+                <div id="maclookup-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+                <button class="btn btn-primary btn-block" onclick="lookupMac()" style="margin-top: 15px;">查询</button>
+            </div>
+
+            <!-- MAC地址生成 -->
+            <div class="tool-panel" id="panel-macgen">
+                <div class="form-group">
+                    <label>生成数量:</label>
+                    <input type="number" class="form-control" id="macgen-count" value="5" min="1" max="100">
+                </div>
+                <div class="form-group">
+                    <label>前缀 (可选):</label>
+                    <input type="text" class="form-control" id="macgen-prefix" placeholder="如: 00:1A:2B">
+                </div>
+                <div class="form-group">
+                    <label>MAC地址列表:</label>
+                    <textarea class="form-control" id="macgen-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateMacs()">生成</button>
+            </div>
+
+            <!-- IPv6 ULA生成 -->
+            <div class="tool-panel" id="panel-ipv6ula">
+                <div class="form-group">
+                    <label>IPv6 ULA:</label>
+                    <input type="text" class="form-control" id="ipv6ula-output" readonly style="font-size: 14px;">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateIPv6ULA()">生成</button>
+            </div>
+
+            <!-- 随机端口生成 -->
+            <div class="tool-panel" id="panel-port">
+                <div class="form-group">
+                    <label>生成数量:</label>
+                    <input type="number" class="form-control" id="port-count" value="5" min="1" max="50">
+                </div>
+                <div class="form-group">
+                    <label>端口列表:</label>
+                    <textarea class="form-control" id="port-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generatePorts()">生成</button>
+            </div>
+
+            <!-- 数学计算器 -->
+            <div class="tool-panel" id="panel-math">
+                <div class="form-group">
+                    <label>输入表达式:</label>
+                    <input type="text" class="form-control" id="math-input" placeholder="如: 2+2, sqrt(16), sin(30)">
+                </div>
+                <div class="form-group">
+                    <label>结果:</label>
+                    <input type="text" class="form-control" id="math-output" readonly style="font-size: 24px;">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="evalMath()">计算</button>
+            </div>
+
+            <!-- 百分比计算 -->
+            <div class="tool-panel" id="panel-percentage">
+                <div class="form-group">
+                    <label>计算类型:</label>
+                    <select class="form-control" id="percent-type" onchange="updatePercentUI()">
+                        <option value="percent">A是B的百分之几</option>
+                        <option value="value">A的B%是多少</option>
+                        <option value="change">从A到B的变化率</option>
+                    </select>
+                </div>
+                <div id="percent-inputs"></div>
+                <div class="form-group">
+                    <label>结果:</label>
+                    <input type="text" class="form-control" id="percent-output" readonly style="font-size: 20px;">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="calcPercentage()">计算</button>
+            </div>
+
+            <!-- 温度转换 -->
+            <div class="tool-panel" id="panel-temperature">
+                <div class="form-group">
+                    <label>输入温度:</label>
+                    <input type="number" class="form-control" id="temp-input" placeholder="输入数值">
+                </div>
+                <div class="form-group">
+                    <label>从:</label>
+                    <select class="form-control" id="temp-from">
+                        <option value="c">摄氏 (°C)</option>
+                        <option value="f">华氏 (°F)</option>
+                        <option value="k">开尔文 (K)</option>
+                    </select>
+                </div>
+                <div id="temp-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+                <button class="btn btn-primary btn-block" onclick="convertTemp()" style="margin-top: 15px;">转换</button>
+            </div>
+
+            <!-- ETA计算器 -->
+            <div class="tool-panel" id="panel-eta">
+                <div class="form-group">
+                    <label>开始时间:</label>
+                    <input type="datetime-local" class="form-control" id="eta-start">
+                </div>
+                <div class="form-group">
+                    <label>总数量:</label>
+                    <input type="number" class="form-control" id="eta-total" placeholder="总数">
+                </div>
+                <div class="form-group">
+                    <label>已完成:</label>
+                    <input type="number" class="form-control" id="eta-done" placeholder="已完成数量">
+                </div>
+                <div id="eta-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+                <button class="btn btn-primary btn-block" onclick="calcETA()" style="margin-top: 15px;">计算</button>
+            </div>
+
+            <!-- 计时器 -->
+            <div class="tool-panel" id="panel-chrono">
+                <div style="text-align: center;">
+                    <div id="chrono-display" style="font-size: 48px; font-family: monospace;">00:00:00.000</div>
+                    <div style="margin-top: 20px;">
+                        <button class="btn btn-success" onclick="startChrono()">开始</button>
+                        <button class="btn btn-warning" onclick="pauseChrono()">暂停</button>
+                        <button class="btn btn-danger" onclick="resetChrono()">重置</button>
+                    </div>
+                    <div id="chrono-laps" style="margin-top: 20px; text-align: left;"></div>
+                </div>
+            </div>
+
+            <!-- Lorem生成 -->
+            <div class="tool-panel" id="panel-lorem">
+                <div class="form-group">
+                    <label>段落数:</label>
+                    <input type="number" class="form-control" id="lorem-count" value="3" min="1" max="20">
+                </div>
+                <div class="form-group">
+                    <label>类型:</label>
+                    <select class="form-control" id="lorem-type">
+                        <option value="paragraphs">段落</option>
+                        <option value="sentences">句子</option>
+                        <option value="words">单词</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>结果:</label>
+                    <textarea class="form-control" id="lorem-output" rows="8" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateLorem()">生成</button>
+            </div>
+
+            <!-- 文本统计 -->
+            <div class="tool-panel" id="panel-textstat">
+                <div class="form-group">
+                    <label>输入文本:</label>
+                    <textarea class="form-control" id="textstat-input" rows="6" placeholder="请输入文本" oninput="analyzeText()"></textarea>
+                </div>
+                <div id="textstat-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+            </div>
+
+            <!-- Emoji选择器 -->
+            <div class="tool-panel" id="panel-emoji">
+                <div class="form-group">
+                    <label>搜索Emoji:</label>
+                    <input type="text" class="form-control" id="emoji-search" placeholder="搜索..." oninput="searchEmoji()">
+                </div>
+                <div id="emoji-grid" style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 5px; max-height: 300px; overflow-y: auto;"></div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label>已选Emoji:</label>
+                    <input type="text" class="form-control" id="emoji-output" readonly>
+                </div>
+            </div>
+
+            <!-- 文本对比 -->
+            <div class="tool-panel" id="panel-textdiff">
+                <div class="form-group">
+                    <label>文本 1:</label>
+                    <textarea class="form-control" id="textdiff-1" rows="4" placeholder="原始文本"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>文本 2:</label>
+                    <textarea class="form-control" id="textdiff-2" rows="4" placeholder="修改后文本"></textarea>
+                </div>
+                <div id="textdiff-result" style="background: #f5f5f5; padding: 10px; border-radius: 5px; max-height: 300px; overflow-y: auto;"></div>
+                <button class="btn btn-primary btn-block" onclick="compareText()" style="margin-top: 15px;">对比</button>
+            </div>
+
+            <!-- 数字缩写 -->
+            <div class="tool-panel" id="panel-numeronym">
+                <div class="form-group">
+                    <label>输入单词:</label>
+                    <input type="text" class="form-control" id="numeronym-input" placeholder="如: internationalization">
+                </div>
+                <div class="form-group">
+                    <label>数字缩写:</label>
+                    <input type="text" class="form-control" id="numeronym-output" readonly style="font-size: 24px;">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateNumeronym()">生成</button>
+            </div>
+
+            <!-- ASCII艺术字 -->
+            <div class="tool-panel" id="panel-asciiart">
+                <div class="form-group">
+                    <label>输入文本:</label>
+                    <input type="text" class="form-control" id="asciiart-input" placeholder="输入文本 (建议短文本)">
+                </div>
+                <div class="form-group">
+                    <label>字体:</label>
+                    <select class="form-control" id="asciiart-font">
+                        <option value="standard">Standard</option>
+                        <option value="slant">Slant</option>
+                        <option value="banner">Banner</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>ASCII艺术:</label>
+                    <pre id="asciiart-output" style="background: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; font-size: 10px;"></pre>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateAsciiArt()">生成</button>
+            </div>
+
+            <!-- 电话号码解析 -->
+            <div class="tool-panel" id="panel-phone">
+                <div class="form-group">
+                    <label>电话号码:</label>
+                    <input type="text" class="form-control" id="phone-input" placeholder="+86 138 0000 0000">
+                </div>
+                <div id="phone-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+                <button class="btn btn-primary btn-block" onclick="parsePhone()" style="margin-top: 15px;">解析</button>
+            </div>
+
+            <!-- IBAN验证 -->
+            <div class="tool-panel" id="panel-iban">
+                <div class="form-group">
+                    <label>IBAN号码:</label>
+                    <input type="text" class="form-control" id="iban-input" placeholder="如: GB82 WEST 1234 5698 7654 32">
+                </div>
+                <div id="iban-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+                <button class="btn btn-primary btn-block" onclick="validateIBAN()" style="margin-top: 15px;">验证</button>
+            </div>
+
+            <!-- 字符串混淆 -->
+            <div class="tool-panel" id="panel-obfuscate">
+                <div class="form-group">
+                    <label>输入字符串:</label>
+                    <input type="text" class="form-control" id="obfuscate-input" placeholder="如: secret-token-123">
+                </div>
+                <div class="form-group">
+                    <label>可见字符数:</label>
+                    <input type="number" class="form-control" id="obfuscate-visible" value="4" min="0" max="10">
+                </div>
+                <div class="form-group">
+                    <label>混淆结果:</label>
+                    <input type="text" class="form-control" id="obfuscate-output" readonly>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="obfuscateString()">混淆</button>
+            </div>
+
+            <!-- 列表转换 -->
+            <div class="tool-panel" id="panel-list">
+                <div class="form-group">
+                    <label>输入列表 (每行一个):</label>
+                    <textarea class="form-control" id="list-input" rows="6" placeholder="item1&#10;item2&#10;item3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>操作:</label>
+                    <select class="form-control" id="list-operation">
+                        <option value="sort">排序</option>
+                        <option value="reverse">反转</option>
+                        <option value="unique">去重</option>
+                        <option value="lowercase">转小写</option>
+                        <option value="uppercase">转大写</option>
+                        <option value="prefix">添加前缀</option>
+                        <option value="suffix">添加后缀</option>
+                    </select>
+                </div>
+                <div class="form-group" id="list-extra-input" style="display: none;">
+                    <label>输入:</label>
+                    <input type="text" class="form-control" id="list-extra" placeholder="前缀或后缀">
+                </div>
+                <div class="form-group">
+                    <label>结果:</label>
+                    <textarea class="form-control" id="list-output" rows="6" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="transformList()">转换</button>
+            </div>
+
+            <!-- 邮箱标准化 -->
+            <div class="tool-panel" id="panel-email">
+                <div class="form-group">
+                    <label>输入邮箱:</label>
+                    <input type="text" class="form-control" id="email-input" placeholder="Example@Gmail.COM">
+                </div>
+                <div class="form-group">
+                    <label>标准化结果:</label>
+                    <input type="text" class="form-control" id="email-output" readonly>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="normalizeEmail()">标准化</button>
+            </div>
+
+            <!-- WiFi二维码 -->
+            <div class="tool-panel" id="panel-wifiqr">
+                <div class="form-group">
+                    <label>WiFi名称 (SSID):</label>
+                    <input type="text" class="form-control" id="wifiqr-ssid" placeholder="WiFi名称">
+                </div>
+                <div class="form-group">
+                    <label>密码:</label>
+                    <input type="text" class="form-control" id="wifiqr-password" placeholder="WiFi密码">
+                </div>
+                <div class="form-group">
+                    <label>加密类型:</label>
+                    <select class="form-control" id="wifiqr-encryption">
+                        <option value="WPA">WPA/WPA2</option>
+                        <option value="WEP">WEP</option>
+                        <option value="nopass">无密码</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>二维码:</label>
+                    <div id="wifiqr-output" style="text-align: center;"></div>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateWifiQR()">生成</button>
+            </div>
+
+            <!-- SVG占位图 -->
+            <div class="tool-panel" id="panel-svgplaceholder">
+                <div class="form-group">
+                    <label>宽度:</label>
+                    <input type="number" class="form-control" id="svg-width" value="300" min="1" max="2000">
+                </div>
+                <div class="form-group">
+                    <label>高度:</label>
+                    <input type="number" class="form-control" id="svg-height" value="200" min="1" max="2000">
+                </div>
+                <div class="form-group">
+                    <label>背景色:</label>
+                    <input type="color" class="form-control" id="svg-bgcolor" value="#cccccc">
+                </div>
+                <div class="form-group">
+                    <label>文字颜色:</label>
+                    <input type="color" class="form-control" id="svg-textcolor" value="#333333">
+                </div>
+                <div class="form-group">
+                    <label>预览:</label>
+                    <div id="svg-preview" style="text-align: center;"></div>
+                </div>
+                <div class="form-group">
+                    <label>SVG代码:</label>
+                    <textarea class="form-control" id="svg-output" rows="4" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateSvgPlaceholder()">生成</button>
+            </div>
+
+            <!-- 摄像头录制 -->
+            <div class="tool-panel" id="panel-camera">
+                <div class="form-group">
+                    <label>预览:</label>
+                    <video id="camera-video" autoplay playsinline style="width: 100%; border-radius: 5px;"></video>
+                </div>
+                <div id="camera-captured" style="text-align: center;"></div>
+                <div class="btn-group" style="width: 100%; margin-top: 10px;">
+                    <button class="btn btn-primary" onclick="startCamera()" style="width: 33%;">开启摄像头</button>
+                    <button class="btn btn-success" onclick="capturePhoto()" style="width: 33%;">拍照</button>
+                    <button class="btn btn-danger" onclick="stopCamera()" style="width: 34%;">关闭</button>
+                </div>
+            </div>
+
             <!-- 默认工具面板（用于未配置的工具） -->
             <div class="tool-panel" id="panel-default">
                 <div class="alert alert-info">
@@ -2076,6 +3184,1415 @@ http://api.myzch.cn/?url=</textarea>
             // 使用 Google Chart API 生成二维码
             const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=L|0&chl=${encodeURIComponent(input)}`;
             document.getElementById('qrcode-output').innerHTML = `<img src="${qrUrl}" alt="二维码">`;
+        }
+
+        // ========== Token生成器 ==========
+        function generateToken() {
+            const length = parseInt(document.getElementById('token-length').value) || 32;
+            const useUpper = document.getElementById('token-upper').checked;
+            const useLower = document.getElementById('token-lower').checked;
+            const useNumbers = document.getElementById('token-numbers').checked;
+            const useSymbols = document.getElementById('token-symbols').checked;
+            
+            let chars = '';
+            if (useUpper) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (useLower) chars += 'abcdefghijklmnopqrstuvwxyz';
+            if (useNumbers) chars += '0123456789';
+            if (useSymbols) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+            
+            if (chars === '') {
+                alert('请至少选择一种字符类型');
+                return;
+            }
+            
+            let token = '';
+            const array = new Uint32Array(length);
+            crypto.getRandomValues(array);
+            for (let i = 0; i < length; i++) {
+                token += chars[array[i] % chars.length];
+            }
+            document.getElementById('token-output').value = token;
+        }
+
+        // ========== ULID生成 ==========
+        function generateULIDs() {
+            const count = parseInt(document.getElementById('ulid-count').value) || 5;
+            const ulids = [];
+            for (let i = 0; i < count; i++) {
+                ulids.push(generateULID());
+            }
+            document.getElementById('ulid-output').value = ulids.join('\n');
+        }
+
+        function generateULID() {
+            const timestamp = Date.now();
+            const random = crypto.getRandomValues(new Uint8Array(10));
+            const timePart = encodeBase32(timestamp.toString(2).padStart(48, '0'));
+            const randomPart = Array.from(random).map(b => encodeBase32(b.toString(2).padStart(8, '0').substring(0, 5))).join('');
+            return timePart + randomPart.substring(0, 16);
+        }
+
+        function encodeBase32(binary) {
+            const chars = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+            let result = '';
+            for (let i = 0; i < binary.length; i += 5) {
+                const chunk = binary.substring(i, i + 5).padEnd(5, '0');
+                result += chars[parseInt(chunk, 2)];
+            }
+            return result;
+        }
+
+        // ========== AES加密解密 ==========
+        async function aesEncrypt() {
+            const input = document.getElementById('aes-input').value;
+            const key = document.getElementById('aes-key').value;
+            if (!input || !key) {
+                alert('请输入内容和密钥');
+                return;
+            }
+            try {
+                const encoder = new TextEncoder();
+                const keyData = encoder.encode(key);
+                const iv = crypto.getRandomValues(new Uint8Array(12));
+                const cryptoKey = await crypto.subtle.importKey('raw', keyData, { name: 'AES-GCM' }, false, ['encrypt']);
+                const encrypted = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, cryptoKey, encoder.encode(input));
+                const combined = new Uint8Array(iv.length + encrypted.byteLength);
+                combined.set(iv);
+                combined.set(new Uint8Array(encrypted), iv.length);
+                document.getElementById('aes-output').value = btoa(String.fromCharCode(...combined));
+            } catch (e) {
+                document.getElementById('aes-output').value = '加密错误: ' + e.message;
+            }
+        }
+
+        async function aesDecrypt() {
+            const input = document.getElementById('aes-input').value;
+            const key = document.getElementById('aes-key').value;
+            if (!input || !key) {
+                alert('请输入内容和密钥');
+                return;
+            }
+            try {
+                const encoder = new TextEncoder();
+                const decoder = new TextDecoder();
+                const keyData = encoder.encode(key);
+                const combined = Uint8Array.from(atob(input), c => c.charCodeAt(0));
+                const iv = combined.slice(0, 12);
+                const encrypted = combined.slice(12);
+                const cryptoKey = await crypto.subtle.importKey('raw', keyData, { name: 'AES-GCM' }, false, ['decrypt']);
+                const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, cryptoKey, encrypted);
+                document.getElementById('aes-output').value = decoder.decode(decrypted);
+            } catch (e) {
+                document.getElementById('aes-output').value = '解密错误: ' + e.message;
+            }
+        }
+
+        // ========== HMAC生成器 ==========
+        async function generateHMAC() {
+            const input = document.getElementById('hmac-input').value;
+            const key = document.getElementById('hmac-key').value;
+            const algo = document.getElementById('hmac-algo').value;
+            if (!input || !key) {
+                alert('请输入内容和密钥');
+                return;
+            }
+            try {
+                const encoder = new TextEncoder();
+                const keyData = encoder.encode(key);
+                const cryptoKey = await crypto.subtle.importKey('raw', keyData, { name: 'HMAC', hash: algo }, false, ['sign']);
+                const signature = await crypto.subtle.sign('HMAC', cryptoKey, encoder.encode(input));
+                const hash = Array.from(new Uint8Array(signature)).map(b => b.toString(16).padStart(2, '0')).join('');
+                document.getElementById('hmac-output').value = hash;
+            } catch (e) {
+                document.getElementById('hmac-output').value = '生成错误: ' + e.message;
+            }
+        }
+
+        // ========== RSA密钥生成 ==========
+        async function generateRSA() {
+            const bits = parseInt(document.getElementById('rsa-bits').value);
+            try {
+                const keyPair = await crypto.subtle.generateKey({
+                    name: 'RSASSA-PKCS1-v1_5',
+                    modulusLength: bits,
+                    publicExponent: new Uint8Array([1, 0, 1]),
+                    hash: 'SHA-256'
+                }, true, ['sign', 'verify']);
+                
+                const publicKey = await crypto.subtle.exportKey('spki', keyPair.publicKey);
+                const privateKey = await crypto.subtle.exportKey('pkcs8', keyPair.privateKey);
+                
+                document.getElementById('rsa-public').value = '-----BEGIN PUBLIC KEY-----\n' + btoa(String.fromCharCode(...new Uint8Array(publicKey))) + '\n-----END PUBLIC KEY-----';
+                document.getElementById('rsa-private').value = '-----BEGIN PRIVATE KEY-----\n' + btoa(String.fromCharCode(...new Uint8Array(privateKey))) + '\n-----END PRIVATE KEY-----';
+            } catch (e) {
+                alert('生成密钥失败: ' + e.message);
+            }
+        }
+
+        // ========== 密码强度分析 ==========
+        document.getElementById('password-input')?.addEventListener('input', function() {
+            const password = this.value;
+            let strength = 0;
+            let analysis = [];
+            
+            if (password.length >= 8) { strength += 20; analysis.push('✓ 长度至少8位'); }
+            else { analysis.push('✗ 长度不足8位'); }
+            
+            if (/[A-Z]/.test(password)) { strength += 20; analysis.push('✓ 包含大写字母'); }
+            else { analysis.push('✗ 缺少大写字母'); }
+            
+            if (/[a-z]/.test(password)) { strength += 20; analysis.push('✓ 包含小写字母'); }
+            else { analysis.push('✗ 缺少小写字母'); }
+            
+            if (/[0-9]/.test(password)) { strength += 20; analysis.push('✓ 包含数字'); }
+            else { analysis.push('✗ 缺少数字'); }
+            
+            if (/[^A-Za-z0-9]/.test(password)) { strength += 20; analysis.push('✓ 包含特殊字符'); }
+            else { analysis.push('✗ 缺少特殊字符'); }
+            
+            const strengthBar = document.getElementById('password-strength');
+            let color, text;
+            if (strength < 40) { color = '#e74c3c'; text = '弱'; }
+            else if (strength < 60) { color = '#f39c12'; text = '一般'; }
+            else if (strength < 80) { color = '#3498db'; text = '良好'; }
+            else { color = '#27ae60'; text = '强'; }
+            
+            strengthBar.style.width = strength + '%';
+            strengthBar.style.background = color;
+            document.getElementById('password-analysis').innerHTML = '<strong>强度: ' + text + ' (' + strength + '%)</strong><br>' + analysis.join('<br>');
+        });
+
+        // ========== BIP39助记词 ==========
+        const BIP39_WORDS = ['abandon', 'ability', 'able', 'about', 'above', 'absent', 'absorb', 'abstract', 'absurd', 'abuse', 'access', 'accident', 'account', 'accuse', 'achieve', 'acid', 'acoustic', 'acquire', 'across', 'act', 'action', 'actor', 'actress', 'actual', 'adapt', 'add', 'addict', 'address', 'adjust', 'admit', 'adult', 'advance', 'advice', 'aerobic', 'affair', 'afford', 'afraid', 'again', 'age', 'agent', 'agree', 'ahead', 'aim', 'air', 'airport', 'aisle', 'alarm', 'album', 'alcohol', 'alert', 'alien', 'all', 'alley', 'allow', 'almost', 'alone', 'alpha', 'already', 'also', 'alter', 'always', 'amateur', 'amazing', 'among', 'amount', 'amused', 'analyst', 'anchor', 'ancient', 'anger', 'angle', 'angry', 'animal', 'ankle', 'announce', 'annual', 'another', 'answer', 'antenna', 'antique', 'anxiety', 'any', 'apart', 'apology', 'appear', 'apple', 'approve', 'april', 'arch', 'arctic', 'area', 'arena', 'argue', 'arm', 'armed', 'armor', 'army', 'around', 'arrange', 'arrest', 'arrive', 'arrow', 'art', 'artefact', 'artist', 'artwork', 'ask', 'aspect', 'assault', 'asset', 'assist', 'assume', 'asthma', 'athlete', 'atom', 'attack', 'attend', 'attitude', 'attract', 'auction', 'audit', 'august', 'aunt', 'author', 'auto', 'autumn', 'average', 'avocado', 'avoid', 'awake', 'aware', 'away', 'awesome', 'awful', 'awkward', 'axis', 'baby', 'bachelor', 'bacon', 'badge', 'bag', 'balance', 'balcony', 'ball', 'bamboo', 'banana', 'banner', 'bar', 'barely', 'bargain', 'barrel', 'base', 'basic', 'basket', 'battle', 'beach', 'bean', 'beauty', 'because', 'become', 'beef', 'before', 'begin', 'behave', 'behind', 'believe', 'below', 'belt', 'bench', 'benefit', 'best', 'betray', 'better', 'between', 'beyond', 'bicycle', 'bid', 'bike', 'bind', 'biology', 'bird', 'birth', 'bitter', 'black', 'blade', 'blame', 'blanket', 'blast', 'bleak', 'bless', 'blind', 'blood', 'blossom', 'blouse', 'blue', 'blur', 'blush', 'board', 'boat', 'body', 'boil', 'bomb', 'bone', 'bonus', 'book', 'boost', 'border', 'boring', 'borrow', 'boss', 'bottom', 'bounce', 'box', 'boy', 'bracket', 'brain', 'brand', 'brass', 'brave', 'bread', 'breeze', 'brick', 'bridge', 'brief', 'bright', 'bring', 'brisk', 'broccoli', 'broken', 'bronze', 'broom', 'brother', 'brown', 'brush', 'bubble', 'buddy', 'budget', 'buffalo', 'build', 'bulb', 'bulk', 'bullet', 'bundle', 'bunker', 'burden', 'burger', 'burst', 'bus', 'business', 'busy', 'butter', 'buyer', 'buzz', 'cabbage', 'cabin', 'cable', 'cactus', 'cage', 'cake', 'call', 'calm', 'camera', 'camp', 'can', 'canal', 'cancel', 'candy', 'cannon', 'canoe', 'canvas', 'canyon', 'capable', 'capital', 'captain', 'car', 'carbon', 'card', 'cargo', 'carpet', 'carry', 'cart', 'case', 'cash', 'casino', 'castle', 'casual', 'cat', 'catalog', 'catch', 'category', 'cattle', 'caught', 'cause', 'caution', 'cave', 'ceiling', 'celery', 'cement', 'census', 'century', 'cereal', 'certain', 'chair', 'chalk', 'champion', 'change', 'chaos', 'chapter', 'charge', 'chase', 'chat', 'cheap', 'check', 'cheese', 'chef', 'cherry', 'chest', 'chicken', 'chief', 'child', 'chimney', 'choice', 'choose', 'chronic', 'chuckle', 'chunk', 'churn', 'cigar', 'cinnamon', 'circle', 'citizen', 'city', 'civil', 'claim', 'clap', 'clarify', 'claw', 'clay', 'clean', 'clerk', 'clever', 'click', 'client', 'cliff', 'climb', 'clinic', 'clip', 'clock', 'clog', 'close', 'cloth', 'cloud', 'clown', 'club', 'clump', 'cluster', 'clutch', 'coach', 'coast', 'coconut', 'code', 'coffee', 'coil', 'coin', 'collect', 'color', 'column', 'combine', 'come', 'comfort', 'comic', 'common', 'company', 'concert', 'conduct', 'confirm', 'congress', 'connect', 'consider', 'control', 'convince', 'cook', 'cool', 'copper', 'copy', 'coral', 'core', 'corn', 'correct', 'cost', 'cotton', 'couch', 'country', 'couple', 'course', 'cousin', 'cover', 'coyote', 'crack', 'cradle', 'craft', 'cram', 'crane', 'crash', 'crater', 'crawl', 'crazy', 'cream', 'credit', 'creek', 'crew', 'cricket', 'crime', 'crisp', 'critic', 'crop', 'cross', 'crouch', 'crowd', 'crucial', 'cruel', 'cruise', 'crumble', 'crunch', 'crush', 'cry', 'crystal', 'cube', 'culture', 'cup', 'cupboard', 'curious', 'current', 'curtain', 'curve', 'cushion', 'custom', 'cute', 'cycle', 'dad', 'damage', 'damp', 'dance', 'danger', 'daring', 'dash', 'daughter', 'dawn', 'day', 'deal', 'debate', 'debris', 'decade', 'december', 'decide', 'decline', 'decorate', 'decrease', 'deer', 'defense', 'define', 'defy', 'degree', 'delay', 'deliver', 'demand', 'demise', 'denial', 'dentist', 'deny', 'depart', 'depend', 'deposit', 'depth', 'deputy', 'derive', 'describe', 'desert', 'design', 'desk', 'despair', 'destroy', 'detail', 'detect', 'develop', 'device', 'devote', 'diagram', 'dial', 'diamond', 'diary', 'dice', 'diesel', 'diet', 'differ', 'digital', 'dignity', 'dilemma', 'dinner', 'dinosaur', 'direct', 'dirt', 'disagree', 'discover', 'disease', 'dish', 'dismiss', 'disorder', 'display', 'distance', 'divert', 'divide', 'divorce', 'dizzy', 'doctor', 'document', 'dog', 'doll', 'dolphin', 'domain', 'donate', 'donkey', 'donor', 'door', 'dose', 'double', 'dove', 'draft', 'dragon', 'drama', 'drastic', 'draw', 'dream', 'dress', 'drift', 'drill', 'drink', 'drip', 'drive', 'drop', 'drum', 'dry', 'duck', 'dumb', 'dune', 'during', 'dust', 'dutch', 'duty', 'dwarf', 'dynamic', 'eager', 'eagle', 'early', 'earn', 'earth', 'easily', 'east', 'easy', 'echo', 'ecology', 'economy', 'edge', 'edit', 'educate', 'effort', 'egg', 'eight', 'either', 'elbow', 'elder', 'electric', 'elegant', 'element', 'elephant', 'elevator', 'elite', 'else', 'embark', 'embody', 'embrace', 'emerge', 'emotion', 'employ', 'empower', 'empty', 'enable', 'enact', 'end', 'endless', 'endorse', 'enemy', 'energy', 'enforce', 'engage', 'engine', 'enhance', 'enjoy', 'enlist', 'enough', 'enrich', 'enroll', 'ensure', 'enter', 'entire', 'entry', 'envelope', 'episode', 'equal', 'equip', 'era', 'erase', 'erode', 'erosion', 'error', 'erupt', 'escape', 'essay', 'essence', 'estate', 'eternal', 'ethics', 'evidence', 'evil', 'evoke', 'evolve', 'exact', 'example', 'excess', 'exchange', 'excite', 'exclude', 'excuse', 'execute', 'exercise', 'exhaust', 'exhibit', 'exile', 'exist', 'exit', 'exotic', 'expand', 'expect', 'expire', 'explain', 'expose', 'express', 'extend', 'extra', 'eye', 'eyebrow', 'fabric', 'face', 'faculty', 'fade', 'faint', 'faith', 'fall', 'false', 'fame', 'family', 'famous', 'fan', 'fancy', 'fantasy', 'farm', 'fashion', 'fat', 'fatal', 'father', 'fatigue', 'fault', 'favorite', 'feature', 'february', 'federal', 'fee', 'feed', 'feel', 'female', 'fence', 'festival', 'fever', 'few', 'fiber', 'fiction', 'field', 'figure', 'file', 'film', 'filter', 'final', 'find', 'fine', 'finger', 'finish', 'fire', 'firm', 'first', 'fiscal', 'fish', 'fit', 'fitness', 'fix', 'flag', 'flame', 'flash', 'flat', 'flavor', 'flee', 'flesh', 'flight', 'flip', 'float', 'flock', 'flood', 'floor', 'flower', 'fluid', 'flush', 'fly', 'foam', 'focus', 'fog', 'foil', 'fold', 'follow', 'food', 'foot', 'force', 'forest', 'forget', 'fork', 'fortune', 'forum', 'forward', 'fossil', 'foster', 'found', 'fox', 'fragile', 'frame', 'frequent', 'fresh', 'friend', 'fringe', 'frog', 'front', 'frost', 'frown', 'frozen', 'fruit', 'fuel', 'fun', 'funny', 'furnace', 'fury', 'future', 'gadget', 'gain', 'galaxy', 'gallery', 'game', 'gap', 'garage', 'garbage', 'garden', 'garlic', 'garment', 'gas', 'gasp', 'gate', 'gather', 'gauge', 'gaze', 'general', 'genius', 'genre', 'gentle', 'genuine', 'gesture', 'ghost', 'giant', 'gift', 'giggle', 'ginger', 'giraffe', 'girl', 'give', 'glad', 'glance', 'glare', 'glass', 'glide', 'glimpse', 'globe', 'gloom', 'glory', 'glove', 'glow', 'glue', 'goat', 'goddess', 'gold', 'good', 'goose', 'gorilla', 'gospel', 'gossip', 'govern', 'gown', 'grab', 'grace', 'grain', 'grant', 'grape', 'grass', 'gravity', 'great', 'green', 'grid', 'grief', 'grit', 'grocery', 'group', 'grow', 'grunt', 'guard', 'guess', 'guide', 'guilt', 'guitar', 'gun', 'gym', 'habit', 'hair', 'half', 'hammer', 'hamster', 'hand', 'happy', 'harbor', 'hard', 'harsh', 'harvest', 'hat', 'have', 'hawk', 'hazard', 'head', 'health', 'heart', 'heavy', 'hedgehog', 'height', 'hello', 'helmet', 'help', 'hen', 'hero', 'hidden', 'high', 'hill', 'hint', 'hip', 'hire', 'history', 'hobby', 'hockey', 'hold', 'hole', 'holiday', 'hollow', 'home', 'honey', 'hood', 'hope', 'horn', 'horror', 'horse', 'hospital', 'host', 'hotel', 'hour', 'hover', 'hub', 'huge', 'human', 'humble', 'humor', 'hundred', 'hungry', 'hunt', 'hurdle', 'hurry', 'hurt', 'husband', 'hybrid', 'ice', 'icon', 'idea', 'identify', 'idle', 'ignore', 'ill', 'illegal', 'illness', 'image', 'imitate', 'immense', 'immune', 'impact', 'impose', 'improve', 'impulse', 'inch', 'include', 'income', 'increase', 'index', 'indicate', 'indoor', 'industry', 'infant', 'inflict', 'inform', 'inhale', 'inherit', 'initial', 'inject', 'injury', 'inmate', 'inner', 'innocent', 'input', 'inquiry', 'insane', 'insect', 'inside', 'inspire', 'install', 'intact', 'interest', 'into', 'invest', 'invite', 'involve', 'iron', 'island', 'isolate', 'issue', 'item', 'ivory', 'jacket', 'jaguar', 'jar', 'jazz', 'jealous', 'jeans', 'jelly', 'jewel', 'job', 'join', 'joke', 'journey', 'joy', 'judge', 'juice', 'jump', 'jungle', 'junior', 'junk', 'just', 'kangaroo', 'keen', 'keep', 'ketchup', 'key', 'kick', 'kid', 'kidney', 'kind', 'kingdom', 'kiss', 'kit', 'kitchen', 'kite', 'kitten', 'kiwi', 'knee', 'knife', 'knock', 'know', 'lab', 'label', 'labor', 'ladder', 'lady', 'lake', 'lamp', 'language', 'laptop', 'large', 'later', 'latin', 'laugh', 'laundry', 'lava', 'law', 'lawn', 'lawsuit', 'layer', 'lazy', 'leader', 'leaf', 'learn', 'leave', 'lecture', 'left', 'leg', 'legal', 'legend', 'leisure', 'lemon', 'lend', 'length', 'lens', 'leopard', 'lesson', 'letter', 'level', 'liar', 'liberty', 'library', 'license', 'life', 'lift', 'light', 'like', 'limb', 'limit', 'link', 'lion', 'liquid', 'list', 'little', 'live', 'lizard', 'load', 'loan', 'lobster', 'local', 'lock', 'logic', 'lonely', 'long', 'loop', 'lottery', 'loud', 'lounge', 'love', 'loyal', 'lucky', 'luggage', 'lumber', 'lunar', 'lunch', 'luxury', 'lyrics', 'machine', 'mad', 'magic', 'magnet', 'maid', 'mail', 'main', 'major', 'make', 'mammal', 'man', 'manage', 'mandate', 'mango', 'mansion', 'manual', 'maple', 'marble', 'march', 'margin', 'marine', 'market', 'marriage', 'mask', 'mass', 'master', 'match', 'material', 'math', 'matrix', 'matter', 'maximum', 'maze', 'meadow', 'mean', 'measure', 'meat', 'mechanic', 'medal', 'media', 'melody', 'melt', 'member', 'memory', 'mention', 'menu', 'mercy', 'merge', 'merit', 'merry', 'mesh', 'message', 'metal', 'method', 'middle', 'midnight', 'milk', 'million', 'mimic', 'mind', 'minimum', 'minor', 'minute', 'miracle', 'mirror', 'misery', 'miss', 'mistake', 'mix', 'mixed', 'mixture', 'mobile', 'model', 'modify', 'mom', 'moment', 'monitor', 'monkey', 'monster', 'month', 'moon', 'moral', 'more', 'morning', 'mosquito', 'mother', 'motion', 'motor', 'mountain', 'mouse', 'move', 'movie', 'much', 'muffin', 'mule', 'multiply', 'muscle', 'museum', 'mushroom', 'music', 'must', 'mutual', 'myself', 'mystery', 'myth', 'naive', 'name', 'napkin', 'narrow', 'nasty', 'nation', 'nature', 'near', 'neck', 'need', 'negative', 'neglect', 'neither', 'nephew', 'nerve', 'nest', 'net', 'network', 'neutral', 'never', 'news', 'next', 'nice', 'night', 'noble', 'noise', 'nominee', 'noodle', 'normal', 'north', 'nose', 'notable', 'note', 'nothing', 'notice', 'novel', 'now', 'nuclear', 'number', 'nurse', 'nut', 'oak', 'obey', 'object', 'oblige', 'obscure', 'observe', 'obtain', 'obvious', 'occur', 'ocean', 'october', 'odor', 'off', 'offer', 'office', 'often', 'oil', 'okay', 'old', 'olive', 'olympic', 'omit', 'once', 'one', 'onion', 'online', 'only', 'open', 'opera', 'opinion', 'oppose', 'option', 'orange', 'orbit', 'orchard', 'order', 'ordinary', 'organ', 'orient', 'original', 'orphan', 'ostrich', 'other', 'outdoor', 'outer', 'output', 'outside', 'oval', 'oven', 'over', 'own', 'owner', 'oxygen', 'oyster', 'ozone', 'pact', 'paddle', 'page', 'pair', 'palace', 'palm', 'panda', 'panel', 'panic', 'panther', 'paper', 'parade', 'parent', 'park', 'parrot', 'party', 'pass', 'patch', 'path', 'patient', 'patrol', 'pattern', 'pause', 'pave', 'payment', 'peace', 'peanut', 'pear', 'peasant', 'pelican', 'pen', 'penalty', 'pencil', 'people', 'pepper', 'perfect', 'permit', 'person', 'pet', 'phone', 'photo', 'phrase', 'physical', 'piano', 'picnic', 'picture', 'piece', 'pig', 'pigeon', 'pill', 'pilot', 'pink', 'pioneer', 'pipe', 'pistol', 'pitch', 'pizza', 'place', 'planet', 'plastic', 'plate', 'play', 'please', 'pledge', 'pluck', 'plug', 'plunge', 'poem', 'poet', 'point', 'polar', 'pole', 'police', 'pond', 'pony', 'pool', 'popular', 'portion', 'position', 'possible', 'post', 'potato', 'pottery', 'poverty', 'powder', 'power', 'practice', 'praise', 'predict', 'prefer', 'prepare', 'present', 'pretty', 'prevent', 'price', 'pride', 'primary', 'print', 'priority', 'prison', 'private', 'prize', 'problem', 'process', 'produce', 'profit', 'program', 'project', 'promote', 'proof', 'property', 'prosper', 'protect', 'proud', 'provide', 'public', 'pudding', 'pull', 'pulp', 'pulse', 'pumpkin', 'punch', 'pupil', 'puppy', 'purchase', 'purity', 'purpose', 'purse', 'push', 'put', 'puzzle', 'pyramid', 'quality', 'quantum', 'quarter', 'question', 'quick', 'quit', 'quiz', 'quote', 'rabbit', 'raccoon', 'race', 'rack', 'radar', 'radio', 'rail', 'rain', 'raise', 'rally', 'ramp', 'ranch', 'random', 'range', 'rapid', 'rare', 'rate', 'rather', 'raven', 'raw', 'razor', 'ready', 'real', 'reason', 'rebel', 'rebuild', 'recall', 'receive', 'recipe', 'record', 'recycle', 'reduce', 'reflect', 'reform', 'refuse', 'region', 'regret', 'regular', 'reject', 'relax', 'release', 'relief', 'rely', 'remain', 'remember', 'remind', 'remove', 'render', 'renew', 'rent', 'reopen', 'repair', 'repeat', 'replace', 'report', 'require', 'rescue', 'resemble', 'resist', 'resource', 'response', 'result', 'retire', 'retreat', 'return', 'reunion', 'reveal', 'review', 'reward', 'rhythm', 'rib', 'ribbon', 'rice', 'rich', 'ride', 'ridge', 'rifle', 'right', 'rigid', 'ring', 'riot', 'ripple', 'risk', 'ritual', 'rival', 'river', 'road', 'roast', 'robot', 'robust', 'rocket', 'romance', 'roof', 'rookie', 'room', 'rose', 'rotate', 'rough', 'round', 'route', 'royal', 'rubber', 'rude', 'rug', 'rule', 'run', 'runway', 'rural', 'sad', 'saddle', 'sadness', 'safe', 'sail', 'salad', 'salmon', 'salon', 'salt', 'salute', 'same', 'sample', 'sand', 'satisfy', 'satoshi', 'sauce', 'sausage', 'save', 'say', 'scale', 'scan', 'scare', 'scatter', 'scene', 'scheme', 'school', 'science', 'scissors', 'scorpion', 'scout', 'scrap', 'screen', 'script', 'scrub', 'sea', 'search', 'season', 'seat', 'second', 'secret', 'section', 'security', 'seed', 'seek', 'segment', 'select', 'sell', 'seminar', 'senior', 'sense', 'sentence', 'series', 'service', 'session', 'settle', 'setup', 'seven', 'shadow', 'shaft', 'shallow', 'share', 'shed', 'shell', 'sheriff', 'shield', 'shift', 'shine', 'ship', 'shiver', 'shock', 'shoe', 'shoot', 'shop', 'short', 'shoulder', 'shove', 'shrimp', 'shrug', 'shuffle', 'shut', 'shy', 'sibling', 'sick', 'side', 'siege', 'sight', 'sign', 'silent', 'silk', 'silly', 'silver', 'similar', 'simple', 'since', 'sing', 'siren', 'sister', 'situate', 'six', 'size', 'skate', 'sketch', 'ski', 'skill', 'skin', 'skirt', 'skull', 'slab', 'slam', 'sleep', 'slender', 'slice', 'slide', 'slight', 'slim', 'slogan', 'slot', 'slow', 'slush', 'small', 'smart', 'smile', 'smoke', 'smooth', 'snack', 'snake', 'snap', 'sniff', 'snow', 'soap', 'soccer', 'social', 'sock', 'soda', 'soft', 'solar', 'soldier', 'solid', 'solution', 'solve', 'someone', 'song', 'soon', 'sorry', 'sort', 'soul', 'sound', 'soup', 'source', 'south', 'space', 'spare', 'spatial', 'spawn', 'speak', 'special', 'speed', 'spell', 'spend', 'sphere', 'spice', 'spider', 'spike', 'spin', 'spirit', 'split', 'spoil', 'sponsor', 'spoon', 'sport', 'spot', 'spray', 'spread', 'spring', 'spy', 'square', 'squeeze', 'squirrel', 'stable', 'stadium', 'staff', 'stage', 'stairs', 'stamp', 'stand', 'start', 'state', 'stay', 'steak', 'steel', 'stem', 'step', 'stereo', 'stick', 'still', 'sting', 'stock', 'stomach', 'stone', 'stool', 'story', 'stove', 'strategy', 'street', 'strike', 'strong', 'struggle', 'student', 'stuff', 'stumble', 'style', 'subject', 'submit', 'subway', 'success', 'such', 'sudden', 'suffer', 'sugar', 'suggest', 'suit', 'summer', 'sun', 'sunny', 'sunset', 'super', 'supply', 'supreme', 'sure', 'surface', 'surge', 'surprise', 'surround', 'survey', 'suspect', 'sustain', 'swallow', 'swamp', 'swap', 'swarm', 'swear', 'sweet', 'swift', 'swim', 'swing', 'switch', 'sword', 'symbol', 'symptom', 'syrup', 'system', 'table', 'tackle', 'tag', 'tail', 'talent', 'talk', 'tank', 'tape', 'target', 'task', 'taste', 'tattoo', 'taxi', 'teach', 'team', 'tell', 'ten', 'tenant', 'tennis', 'tent', 'term', 'test', 'text', 'thank', 'that', 'theme', 'then', 'theory', 'there', 'they', 'thing', 'this', 'thought', 'three', 'thrive', 'throw', 'thumb', 'thunder', 'ticket', 'tide', 'tiger', 'tilt', 'timber', 'time', 'tiny', 'tip', 'tired', 'tissue', 'title', 'toast', 'tobacco', 'today', 'toddler', 'toe', 'together', 'toilet', 'token', 'tomato', 'tomorrow', 'tone', 'tongue', 'tonight', 'tool', 'tooth', 'top', 'topic', 'topple', 'torch', 'tornado', 'tortoise', 'toss', 'total', 'tourist', 'toward', 'tower', 'town', 'toy', 'track', 'trade', 'traffic', 'tragic', 'train', 'transfer', 'trap', 'trash', 'travel', 'tray', 'treat', 'tree', 'trend', 'trial', 'tribe', 'trick', 'trigger', 'trim', 'trip', 'trophy', 'trouble', 'truck', 'true', 'truly', 'trumpet', 'trust', 'truth', 'try', 'tube', 'tuition', 'tumble', 'tuna', 'tunnel', 'turkey', 'turn', 'turtle', 'twelve', 'twenty', 'twice', 'twin', 'twist', 'two', 'type', 'typical', 'ugly', 'umbrella', 'unable', 'unaware', 'uncle', 'uncover', 'under', 'undo', 'unfair', 'unfold', 'unhappy', 'uniform', 'unique', 'unit', 'universe', 'unknown', 'unlock', 'until', 'unusual', 'unveil', 'update', 'upgrade', 'uphold', 'upon', 'upper', 'upset', 'urban', 'urge', 'usage', 'use', 'used', 'useful', 'useless', 'usual', 'utility', 'vacant', 'vacuum', 'vague', 'valid', 'valley', 'valve', 'van', 'vanish', 'vapor', 'various', 'vast', 'vault', 'vegetable', 'vehicle', 'velvet', 'vendor', 'venture', 'venue', 'verb', 'verify', 'version', 'very', 'vessel', 'veteran', 'viable', 'vibrant', 'vicious', 'victory', 'video', 'view', 'village', 'vintage', 'violin', 'virtual', 'virus', 'visa', 'visit', 'visual', 'vital', 'vivid', 'vocal', 'voice', 'void', 'volcano', 'volume', 'vote', 'voyage', 'wage', 'wagon', 'wait', 'walk', 'wall', 'walnut', 'want', 'warfare', 'warm', 'warrior', 'wash', 'wasp', 'waste', 'water', 'wave', 'way', 'wealth', 'weapon', 'wear', 'weasel', 'weather', 'web', 'wedding', 'weekend', 'weird', 'welcome', 'west', 'wet', 'whale', 'what', 'wheat', 'wheel', 'when', 'where', 'whip', 'whisper', 'wide', 'width', 'wife', 'wild', 'will', 'win', 'window', 'wine', 'wing', 'wink', 'winner', 'winter', 'wire', 'wisdom', 'wise', 'wish', 'witness', 'wolf', 'woman', 'wonder', 'wood', 'wool', 'word', 'work', 'world', 'worry', 'worth', 'wrap', 'wreck', 'wrestle', 'wrist', 'write', 'wrong', 'yard', 'year', 'yellow', 'you', 'young', 'youth', 'zebra', 'zero', 'zone', 'zoo'];
+
+        function generateBIP39() {
+            const wordCount = parseInt(document.getElementById('bip39-words').value);
+            const words = [];
+            const random = crypto.getRandomValues(new Uint16Array(wordCount));
+            for (let i = 0; i < wordCount; i++) {
+                words.push(BIP39_WORDS[random[i] % BIP39_WORDS.length]);
+            }
+            document.getElementById('bip39-output').value = words.join(' ');
+        }
+
+        // ========== 文件转Base64 ==========
+        function fileToBase64() {
+            const file = document.getElementById('base64file-input').files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('base64file-output').value = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function copyBase64File() {
+            const output = document.getElementById('base64file-output');
+            output.select();
+            document.execCommand('copy');
+            alert('已复制到剪贴板');
+        }
+
+        // ========== HTML实体转义 ==========
+        function htmlEntityEncode() {
+            const input = document.getElementById('htmlentity-input').value;
+            const output = input.replace(/[&<>"']/g, function(c) {
+                const entities = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+                return entities[c];
+            });
+            document.getElementById('htmlentity-output').value = output;
+        }
+
+        function htmlEntityDecode() {
+            const input = document.getElementById('htmlentity-input').value;
+            const textarea = document.createElement('textarea');
+            textarea.innerHTML = input;
+            document.getElementById('htmlentity-output').value = textarea.value;
+        }
+
+        // ========== Unicode转换 ==========
+        function textToUnicode() {
+            const input = document.getElementById('unicode-input').value;
+            let result = '';
+            for (let i = 0; i < input.length; i++) {
+                result += '\\u' + input.charCodeAt(i).toString(16).padStart(4, '0');
+            }
+            document.getElementById('unicode-output').value = result;
+        }
+
+        function unicodeToText() {
+            const input = document.getElementById('unicode-input').value;
+            const result = input.replace(/\\u([0-9a-fA-F]{4})/g, (match, code) => String.fromCharCode(parseInt(code, 16)));
+            document.getElementById('unicode-output').value = result;
+        }
+
+        // ========== 进制转换 ==========
+        function convertBase() {
+            const input = document.getElementById('baseconv-input').value.trim();
+            const fromBase = parseInt(document.getElementById('baseconv-from').value);
+            if (!input) return;
+            
+            try {
+                const decimal = parseInt(input, fromBase);
+                const result = `
+                    <div style="margin-bottom: 10px;"><strong>十进制:</strong> ${decimal}</div>
+                    <div style="margin-bottom: 10px;"><strong>二进制:</strong> ${decimal.toString(2)}</div>
+                    <div style="margin-bottom: 10px;"><strong>八进制:</strong> ${decimal.toString(8)}</div>
+                    <div style="margin-bottom: 10px;"><strong>十六进制:</strong> ${decimal.toString(16).toUpperCase()}</div>
+                `;
+                document.getElementById('baseconv-result').innerHTML = result;
+            } catch (e) {
+                document.getElementById('baseconv-result').innerHTML = '<span style="color: red;">转换错误: 无效的输入</span>';
+            }
+        }
+
+        // ========== 颜色转换器 ==========
+        function colorConvert() {
+            const picker = document.getElementById('color-picker').value;
+            const input = document.getElementById('color-input').value || picker;
+            
+            let r, g, b;
+            if (input.startsWith('#')) {
+                const hex = input.slice(1);
+                r = parseInt(hex.substr(0, 2), 16);
+                g = parseInt(hex.substr(2, 2), 16);
+                b = parseInt(hex.substr(4, 2), 16);
+            } else if (input.startsWith('rgb')) {
+                const match = input.match(/\d+/g);
+                if (match && match.length >= 3) {
+                    r = parseInt(match[0]);
+                    g = parseInt(match[1]);
+                    b = parseInt(match[2]);
+                }
+            }
+            
+            if (r !== undefined) {
+                const hsl = rgbToHsl(r, g, b);
+                const result = `
+                    <div style="width: 100%; height: 50px; background: rgb(${r}, ${g}, ${b}); border-radius: 5px; margin-bottom: 10px;"></div>
+                    <div style="margin-bottom: 5px;"><strong>HEX:</strong> #${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}</div>
+                    <div style="margin-bottom: 5px;"><strong>RGB:</strong> rgb(${r}, ${g}, ${b})</div>
+                    <div style="margin-bottom: 5px;"><strong>HSL:</strong> hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)</div>
+                `;
+                document.getElementById('color-result').innerHTML = result;
+            }
+        }
+
+        function rgbToHsl(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+            if (max === min) {
+                h = s = 0;
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+                    case g: h = ((b - r) / d + 2) / 6; break;
+                    case b: h = ((r - g) / d + 4) / 6; break;
+                }
+            }
+            return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+        }
+
+        // ========== 大小写转换 ==========
+        function convertCase(type) {
+            const input = document.getElementById('case-input').value;
+            let output = '';
+            switch (type) {
+                case 'upper': output = input.toUpperCase(); break;
+                case 'lower': output = input.toLowerCase(); break;
+                case 'title': output = input.replace(/\b\w/g, c => c.toUpperCase()); break;
+                case 'sentence': output = input.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase()); break;
+                case 'camel': output = input.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, c) => c.toUpperCase()); break;
+                case 'snake': output = input.toLowerCase().replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, ''); break;
+            }
+            document.getElementById('case-output').value = output;
+        }
+
+        // ========== 罗马数字转换 ==========
+        function toRoman() {
+            const num = parseInt(document.getElementById('roman-input').value);
+            if (isNaN(num) || num < 1 || num > 3999) {
+                document.getElementById('roman-output').value = '请输入1-3999之间的数字';
+                return;
+            }
+            const roman = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'];
+            const values = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+            let result = '', n = num;
+            for (let i = 0; i < roman.length; i++) {
+                while (n >= values[i]) { result += roman[i]; n -= values[i]; }
+            }
+            document.getElementById('roman-output').value = result;
+        }
+
+        function fromRoman() {
+            const roman = document.getElementById('roman-input').value.toUpperCase();
+            const map = { 'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000 };
+            let result = 0;
+            for (let i = 0; i < roman.length; i++) {
+                const current = map[roman[i]];
+                const next = map[roman[i + 1]];
+                if (next && current < next) result -= current;
+                else result += current;
+            }
+            document.getElementById('roman-output').value = result;
+        }
+
+        // ========== 北约音标转换 ==========
+        function convertToNATO() {
+            const input = document.getElementById('nato-input').value.toUpperCase();
+            const nato = {
+                'A': 'Alpha', 'B': 'Bravo', 'C': 'Charlie', 'D': 'Delta', 'E': 'Echo',
+                'F': 'Foxtrot', 'G': 'Golf', 'H': 'Hotel', 'I': 'India', 'J': 'Juliet',
+                'K': 'Kilo', 'L': 'Lima', 'M': 'Mike', 'N': 'November', 'O': 'Oscar',
+                'P': 'Papa', 'Q': 'Quebec', 'R': 'Romeo', 'S': 'Sierra', 'T': 'Tango',
+                'U': 'Uniform', 'V': 'Victor', 'W': 'Whiskey', 'X': 'X-ray', 'Y': 'Yankee', 'Z': 'Zulu'
+            };
+            const result = input.split('').map(c => nato[c] || c).join(' ');
+            document.getElementById('nato-output').value = result;
+        }
+
+        // ========== ASCII二进制 ==========
+        function textToBinary() {
+            const input = document.getElementById('ascii-input').value;
+            const result = input.split('').map(c => c.charCodeAt(0).toString(2).padStart(8, '0')).join(' ');
+            document.getElementById('ascii-output').value = result;
+        }
+
+        function binaryToText() {
+            const input = document.getElementById('ascii-input').value;
+            const result = input.split(' ').map(b => String.fromCharCode(parseInt(b, 2))).join('');
+            document.getElementById('ascii-output').value = result;
+        }
+
+        // ========== YAML/JSON转换 ==========
+        function yamlToJson() {
+            const input = document.getElementById('yaml2json-input').value;
+            try {
+                const lines = input.split('\n');
+                const result = {};
+                lines.forEach(line => {
+                    const match = line.match(/^(\s*)([^:]+):\s*(.*)$/);
+                    if (match) result[match[2].trim()] = match[3].trim() || null;
+                });
+                document.getElementById('yaml2json-output').value = JSON.stringify(result, null, 2);
+            } catch (e) {
+                document.getElementById('yaml2json-output').value = '转换错误: ' + e.message;
+            }
+        }
+
+        function jsonToYaml() {
+            const input = document.getElementById('json2yaml-input').value;
+            try {
+                const obj = JSON.parse(input);
+                let yaml = '';
+                for (const key in obj) {
+                    yaml += `${key}: ${typeof obj[key] === 'object' ? JSON.stringify(obj[key]) : obj[key]}\n`;
+                }
+                document.getElementById('json2yaml-output').value = yaml;
+            } catch (e) {
+                document.getElementById('json2yaml-output').value = '转换错误: ' + e.message;
+            }
+        }
+
+        // ========== XML/JSON转换 ==========
+        function xmlToJson() {
+            const input = document.getElementById('xml2json-input').value;
+            try {
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(input, 'text/xml');
+                const result = xmlNodeToJson(xml.documentElement);
+                document.getElementById('xml2json-output').value = JSON.stringify(result, null, 2);
+            } catch (e) {
+                document.getElementById('xml2json-output').value = '转换错误: ' + e.message;
+            }
+        }
+
+        function xmlNodeToJson(node) {
+            const obj = {};
+            if (node.attributes) {
+                for (const attr of node.attributes) obj['@' + attr.name] = attr.value;
+            }
+            if (node.childNodes.length === 1 && node.childNodes[0].nodeType === 3) {
+                return node.childNodes[0].nodeValue.trim();
+            }
+            for (const child of node.childNodes) {
+                if (child.nodeType === 1) {
+                    const json = xmlNodeToJson(child);
+                    obj[child.nodeName] = obj[child.nodeName] ? [obj[child.nodeName], json].flat() : json;
+                }
+            }
+            return obj;
+        }
+
+        function jsonToXml() {
+            const input = document.getElementById('json2xml-input').value;
+            try {
+                const obj = JSON.parse(input);
+                const xml = jsonToXmlNode(obj, 'root');
+                document.getElementById('json2xml-output').value = xml;
+            } catch (e) {
+                document.getElementById('json2xml-output').value = '转换错误: ' + e.message;
+            }
+        }
+
+        function jsonToXmlNode(obj, name) {
+            let xml = '<' + name + '>';
+            if (typeof obj === 'object') {
+                for (const key in obj) xml += jsonToXmlNode(obj[key], key);
+            } else {
+                xml += obj;
+            }
+            xml += '</' + name + '>';
+            return xml;
+        }
+
+        // ========== Markdown转HTML ==========
+        function markdownToHtml() {
+            const input = document.getElementById('md2html-input').value;
+            let html = input
+                .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+                .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+                .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`(.*?)`/g, '<code>$1</code>')
+                .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>')
+                .replace(/^[-*] (.*$)/gm, '<li>$1</li>')
+                .replace(/\n/g, '<br>');
+            document.getElementById('md2html-output').value = html;
+        }
+
+        // ========== TOML转JSON ==========
+        function tomlToJson() {
+            const input = document.getElementById('toml2json-input').value;
+            try {
+                const lines = input.split('\n');
+                const result = {};
+                lines.forEach(line => {
+                    const match = line.match(/^([^=]+)=(.*)$/);
+                    if (match) result[match[1].trim()] = match[2].trim().replace(/^["']|["']$/g, '');
+                });
+                document.getElementById('toml2json-output').value = JSON.stringify(result, null, 2);
+            } catch (e) {
+                document.getElementById('toml2json-output').value = '转换错误: ' + e.message;
+            }
+        }
+
+        // ========== JSON转CSV ==========
+        function jsonToCsv() {
+            const input = document.getElementById('json2csv-input').value;
+            try {
+                const arr = JSON.parse(input);
+                if (!Array.isArray(arr)) throw new Error('输入必须是JSON数组');
+                const headers = Object.keys(arr[0]);
+                const csv = [headers.join(','), ...arr.map(row => headers.map(h => JSON.stringify(row[h] || '')).join(','))].join('\n');
+                document.getElementById('json2csv-output').value = csv;
+            } catch (e) {
+                document.getElementById('json2csv-output').value = '转换错误: ' + e.message;
+            }
+        }
+
+        // ========== URL解析器 ==========
+        function parseUrl() {
+            const input = document.getElementById('urlparser-input').value;
+            try {
+                const url = new URL(input);
+                const result = `
+                    <div style="margin-bottom: 8px;"><strong>协议:</strong> ${url.protocol}</div>
+                    <div style="margin-bottom: 8px;"><strong>主机:</strong> ${url.hostname}</div>
+                    <div style="margin-bottom: 8px;"><strong>端口:</strong> ${url.port || '(默认)'}</div>
+                    <div style="margin-bottom: 8px;"><strong>路径:</strong> ${url.pathname}</div>
+                    <div style="margin-bottom: 8px;"><strong>查询参数:</strong> ${url.search || '(无)'}</div>
+                    <div style="margin-bottom: 8px;"><strong>哈希:</strong> ${url.hash || '(无)'}</div>
+                `;
+                document.getElementById('urlparser-result').innerHTML = result;
+            } catch (e) {
+                document.getElementById('urlparser-result').innerHTML = '<span style="color: red;">无效的URL</span>';
+            }
+        }
+
+        // ========== UA解析器 ==========
+        function parseUserAgent() {
+            const input = document.getElementById('useragent-input').value;
+            let browser = '未知', os = '未知';
+            if (input.includes('Firefox')) browser = 'Firefox';
+            else if (input.includes('Chrome')) browser = 'Chrome';
+            else if (input.includes('Safari')) browser = 'Safari';
+            else if (input.includes('Edge')) browser = 'Edge';
+            if (input.includes('Windows')) os = 'Windows';
+            else if (input.includes('Mac')) os = 'macOS';
+            else if (input.includes('Linux')) os = 'Linux';
+            else if (input.includes('Android')) os = 'Android';
+            else if (input.includes('iPhone') || input.includes('iPad')) os = 'iOS';
+            const result = `<div style="margin-bottom: 8px;"><strong>浏览器:</strong> ${browser}</div><div style="margin-bottom: 8px;"><strong>操作系统:</strong> ${os}</div>`;
+            document.getElementById('useragent-result').innerHTML = result;
+        }
+
+        // ========== 设备信息 ==========
+        function getDeviceInfo() {
+            const result = `
+                <div style="margin-bottom: 8px;"><strong>User-Agent:</strong> ${navigator.userAgent}</div>
+                <div style="margin-bottom: 8px;"><strong>平台:</strong> ${navigator.platform}</div>
+                <div style="margin-bottom: 8px;"><strong>语言:</strong> ${navigator.language}</div>
+                <div style="margin-bottom: 8px;"><strong>屏幕分辨率:</strong> ${screen.width}x${screen.height}</div>
+                <div style="margin-bottom: 8px;"><strong>视口大小:</strong> ${window.innerWidth}x${window.innerHeight}</div>
+                <div style="margin-bottom: 8px;"><strong>设备像素比:</strong> ${window.devicePixelRatio}</div>
+                <div style="margin-bottom: 8px;"><strong>在线状态:</strong> ${navigator.onLine ? '在线' : '离线'}</div>
+                <div style="margin-bottom: 8px;"><strong>Cookies启用:</strong> ${navigator.cookieEnabled ? '是' : '否'}</div>
+            `;
+            document.getElementById('deviceinfo-result').innerHTML = result;
+        }
+
+        // ========== Basic Auth生成 ==========
+        function generateBasicAuth() {
+            const user = document.getElementById('basicauth-user').value;
+            const pass = document.getElementById('basicauth-pass').value;
+            const encoded = btoa(user + ':' + pass);
+            document.getElementById('basicauth-output').value = 'Basic ' + encoded;
+        }
+
+        // ========== OG标签生成 ==========
+        function generateOpenGraph() {
+            const title = document.getElementById('og-title').value;
+            const desc = document.getElementById('og-desc').value;
+            const image = document.getElementById('og-image').value;
+            const url = document.getElementById('og-url').value;
+            let html = '<meta property="og:title" content="' + title + '">\n';
+            html += '<meta property="og:description" content="' + desc + '">\n';
+            if (image) html += '<meta property="og:image" content="' + image + '">\n';
+            if (url) html += '<meta property="og:url" content="' + url + '">\n';
+            html += '<meta property="og:type" content="website">\n';
+            html += '<meta name="twitter:card" content="summary_large_image">\n';
+            document.getElementById('og-output').value = html;
+        }
+
+        // ========== OTP生成器 ==========
+        let otpInterval;
+        function generateOTP() {
+            clearInterval(otpInterval);
+            const secret = document.getElementById('otp-secret').value.replace(/\s/g, '').toUpperCase();
+            if (!secret) { alert('请输入密钥'); return; }
+            updateOTP(secret);
+            otpInterval = setInterval(() => updateOTP(secret), 1000);
+        }
+
+        function updateOTP(secret) {
+            const counter = Math.floor(Date.now() / 30000);
+            const remaining = 30 - (Math.floor(Date.now() / 1000) % 30);
+            const code = generateHOTP(secret, counter);
+            document.getElementById('otp-code').textContent = code;
+            document.getElementById('otp-timer').textContent = remaining + ' 秒后刷新';
+        }
+
+        function generateHOTP(secret, counter) {
+            const key = base32Decode(secret);
+            const msg = new Uint8Array(8);
+            for (let i = 7; i >= 0; i--) { msg[i] = counter & 0xff; counter >>= 8; }
+            let hash = 0;
+            for (let i = 0; i < key.length; i++) hash = ((hash << 5) - hash + key.charCodeAt(i)) | 0;
+            for (let i = 0; i < msg.length; i++) hash = ((hash << 5) - hash + msg[i]) | 0;
+            const offset = Math.abs(hash) & 0x0f;
+            const code = (Math.abs(hash) >> offset) & 0x7fffffff;
+            return (code % 1000000).toString().padStart(6, '0');
+        }
+
+        function base32Decode(str) {
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+            let bits = '', result = '';
+            for (const c of str) bits += alphabet.indexOf(c).toString(2).padStart(5, '0');
+            for (let i = 0; i + 8 <= bits.length; i += 8) result += String.fromCharCode(parseInt(bits.substr(i, 8), 2));
+            return result;
+        }
+
+        // ========== JWT解析器 ==========
+        function parseJWT() {
+            const token = document.getElementById('jwt-input').value;
+            try {
+                const parts = token.split('.');
+                if (parts.length !== 3) throw new Error('无效的JWT格式');
+                const header = JSON.parse(atob(parts[0]));
+                const payload = JSON.parse(atob(parts[1]));
+                document.getElementById('jwt-header').value = JSON.stringify(header, null, 2);
+                document.getElementById('jwt-payload').value = JSON.stringify(payload, null, 2);
+            } catch (e) {
+                document.getElementById('jwt-header').value = '解析错误';
+                document.getElementById('jwt-payload').value = e.message;
+            }
+        }
+
+        // ========== 按键码查询 ==========
+        function getKeyCode(event) {
+            event.preventDefault();
+            const result = `
+                <div style="margin-bottom: 8px;"><strong>按键:</strong> ${event.key}</div>
+                <div style="margin-bottom: 8px;"><strong>KeyCode:</strong> ${event.keyCode}</div>
+                <div style="margin-bottom: 8px;"><strong>Code:</strong> ${event.code}</div>
+                <div style="margin-bottom: 8px;"><strong>Which:</strong> ${event.which}</div>
+                <div style="margin-bottom: 8px;"><strong>Ctrl:</strong> ${event.ctrlKey}</div>
+                <div style="margin-bottom: 8px;"><strong>Shift:</strong> ${event.shiftKey}</div>
+                <div style="margin-bottom: 8px;"><strong>Alt:</strong> ${event.altKey}</div>
+            `;
+            document.getElementById('keycode-result').innerHTML = result;
+        }
+
+        // ========== HTTP状态码 ==========
+        const httpCodes = [
+            { code: 200, desc: 'OK - 请求成功' },
+            { code: 201, desc: 'Created - 资源创建成功' },
+            { code: 204, desc: 'No Content - 无内容返回' },
+            { code: 301, desc: 'Moved Permanently - 永久重定向' },
+            { code: 302, desc: 'Found - 临时重定向' },
+            { code: 304, desc: 'Not Modified - 未修改' },
+            { code: 400, desc: 'Bad Request - 请求错误' },
+            { code: 401, desc: 'Unauthorized - 未授权' },
+            { code: 403, desc: 'Forbidden - 禁止访问' },
+            { code: 404, desc: 'Not Found - 未找到' },
+            { code: 405, desc: 'Method Not Allowed - 方法不允许' },
+            { code: 408, desc: 'Request Timeout - 请求超时' },
+            { code: 429, desc: 'Too Many Requests - 请求过多' },
+            { code: 500, desc: 'Internal Server Error - 服务器内部错误' },
+            { code: 502, desc: 'Bad Gateway - 网关错误' },
+            { code: 503, desc: 'Service Unavailable - 服务不可用' },
+            { code: 504, desc: 'Gateway Timeout - 网关超时' }
+        ];
+
+        function searchHttpCode() {
+            const search = document.getElementById('httpcode-search').value.toLowerCase();
+            const filtered = httpCodes.filter(c => c.code.toString().includes(search) || c.desc.toLowerCase().includes(search));
+            let html = '';
+            filtered.forEach(c => {
+                html += `<div style="padding: 10px; border-bottom: 1px solid #eee;"><strong>${c.code}</strong>: ${c.desc}</div>`;
+            });
+            document.getElementById('httpcode-list').innerHTML = html || '<div style="padding: 10px;">未找到匹配的状态码</div>';
+        }
+
+        // ========== MIME类型 ==========
+        const mimeTypes = [
+            { ext: '.html', mime: 'text/html' },
+            { ext: '.css', mime: 'text/css' },
+            { ext: '.js', mime: 'application/javascript' },
+            { ext: '.json', mime: 'application/json' },
+            { ext: '.xml', mime: 'application/xml' },
+            { ext: '.pdf', mime: 'application/pdf' },
+            { ext: '.zip', mime: 'application/zip' },
+            { ext: '.png', mime: 'image/png' },
+            { ext: '.jpg', mime: 'image/jpeg' },
+            { ext: '.gif', mime: 'image/gif' },
+            { ext: '.svg', mime: 'image/svg+xml' },
+            { ext: '.mp4', mime: 'video/mp4' },
+            { ext: '.mp3', mime: 'audio/mpeg' },
+            { ext: '.txt', mime: 'text/plain' },
+            { ext: '.csv', mime: 'text/csv' }
+        ];
+
+        function searchMime() {
+            const search = document.getElementById('mime-search').value.toLowerCase();
+            const filtered = mimeTypes.filter(m => m.ext.includes(search) || m.mime.includes(search));
+            let html = '';
+            filtered.forEach(m => {
+                html += `<div style="padding: 10px; border-bottom: 1px solid #eee;"><strong>${m.ext}</strong>: ${m.mime}</div>`;
+            });
+            document.getElementById('mime-list').innerHTML = html || '<div style="padding: 10px;">未找到匹配的MIME类型</div>';
+        }
+
+        // ========== URL友好化 ==========
+        function slugifyText() {
+            const input = document.getElementById('slugify-input').value;
+            const slug = input.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
+            document.getElementById('slugify-output').value = slug;
+        }
+
+        // ========== HTML编辑器 ==========
+        function getHtmlCode() {
+            const editor = document.getElementById('html-editor');
+            document.getElementById('html-output').value = editor.innerHTML;
+        }
+
+        // ========== Git速查表 ==========
+        function initGitCheatsheet() {
+            const commands = [
+                { cmd: 'git init', desc: '初始化仓库' },
+                { cmd: 'git clone <url>', desc: '克隆远程仓库' },
+                { cmd: 'git add <file>', desc: '添加文件到暂存区' },
+                { cmd: 'git add .', desc: '添加所有文件' },
+                { cmd: 'git commit -m "msg"', desc: '提交更改' },
+                { cmd: 'git push', desc: '推送到远程' },
+                { cmd: 'git pull', desc: '拉取远程更改' },
+                { cmd: 'git branch', desc: '查看分支' },
+                { cmd: 'git branch <name>', desc: '创建分支' },
+                { cmd: 'git checkout <branch>', desc: '切换分支' },
+                { cmd: 'git merge <branch>', desc: '合并分支' },
+                { cmd: 'git status', desc: '查看状态' },
+                { cmd: 'git log', desc: '查看提交历史' },
+                { cmd: 'git diff', desc: '查看差异' },
+                { cmd: 'git reset --hard HEAD', desc: '重置到最新提交' },
+                { cmd: 'git stash', desc: '暂存更改' },
+                { cmd: 'git stash pop', desc: '恢复暂存' }
+            ];
+            let html = '';
+            commands.forEach(c => {
+                html += `<div style="padding: 10px; border-bottom: 1px solid #eee;"><code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">${c.cmd}</code><br><small>${c.desc}</small></div>`;
+            });
+            document.getElementById('git-cheatsheet').innerHTML = html;
+        }
+
+        // ========== Crontab生成 ==========
+        function generateCrontab() {
+            const minute = document.getElementById('cron-minute').value || '*';
+            const hour = document.getElementById('cron-hour').value || '*';
+            const day = document.getElementById('cron-day').value || '*';
+            const month = document.getElementById('cron-month').value || '*';
+            const weekday = document.getElementById('cron-weekday').value || '*';
+            const expression = `${minute} ${hour} ${day} ${month} ${weekday}`;
+            document.getElementById('cron-output').value = expression;
+            document.getElementById('cron-description').innerHTML = describeCron(minute, hour, day, month, weekday);
+        }
+
+        function describeCron(minute, hour, day, month, weekday) {
+            let desc = '执行时间: ';
+            if (minute === '*' && hour === '*') desc += '每分钟';
+            else if (minute !== '*' && hour === '*') desc += `每小时的第 ${minute} 分钟`;
+            else if (minute === '*' && hour !== '*') desc += `每天 ${hour} 点的每分钟`;
+            else desc += `每天 ${hour}:${minute}`;
+            if (day !== '*') desc += `, 每月 ${day} 日`;
+            if (month !== '*') desc += `, ${month} 月`;
+            if (weekday !== '*') desc += `, 每周${['日', '一', '二', '三', '四', '五', '六'][weekday]}`;
+            return desc;
+        }
+
+        // ========== SQL格式化 ==========
+        function formatSQL() {
+            const input = document.getElementById('sql-input').value;
+            let sql = input.toUpperCase();
+            const keywords = ['SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'ORDER BY', 'GROUP BY', 'HAVING', 'LIMIT', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 'ON', 'INSERT INTO', 'VALUES', 'UPDATE', 'SET', 'DELETE FROM', 'CREATE TABLE', 'ALTER TABLE', 'DROP TABLE'];
+            keywords.forEach(kw => {
+                sql = sql.replace(new RegExp('\\b' + kw + '\\b', 'gi'), '\n' + kw);
+            });
+            document.getElementById('sql-output').value = sql.trim();
+        }
+
+        // ========== Chmod计算器 ==========
+        function calcChmod() {
+            const ur = document.getElementById('chmod-ur').checked ? 4 : 0;
+            const uw = document.getElementById('chmod-uw').checked ? 2 : 0;
+            const ux = document.getElementById('chmod-ux').checked ? 1 : 0;
+            const gr = document.getElementById('chmod-gr').checked ? 4 : 0;
+            const gw = document.getElementById('chmod-gw').checked ? 2 : 0;
+            const gx = document.getElementById('chmod-gx').checked ? 1 : 0;
+            const or = document.getElementById('chmod-or').checked ? 4 : 0;
+            const ow = document.getElementById('chmod-ow').checked ? 2 : 0;
+            const ox = document.getElementById('chmod-ox').checked ? 1 : 0;
+            const numeric = (ur + uw + ux).toString() + (gr + gw + gx).toString() + (or + ow + ox).toString();
+            document.getElementById('chmod-numeric').value = numeric;
+            let symbolic = '';
+            symbolic += (ur || uw || ux) ? 'u' + (ur ? 'r' : '') + (uw ? 'w' : '') + (ux ? 'x' : '') : '';
+            symbolic += (gr || gw || gx) ? 'g' + (gr ? 'r' : '') + (gw ? 'w' : '') + (gx ? 'x' : '') : '';
+            symbolic += (or || ow || ox) ? 'o' + (or ? 'r' : '') + (ow ? 'w' : '') + (ox ? 'x' : '') : '';
+            document.getElementById('chmod-symbolic').value = symbolic || '无权限';
+            document.getElementById('chmod-command').value = 'chmod ' + numeric + ' filename';
+        }
+
+        // ========== Docker转换 ==========
+        function convertDocker() {
+            const input = document.getElementById('docker-input').value;
+            const nameMatch = input.match(/--name\s+(\S+)/);
+            const portMatch = input.match(/-p\s+(\S+):(\S+)/g);
+            const volumeMatch = input.match(/-v\s+(\S+):(\S+)/g);
+            const envMatch = input.match(/-e\s+(\S+)=(\S+)/g);
+            const imageMatch = input.match(/\s+(\S+)\s*$/);
+            
+            let yaml = 'version: "3"\nservices:\n';
+            const name = nameMatch ? nameMatch[1] : 'myapp';
+            yaml += `  ${name}:\n`;
+            if (imageMatch) yaml += `    image: ${imageMatch[1]}\n`;
+            if (portMatch) {
+                yaml += '    ports:\n';
+                portMatch.forEach(p => {
+                    const m = p.match(/-p\s+(\S+):(\S+)/);
+                    if (m) yaml += `      - "${m[1]}:${m[2]}"\n`;
+                });
+            }
+            if (volumeMatch) {
+                yaml += '    volumes:\n';
+                volumeMatch.forEach(v => {
+                    const m = v.match(/-v\s+(\S+):(\S+)/);
+                    if (m) yaml += `      - ${m[1]}:${m[2]}\n`;
+                });
+            }
+            if (envMatch) {
+                yaml += '    environment:\n';
+                envMatch.forEach(e => {
+                    const m = e.match(/-e\s+(\S+)=(\S+)/);
+                    if (m) yaml += `      - ${m[1]}=${m[2]}\n`;
+                });
+            }
+            document.getElementById('docker-output').value = yaml;
+        }
+
+        // ========== 正则测试 ==========
+        function testRegex() {
+            const pattern = document.getElementById('regex-pattern').value;
+            const text = document.getElementById('regex-text').value;
+            if (!pattern) { alert('请输入正则表达式'); return; }
+            try {
+                const regex = new RegExp(pattern, 'g');
+                const matches = text.match(regex);
+                if (matches) {
+                    document.getElementById('regex-result').innerHTML = `<div style="color: green;">找到 ${matches.length} 个匹配:</div><div style="margin-top: 10px;">${matches.map(m => `<span style="background: #ffff00;">${m}</span>`).join(' ')}</div>`;
+                } else {
+                    document.getElementById('regex-result').innerHTML = '<span style="color: red;">无匹配</span>';
+                }
+            } catch (e) {
+                document.getElementById('regex-result').innerHTML = '<span style="color: red;">正则表达式错误: ' + e.message + '</span>';
+            }
+        }
+
+        // ========== 正则速查 ==========
+        function initRegexCheatsheet() {
+            const cheats = [
+                { pattern: '.', desc: '任意字符' },
+                { pattern: '\\d', desc: '数字 [0-9]' },
+                { pattern: '\\w', desc: '单词字符 [a-zA-Z0-9_]' },
+                { pattern: '\\s', desc: '空白字符' },
+                { pattern: '^', desc: '行首' },
+                { pattern: '$', desc: '行尾' },
+                { pattern: '*', desc: '0次或多次' },
+                { pattern: '+', desc: '1次或多次' },
+                { pattern: '?', desc: '0次或1次' },
+                { pattern: '{n}', desc: '恰好n次' },
+                { pattern: '{n,m}', desc: 'n到m次' },
+                { pattern: '[abc]', desc: '字符集' },
+                { pattern: '[^abc]', desc: '排除字符' },
+                { pattern: '(a|b)', desc: '或' },
+                { pattern: '()', desc: '捕获组' }
+            ];
+            let html = '';
+            cheats.forEach(c => {
+                html += `<div style="padding: 10px; border-bottom: 1px solid #eee;"><code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">${c.pattern}</code> - ${c.desc}</div>`;
+            });
+            document.getElementById('regex-cheatsheet').innerHTML = html;
+        }
+
+        // ========== JSON对比 ==========
+        function compareJson() {
+            const json1 = document.getElementById('jsondiff-1').value;
+            const json2 = document.getElementById('jsondiff-2').value;
+            try {
+                const obj1 = JSON.parse(json1);
+                const obj2 = JSON.parse(json2);
+                const diff = findJsonDiff(obj1, obj2);
+                document.getElementById('jsondiff-result').innerHTML = diff || '<span style="color: green;">两个JSON相同</span>';
+            } catch (e) {
+                document.getElementById('jsondiff-result').innerHTML = '<span style="color: red;">JSON解析错误</span>';
+            }
+        }
+
+        function findJsonDiff(obj1, obj2, path = '') {
+            let result = '';
+            for (const key in obj1) {
+                const p = path ? path + '.' + key : key;
+                if (!(key in obj2)) result += `<div style="color: red;">- ${p}: ${JSON.stringify(obj1[key])}</div>`;
+                else if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') result += findJsonDiff(obj1[key], obj2[key], p);
+                else if (obj1[key] !== obj2[key]) result += `<div><span style="color: red;">- ${p}: ${JSON.stringify(obj1[key])}</span> <span style="color: green;">+ ${p}: ${JSON.stringify(obj2[key])}</span></div>`;
+            }
+            for (const key in obj2) {
+                if (!(key in obj1)) {
+                    const p = path ? path + '.' + key : key;
+                    result += `<div style="color: green;">+ ${p}: ${JSON.stringify(obj2[key])}</div>`;
+                }
+            }
+            return result;
+        }
+
+        // ========== XML格式化 ==========
+        function formatXml() {
+            const input = document.getElementById('xmlformat-input').value;
+            try {
+                let formatted = '', indent = 0;
+                const xml = input.replace(/>\s*</g, '><').replace(/</g, '\n<');
+                xml.split('\n').forEach(line => {
+                    if (line.match(/<\/\w/)) indent--;
+                    if (line.trim()) formatted += '  '.repeat(Math.max(0, indent)) + line.trim() + '\n';
+                    if (line.match(/<\w[^>]*[^\/]>$/)) indent++;
+                });
+                document.getElementById('xmlformat-output').value = formatted.trim();
+            } catch (e) {
+                document.getElementById('xmlformat-output').value = '格式化错误';
+            }
+        }
+
+        // ========== YAML格式化 ==========
+        function formatYaml() {
+            const input = document.getElementById('yamlformat-input').value;
+            try {
+                const lines = input.split('\n');
+                let formatted = '';
+                lines.forEach(line => {
+                    const indent = line.search(/\S/);
+                    formatted += '  '.repeat(Math.floor(indent / 2)) + line.trim() + '\n';
+                });
+                document.getElementById('yamlformat-output').value = formatted.trim();
+            } catch (e) {
+                document.getElementById('yamlformat-output').value = '格式化错误';
+            }
+        }
+
+        // ========== 文本统计 ==========
+        function analyzeText() {
+            const input = document.getElementById('textstat-input').value;
+            const chars = input.length;
+            const charsNoSpace = input.replace(/\s/g, '').length;
+            const words = input.trim() ? input.trim().split(/\s+/).length : 0;
+            const lines = input.split('\n').length;
+            const sentences = (input.match(/[.!?。！？]/g) || []).length;
+            const paragraphs = input.split(/\n\s*\n/).filter(p => p.trim()).length;
+            const result = `
+                <div style="margin-bottom: 8px;"><strong>字符数:</strong> ${chars}</div>
+                <div style="margin-bottom: 8px;"><strong>字符数(不含空格):</strong> ${charsNoSpace}</div>
+                <div style="margin-bottom: 8px;"><strong>单词数:</strong> ${words}</div>
+                <div style="margin-bottom: 8px;"><strong>行数:</strong> ${lines}</div>
+                <div style="margin-bottom: 8px;"><strong>句子数:</strong> ${sentences}</div>
+                <div style="margin-bottom: 8px;"><strong>段落数:</strong> ${paragraphs}</div>
+                <div style="margin-bottom: 8px;"><strong>阅读时间:</strong> ${Math.ceil(words / 200)} 分钟</div>
+            `;
+            document.getElementById('textstat-result').innerHTML = result;
+        }
+
+        // ========== 文本差异对比 ==========
+        function diffText() {
+            const text1 = document.getElementById('textdiff-1').value.split('\n');
+            const text2 = document.getElementById('textdiff-2').value.split('\n');
+            let result = '';
+            const maxLen = Math.max(text1.length, text2.length);
+            for (let i = 0; i < maxLen; i++) {
+                const line1 = text1[i] || '';
+                const line2 = text2[i] || '';
+                if (line1 === line2) {
+                    result += `<div style="padding: 2px 10px;">${i + 1}: ${line1}</div>`;
+                } else {
+                    if (line1) result += `<div style="padding: 2px 10px; background: #ffecec; color: red;">- ${i + 1}: ${line1}</div>`;
+                    if (line2) result += `<div style="padding: 2px 10px; background: #eaffea; color: green;">+ ${i + 1}: ${line2}</div>`;
+                }
+            }
+            document.getElementById('textdiff-result').innerHTML = result || '<div style="padding: 10px; color: green;">文本相同</div>';
+        }
+
+        // ========== 文本排序 ==========
+        function sortText() {
+            const input = document.getElementById('textsort-input').value;
+            const lines = input.split('\n').filter(l => l.trim());
+            const order = document.getElementById('textsort-order').value;
+            lines.sort((a, b) => order === 'asc' ? a.localeCompare(b) : b.localeCompare(a));
+            document.getElementById('textsort-output').value = lines.join('\n');
+        }
+
+        // ========== 文本去重 ==========
+        function dedupeText() {
+            const input = document.getElementById('textdedupe-input').value;
+            const lines = input.split('\n');
+            const unique = [...new Set(lines.map(l => l.trim()).filter(l => l))];
+            document.getElementById('textdedupe-output').value = unique.join('\n');
+        }
+
+        // ========== 文本替换 ==========
+        function replaceText() {
+            const input = document.getElementById('textreplace-input').value;
+            const search = document.getElementById('textreplace-search').value;
+            const replace = document.getElementById('textreplace-replace').value;
+            const regex = document.getElementById('textreplace-regex').checked;
+            const global = document.getElementById('textreplace-global').checked;
+            try {
+                let result;
+                if (regex) {
+                    const flags = global ? 'g' : '';
+                    result = input.replace(new RegExp(search, flags), replace);
+                } else {
+                    result = global ? input.split(search).join(replace) : input.replace(search, replace);
+                }
+                document.getElementById('textreplace-output').value = result;
+            } catch (e) {
+                document.getElementById('textreplace-output').value = '替换错误: ' + e.message;
+            }
+        }
+
+        // ========== Lorem Ipsum生成 ==========
+        function generateLorem() {
+            const paragraphs = parseInt(document.getElementById('lorem-paragraphs').value) || 3;
+            const lorem = [
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.'
+            ];
+            let result = '';
+            for (let i = 0; i < paragraphs; i++) {
+                result += lorem[i % lorem.length] + '\n\n';
+            }
+            document.getElementById('lorem-output').value = result.trim();
+        }
+
+        // ========== 随机数生成 ==========
+        function generateRandom() {
+            const min = parseInt(document.getElementById('random-min').value) || 0;
+            const max = parseInt(document.getElementById('random-max').value) || 100;
+            const count = parseInt(document.getElementById('random-count').value) || 1;
+            const unique = document.getElementById('random-unique').checked;
+            const numbers = [];
+            for (let i = 0; i < count; i++) {
+                let num;
+                if (unique) {
+                    const range = max - min + 1;
+                    if (numbers.length >= range) break;
+                    do { num = Math.floor(Math.random() * range) + min; } while (numbers.includes(num));
+                } else {
+                    num = Math.floor(Math.random() * (max - min + 1)) + min;
+                }
+                numbers.push(num);
+            }
+            document.getElementById('random-output').value = numbers.join('\n');
+        }
+
+        // ========== UUID生成 ==========
+        function generateUUID() {
+            const count = parseInt(document.getElementById('uuid-count').value) || 1;
+            const uuids = [];
+            for (let i = 0; i < count; i++) {
+                uuids.push('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                    const r = Math.random() * 16 | 0;
+                    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+                }));
+            }
+            document.getElementById('uuid-output').value = uuids.join('\n');
+        }
+
+        // ========== 图片转Base64 ==========
+        function imageToBase64() {
+            const file = document.getElementById('img2base64-input').files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('img2base64-output').value = e.target.result;
+                document.getElementById('img2base64-preview').innerHTML = `<img src="${e.target.result}" style="max-width: 100%; max-height: 200px;">`;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ========== 图片压缩 ==========
+        function compressImage() {
+            const file = document.getElementById('imgcompress-input').files[0];
+            if (!file) return;
+            const quality = parseFloat(document.getElementById('imgcompress-quality').value) || 0.7;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    canvas.toBlob(function(blob) {
+                        const url = URL.createObjectURL(blob);
+                        document.getElementById('imgcompress-preview').innerHTML = `
+                            <div style="margin-bottom: 10px;">原始大小: ${(file.size / 1024).toFixed(2)} KB</div>
+                            <div style="margin-bottom: 10px;">压缩后: ${(blob.size / 1024).toFixed(2)} KB</div>
+                            <img src="${url}" style="max-width: 100%; max-height: 200px;">
+                        `;
+                    }, 'image/jpeg', quality);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ========== 图片尺寸调整 ==========
+        function resizeImage() {
+            const file = document.getElementById('imgresize-input').files[0];
+            if (!file) return;
+            const width = parseInt(document.getElementById('imgresize-width').value);
+            const height = parseInt(document.getElementById('imgresize-height').value);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width || img.width;
+                    canvas.height = height || img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    const url = canvas.toDataURL('image/png');
+                    document.getElementById('imgresize-preview').innerHTML = `
+                        <div style="margin-bottom: 10px;">新尺寸: ${canvas.width} x ${canvas.height}</div>
+                        <img src="${url}" style="max-width: 100%; max-height: 200px;">
+                    `;
+                    document.getElementById('imgresize-output').value = url;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ========== 图片格式转换 ==========
+        function convertImageFormat() {
+            const file = document.getElementById('imgformat-input').files[0];
+            if (!file) return;
+            const format = document.getElementById('imgformat-type').value;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    const url = canvas.toDataURL(format);
+                    document.getElementById('imgformat-preview').innerHTML = `<img src="${url}" style="max-width: 100%; max-height: 200px;">`;
+                    document.getElementById('imgformat-output').value = url;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ========== 二维码生成 ==========
+        function generateQRCode() {
+            const text = document.getElementById('qrcode-input').value;
+            if (!text) { alert('请输入内容'); return; }
+            const size = parseInt(document.getElementById('qrcode-size').value) || 200;
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(text)}`;
+            document.getElementById('qrcode-output').innerHTML = `<img src="${qrUrl}" style="max-width: 100%;">`;
+        }
+
+        // ========== SVG占位图 ==========
+        function generatePlaceholder() {
+            const width = document.getElementById('placeholder-width').value || 300;
+            const height = document.getElementById('placeholder-height').value || 200;
+            const text = document.getElementById('placeholder-text').value || `${width}x${height}`;
+            const bg = document.getElementById('placeholder-bg').value || '#cccccc';
+            const fg = document.getElementById('placeholder-fg').value || '#333333';
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect fill="${bg}" width="${width}" height="${height}"/><text fill="${fg}" font-family="Arial" font-size="20" x="50%" y="50%" text-anchor="middle" dy=".3em">${text}</text></svg>`;
+            document.getElementById('placeholder-preview').innerHTML = svg;
+            document.getElementById('placeholder-output').value = svg;
+        }
+
+        // ========== 百分比计算器 ==========
+        function calcPercentage() {
+            const value = parseFloat(document.getElementById('percent-value').value);
+            const total = parseFloat(document.getElementById('percent-total').value);
+            if (isNaN(value) || isNaN(total)) { alert('请输入有效数字'); return; }
+            const percent = (value / total * 100).toFixed(2);
+            const result = `${value} 是 ${total} 的 ${percent}%`;
+            document.getElementById('percent-result').innerHTML = result;
+        }
+
+        // ========== 单位转换器 ==========
+        function convertUnit() {
+            const value = parseFloat(document.getElementById('unit-value').value);
+            const from = document.getElementById('unit-from').value;
+            const to = document.getElementById('unit-to').value;
+            if (isNaN(value)) { alert('请输入有效数字'); return; }
+            const units = { 'mm': 1, 'cm': 10, 'm': 1000, 'km': 1000000, 'in': 25.4, 'ft': 304.8, 'yd': 914.4, 'mi': 1609344 };
+            const mm = value * units[from];
+            const result = mm / units[to];
+            document.getElementById('unit-result').innerHTML = `${value} ${from} = ${result.toFixed(6)} ${to}`;
+        }
+
+        // ========== 时间戳转换 ==========
+        function timestampToDate() {
+            const ts = parseInt(document.getElementById('timestamp-input').value);
+            if (isNaN(ts)) { alert('请输入有效时间戳'); return; }
+            const date = new Date(ts * 1000);
+            document.getElementById('timestamp-output').value = date.toLocaleString('zh-CN');
+        }
+
+        function dateToTimestamp() {
+            const dateStr = document.getElementById('date-input').value;
+            if (!dateStr) { alert('请选择日期时间'); return; }
+            const ts = Math.floor(new Date(dateStr).getTime() / 1000);
+            document.getElementById('timestamp-output').value = ts;
+        }
+
+        function getCurrentTimestamp() {
+            document.getElementById('timestamp-output').value = Math.floor(Date.now() / 1000);
+        }
+
+        // ========== 计算器 ==========
+        let calcDisplay = '';
+        function calcInput(val) {
+            calcDisplay += val;
+            document.getElementById('calc-display').value = calcDisplay;
+        }
+
+        function calcClear() {
+            calcDisplay = '';
+            document.getElementById('calc-display').value = '';
+        }
+
+        function calcResult() {
+            try {
+                const result = eval(calcDisplay);
+                document.getElementById('calc-display').value = result;
+                calcDisplay = result.toString();
+            } catch (e) {
+                document.getElementById('calc-display').value = '错误';
+                calcDisplay = '';
+            }
+        }
+
+        // ========== BMI计算器 ==========
+        function calcBMI() {
+            const weight = parseFloat(document.getElementById('bmi-weight').value);
+            const height = parseFloat(document.getElementById('bmi-height').value) / 100;
+            if (isNaN(weight) || isNaN(height)) { alert('请输入有效数值'); return; }
+            const bmi = (weight / (height * height)).toFixed(1);
+            let status = '';
+            if (bmi < 18.5) status = '偏瘦';
+            else if (bmi < 24) status = '正常';
+            else if (bmi < 28) status = '偏胖';
+            else status = '肥胖';
+            document.getElementById('bmi-result').innerHTML = `BMI: ${bmi} (${status})`;
+        }
+
+        // ========== IP地址转换 ==========
+        function ipToDecimal() {
+            const ip = document.getElementById('ip-input').value;
+            const parts = ip.split('.');
+            if (parts.length !== 4) { alert('无效的IP地址'); return; }
+            const decimal = parts.reduce((acc, part) => (acc << 8) + parseInt(part), 0) >>> 0;
+            document.getElementById('ip-output').value = decimal;
+        }
+
+        function decimalToIp() {
+            const decimal = parseInt(document.getElementById('ip-decimal').value);
+            if (isNaN(decimal)) { alert('请输入有效数字'); return; }
+            const ip = [(decimal >>> 24) & 255, (decimal >>> 16) & 255, (decimal >>> 8) & 255, decimal & 255].join('.');
+            document.getElementById('ip-output').value = ip;
+        }
+
+        // ========== 子网计算器 ==========
+        function calcSubnet() {
+            const ip = document.getElementById('subnet-ip').value;
+            const cidr = parseInt(document.getElementById('subnet-cidr').value);
+            if (!ip || isNaN(cidr)) { alert('请输入有效信息'); return; }
+            const parts = ip.split('.').map(Number);
+            const mask = (0xFFFFFFFF << (32 - cidr)) >>> 0;
+            const network = parts.map((p, i) => p & ((mask >>> (24 - i * 8)) & 255));
+            const broadcast = parts.map((p, i) => p | (~((mask >>> (24 - i * 8)) & 255) & 255));
+            const hosts = Math.pow(2, 32 - cidr) - 2;
+            const result = `
+                <div style="margin-bottom: 8px;"><strong>网络地址:</strong> ${network.join('.')}</div>
+                <div style="margin-bottom: 8px;"><strong>广播地址:</strong> ${broadcast.join('.')}</div>
+                <div style="margin-bottom: 8px;"><strong>子网掩码:</strong> ${[(mask >>> 24) & 255, (mask >>> 16) & 255, (mask >>> 8) & 255, mask & 255].join('.')}</div>
+                <div style="margin-bottom: 8px;"><strong>可用主机数:</strong> ${hosts}</div>
+            `;
+            document.getElementById('subnet-result').innerHTML = result;
+        }
+
+        // ========== IPv6转换 ==========
+        function expandIPv6() {
+            const ip = document.getElementById('ipv6-input').value;
+            let expanded = ip.replace(/::/g, ':' + '0:'.repeat(8 - ip.split(':').filter(p => p).length));
+            expanded = expanded.split(':').map(p => p.padStart(4, '0')).join(':');
+            document.getElementById('ipv6-output').value = expanded;
+        }
+
+        // ========== 端口扫描 ==========
+        async function scanPort() {
+            const host = document.getElementById('portscan-host').value;
+            const port = document.getElementById('portscan-port').value;
+            if (!host || !port) { alert('请输入主机和端口'); return; }
+            document.getElementById('portscan-result').innerHTML = '扫描中...';
+            try {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 3000);
+                await fetch(`http://${host}:${port}`, { mode: 'no-cors', signal: controller.signal });
+                clearTimeout(timeout);
+                document.getElementById('portscan-result').innerHTML = `<span style="color: green;">端口 ${port} 开放</span>`;
+            } catch (e) {
+                document.getElementById('portscan-result').innerHTML = `<span style="color: red;">端口 ${port} 关闭或无法访问</span>`;
+            }
+        }
+
+        // ========== DNS查询 ==========
+        async function dnsLookup() {
+            const domain = document.getElementById('dns-domain').value;
+            if (!domain) { alert('请输入域名'); return; }
+            document.getElementById('dns-result').innerHTML = '查询中...';
+            try {
+                const response = await fetch(`https://dns.google/resolve?name=${domain}&type=A`);
+                const data = await response.json();
+                if (data.Answer) {
+                    const ips = data.Answer.map(a => a.data).join(', ');
+                    document.getElementById('dns-result').innerHTML = `<strong>IP地址:</strong> ${ips}`;
+                } else {
+                    document.getElementById('dns-result').innerHTML = '未找到记录';
+                }
+            } catch (e) {
+                document.getElementById('dns-result').innerHTML = '查询失败';
+            }
+        }
+
+        // ========== Whois查询 ==========
+        async function whoisLookup() {
+            const domain = document.getElementById('whois-domain').value;
+            if (!domain) { alert('请输入域名'); return; }
+            document.getElementById('whois-result').innerHTML = '查询中...';
+            document.getElementById('whois-result').innerHTML = `<div style="padding: 10px; background: #f5f5f5; border-radius: 5px;">
+                <div style="margin-bottom: 10px;"><strong>域名:</strong> ${domain}</div>
+                <div style="margin-bottom: 10px;"><strong>提示:</strong> 完整Whois信息需要后端API支持</div>
+                <div>请访问 <a href="https://who.is/whois/${domain}" target="_blank">who.is</a> 查看详细信息</div>
+            </div>`;
+        }
+
+        // ========== 网速测试 ==========
+        async function testSpeed() {
+            document.getElementById('speed-result').innerHTML = '测试中...';
+            const start = Date.now();
+            try {
+                await fetch('https://www.google.com/favicon.ico', { mode: 'no-cors', cache: 'no-store' });
+                const latency = Date.now() - start;
+                document.getElementById('speed-result').innerHTML = `<div style="margin-bottom: 8px;"><strong>延迟:</strong> ${latency} ms</div><div><strong>状态:</strong> 网络连接正常</div>`;
+            } catch (e) {
+                document.getElementById('speed-result').innerHTML = '<span style="color: red;">网络连接失败</span>';
+            }
+        }
+
+        // ========== IP地理位置 ==========
+        async function getIpLocation() {
+            document.getElementById('iplocation-result').innerHTML = '查询中...';
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                const result = `
+                    <div style="margin-bottom: 8px;"><strong>IP:</strong> ${data.ip}</div>
+                    <div style="margin-bottom: 8px;"><strong>城市:</strong> ${data.city}</div>
+                    <div style="margin-bottom: 8px;"><strong>地区:</strong> ${data.region}</div>
+                    <div style="margin-bottom: 8px;"><strong>国家:</strong> ${data.country_name}</div>
+                    <div style="margin-bottom: 8px;"><strong>ISP:</strong> ${data.org}</div>
+                    <div style="margin-bottom: 8px;"><strong>时区:</strong> ${data.timezone}</div>
+                `;
+                document.getElementById('iplocation-result').innerHTML = result;
+            } catch (e) {
+                document.getElementById('iplocation-result').innerHTML = '查询失败';
+            }
+        }
+
+        // ========== User-Agent生成 ==========
+        function generateUserAgent() {
+            const browsers = [
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15',
+                'Mozilla/5.0 (iPhone; CPU iPhone OS 17_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Mobile/15E148 Safari/604.1',
+                'Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36'
+            ];
+            document.getElementById('useragent-output').value = browsers[Math.floor(Math.random() * browsers.length)];
         }
 
         // 页面加载完成后初始化

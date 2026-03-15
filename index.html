@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -785,11 +785,57 @@
                   <div class="sidebar-tools">
                     <div class="sidebar-item" onclick="switchTool('vip', this)">
                       <span class="sidebar-item-icon">🎬</span>
-                      <span class="sidebar-item-text lang-text" data-simplified="VIP视频解析" data-traditional="VIP視頻解析">VIP视频解析</span>
+                      <span class="sidebar-item-text">VIP视频解析</span>
                     </div>
                     <div class="sidebar-item" onclick="switchTool('douyin', this)">
                       <span class="sidebar-item-icon">📱</span>
-                      <span class="sidebar-item-text lang-text" data-simplified="短视频解析" data-traditional="短視頻解析">短视频解析</span>
+                      <span class="sidebar-item-text">短视频解析</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- 加密安全 -->
+                <div class="sidebar-category-group">
+                  <div class="sidebar-category">加密安全</div>
+                  <div class="sidebar-tools">
+                    <div class="sidebar-item" onclick="switchTool('token', this)">
+                      <span class="sidebar-item-icon">🎫</span>
+                      <span class="sidebar-item-text">Token生成器</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('hash', this)">
+                      <span class="sidebar-item-icon">🔐</span>
+                      <span class="sidebar-item-text">哈希计算</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('bcrypt', this)">
+                      <span class="sidebar-item-icon">🔒</span>
+                      <span class="sidebar-item-text">Bcrypt加密</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('uuid', this)">
+                      <span class="sidebar-item-icon">🆔</span>
+                      <span class="sidebar-item-text">UUID生成</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('ulid', this)">
+                      <span class="sidebar-item-icon">🔢</span>
+                      <span class="sidebar-item-text">ULID生成</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('aes', this)">
+                      <span class="sidebar-item-icon">🗝️</span>
+                      <span class="sidebar-item-text">AES加密解密</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('hmac', this)">
+                      <span class="sidebar-item-icon">🔏</span>
+                      <span class="sidebar-item-text">HMAC生成器</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('rsa', this)">
+                      <span class="sidebar-item-icon">🔑</span>
+                      <span class="sidebar-item-text">RSA密钥生成</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('password', this)">
+                      <span class="sidebar-item-icon">💪</span>
+                      <span class="sidebar-item-text">密码强度分析</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('bip39', this)">
+                      <span class="sidebar-item-icon">🧠</span>
+                      <span class="sidebar-item-text">BIP39助记词</span>
                     </div>
                   </div>
                 </div>
@@ -799,21 +845,139 @@
                   <div class="sidebar-tools">
                     <div class="sidebar-item" onclick="switchTool('base64', this)">
                       <span class="sidebar-item-icon">📝</span>
-                      <span class="sidebar-item-text lang-text" data-simplified="Base64编解码" data-traditional="Base64編解碼">Base64编解码</span>
+                      <span class="sidebar-item-text">Base64编解码</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('base64file', this)">
+                      <span class="sidebar-item-icon">📁</span>
+                      <span class="sidebar-item-text">文件转Base64</span>
                     </div>
                     <div class="sidebar-item" onclick="switchTool('url', this)">
                       <span class="sidebar-item-icon">🔗</span>
-                      <span class="sidebar-item-text lang-text" data-simplified="URL编解码" data-traditional="URL編解碼">URL编解码</span>
+                      <span class="sidebar-item-text">URL编解码</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('htmlentity', this)">
+                      <span class="sidebar-item-icon">📄</span>
+                      <span class="sidebar-item-text">HTML实体转义</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('unicode', this)">
+                      <span class="sidebar-item-icon">🌐</span>
+                      <span class="sidebar-item-text">Unicode转换</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('baseconverter', this)">
+                      <span class="sidebar-item-icon">🔢</span>
+                      <span class="sidebar-item-text">进制转换</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('color', this)">
+                      <span class="sidebar-item-icon">🎨</span>
+                      <span class="sidebar-item-text">颜色转换器</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('case', this)">
+                      <span class="sidebar-item-icon">🔠</span>
+                      <span class="sidebar-item-text">大小写转换</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('roman', this)">
+                      <span class="sidebar-item-icon">🏛️</span>
+                      <span class="sidebar-item-text">罗马数字转换</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('nato', this)">
+                      <span class="sidebar-item-icon">📻</span>
+                      <span class="sidebar-item-text">北约音标转换</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('ascii', this)">
+                      <span class="sidebar-item-icon">💾</span>
+                      <span class="sidebar-item-text">ASCII二进制</span>
                     </div>
                   </div>
                 </div>
-                <!-- JSON工具 -->
+                <!-- 格式转换 -->
                 <div class="sidebar-category-group">
-                  <div class="sidebar-category">JSON工具</div>
+                  <div class="sidebar-category">格式转换</div>
                   <div class="sidebar-tools">
                     <div class="sidebar-item" onclick="switchTool('json', this)">
                       <span class="sidebar-item-icon">{ }</span>
-                      <span class="sidebar-item-text lang-text" data-simplified="JSON格式化" data-traditional="JSON格式化">JSON格式化</span>
+                      <span class="sidebar-item-text">JSON格式化</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('yaml2json', this)">
+                      <span class="sidebar-item-icon">📄</span>
+                      <span class="sidebar-item-text">YAML转JSON</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('json2yaml', this)">
+                      <span class="sidebar-item-icon">📋</span>
+                      <span class="sidebar-item-text">JSON转YAML</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('xml2json', this)">
+                      <span class="sidebar-item-icon">📰</span>
+                      <span class="sidebar-item-text">XML转JSON</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('json2xml', this)">
+                      <span class="sidebar-item-icon">📑</span>
+                      <span class="sidebar-item-text">JSON转XML</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('md2html', this)">
+                      <span class="sidebar-item-icon">📝</span>
+                      <span class="sidebar-item-text">Markdown转HTML</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('toml2json', this)">
+                      <span class="sidebar-item-icon">⚙️</span>
+                      <span class="sidebar-item-text">TOML转JSON</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('json2csv', this)">
+                      <span class="sidebar-item-icon">📊</span>
+                      <span class="sidebar-item-text">JSON转CSV</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Web工具 -->
+                <div class="sidebar-category-group">
+                  <div class="sidebar-category">Web工具</div>
+                  <div class="sidebar-tools">
+                    <div class="sidebar-item" onclick="switchTool('urlparser', this)">
+                      <span class="sidebar-item-icon">🔗</span>
+                      <span class="sidebar-item-text">URL解析器</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('useragent', this)">
+                      <span class="sidebar-item-icon">🖥️</span>
+                      <span class="sidebar-item-text">UA解析器</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('deviceinfo', this)">
+                      <span class="sidebar-item-icon">📱</span>
+                      <span class="sidebar-item-text">设备信息</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('basicauth', this)">
+                      <span class="sidebar-item-icon">🔐</span>
+                      <span class="sidebar-item-text">Basic Auth生成</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('opengraph', this)">
+                      <span class="sidebar-item-icon">🏷️</span>
+                      <span class="sidebar-item-text">OG标签生成</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('otp', this)">
+                      <span class="sidebar-item-icon">📲</span>
+                      <span class="sidebar-item-text">OTP生成器</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('jwt', this)">
+                      <span class="sidebar-item-icon">🎫</span>
+                      <span class="sidebar-item-text">JWT解析器</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('keycode', this)">
+                      <span class="sidebar-item-icon">⌨️</span>
+                      <span class="sidebar-item-text">按键码查询</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('httpcode', this)">
+                      <span class="sidebar-item-icon">📡</span>
+                      <span class="sidebar-item-text">HTTP状态码</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('mime', this)">
+                      <span class="sidebar-item-icon">📎</span>
+                      <span class="sidebar-item-text">MIME类型</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('slugify', this)">
+                      <span class="sidebar-item-icon">🔗</span>
+                      <span class="sidebar-item-text">URL友好化</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('htmlwysiwyg', this)">
+                      <span class="sidebar-item-icon">✏️</span>
+                      <span class="sidebar-item-text">HTML编辑器</span>
                     </div>
                   </div>
                 </div>
@@ -821,21 +985,177 @@
                 <div class="sidebar-category-group">
                   <div class="sidebar-category">开发工具</div>
                   <div class="sidebar-tools">
-                    <div class="sidebar-item" onclick="switchTool('hash', this)">
-                      <span class="sidebar-item-icon">🔐</span>
-                      <span class="sidebar-item-text lang-text" data-simplified="哈希计算" data-traditional="哈希計算">哈希计算</span>
+                    <div class="sidebar-item" onclick="switchTool('git', this)">
+                      <span class="sidebar-item-icon">📚</span>
+                      <span class="sidebar-item-text">Git速查表</span>
                     </div>
-                    <div class="sidebar-item" onclick="switchTool('uuid', this)">
-                      <span class="sidebar-item-icon">🆔</span>
-                      <span class="sidebar-item-text lang-text" data-simplified="UUID生成" data-traditional="UUID生成">UUID生成</span>
+                    <div class="sidebar-item" onclick="switchTool('crontab', this)">
+                      <span class="sidebar-item-icon">⏰</span>
+                      <span class="sidebar-item-text">Crontab生成</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('sql', this)">
+                      <span class="sidebar-item-icon">🗃️</span>
+                      <span class="sidebar-item-text">SQL格式化</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('chmod', this)">
+                      <span class="sidebar-item-icon">🔒</span>
+                      <span class="sidebar-item-text">Chmod计算器</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('docker', this)">
+                      <span class="sidebar-item-icon">🐳</span>
+                      <span class="sidebar-item-text">Docker转换</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('regex', this)">
+                      <span class="sidebar-item-icon">🔍</span>
+                      <span class="sidebar-item-text">正则测试</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('regexcheat', this)">
+                      <span class="sidebar-item-icon">📖</span>
+                      <span class="sidebar-item-text">正则速查</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('jsondiff', this)">
+                      <span class="sidebar-item-icon">⚖️</span>
+                      <span class="sidebar-item-text">JSON对比</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('xmlformat', this)">
+                      <span class="sidebar-item-icon">📰</span>
+                      <span class="sidebar-item-text">XML格式化</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('yamlformat', this)">
+                      <span class="sidebar-item-icon">📄</span>
+                      <span class="sidebar-item-text">YAML格式化</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- 网络工具 -->
+                <div class="sidebar-category-group">
+                  <div class="sidebar-category">网络工具</div>
+                  <div class="sidebar-tools">
+                    <div class="sidebar-item" onclick="switchTool('ipv4subnet', this)">
+                      <span class="sidebar-item-icon">🌐</span>
+                      <span class="sidebar-item-text">IPv4子网计算</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('ipv4converter', this)">
+                      <span class="sidebar-item-icon">🔄</span>
+                      <span class="sidebar-item-text">IPv4地址转换</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('maclookup', this)">
+                      <span class="sidebar-item-icon">🔍</span>
+                      <span class="sidebar-item-text">MAC地址查询</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('macgen', this)">
+                      <span class="sidebar-item-icon">🏭</span>
+                      <span class="sidebar-item-text">MAC地址生成</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('ipv6ula', this)">
+                      <span class="sidebar-item-icon">🌐</span>
+                      <span class="sidebar-item-text">IPv6 ULA生成</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('port', this)">
+                      <span class="sidebar-item-icon">🚪</span>
+                      <span class="sidebar-item-text">随机端口生成</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- 数学计算 -->
+                <div class="sidebar-category-group">
+                  <div class="sidebar-category">数学计算</div>
+                  <div class="sidebar-tools">
+                    <div class="sidebar-item" onclick="switchTool('math', this)">
+                      <span class="sidebar-item-icon">🧮</span>
+                      <span class="sidebar-item-text">数学计算器</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('percentage', this)">
+                      <span class="sidebar-item-icon">💯</span>
+                      <span class="sidebar-item-text">百分比计算</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('temperature', this)">
+                      <span class="sidebar-item-icon">🌡️</span>
+                      <span class="sidebar-item-text">温度转换</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('eta', this)">
+                      <span class="sidebar-item-icon">⏱️</span>
+                      <span class="sidebar-item-text">ETA计算器</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('chrono', this)">
+                      <span class="sidebar-item-icon">⏲️</span>
+                      <span class="sidebar-item-text">计时器</span>
                     </div>
                     <div class="sidebar-item" onclick="switchTool('timestamp', this)">
-                      <span class="sidebar-item-icon">⏰</span>
-                      <span class="sidebar-item-text lang-text" data-simplified="时间戳转换" data-traditional="時間戳轉換">时间戳转换</span>
+                      <span class="sidebar-item-icon">🕐</span>
+                      <span class="sidebar-item-text">时间戳转换</span>
                     </div>
+                  </div>
+                </div>
+                <!-- 文本工具 -->
+                <div class="sidebar-category-group">
+                  <div class="sidebar-category">文本工具</div>
+                  <div class="sidebar-tools">
+                    <div class="sidebar-item" onclick="switchTool('lorem', this)">
+                      <span class="sidebar-item-icon">📜</span>
+                      <span class="sidebar-item-text">Lorem生成</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('textstat', this)">
+                      <span class="sidebar-item-icon">📊</span>
+                      <span class="sidebar-item-text">文本统计</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('emoji', this)">
+                      <span class="sidebar-item-icon">😀</span>
+                      <span class="sidebar-item-text">Emoji选择器</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('textdiff', this)">
+                      <span class="sidebar-item-icon">📝</span>
+                      <span class="sidebar-item-text">文本对比</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('numeronym', this)">
+                      <span class="sidebar-item-icon">🔢</span>
+                      <span class="sidebar-item-text">数字缩写</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('asciiart', this)">
+                      <span class="sidebar-item-icon">🎨</span>
+                      <span class="sidebar-item-text">ASCII艺术字</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('phone', this)">
+                      <span class="sidebar-item-icon">📞</span>
+                      <span class="sidebar-item-text">电话号码解析</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('iban', this)">
+                      <span class="sidebar-item-icon">🏦</span>
+                      <span class="sidebar-item-text">IBAN验证</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('obfuscate', this)">
+                      <span class="sidebar-item-icon">🙈</span>
+                      <span class="sidebar-item-text">字符串混淆</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('list', this)">
+                      <span class="sidebar-item-icon">📋</span>
+                      <span class="sidebar-item-text">列表转换</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('email', this)">
+                      <span class="sidebar-item-icon">📧</span>
+                      <span class="sidebar-item-text">邮箱标准化</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- 图片二维码 -->
+                <div class="sidebar-category-group">
+                  <div class="sidebar-category">图片二维码</div>
+                  <div class="sidebar-tools">
                     <div class="sidebar-item" onclick="switchTool('qrcode', this)">
                       <span class="sidebar-item-icon">📱</span>
-                      <span class="sidebar-item-text lang-text" data-simplified="二维码生成" data-traditional="二維碼生成">二维码生成</span>
+                      <span class="sidebar-item-text">二维码生成</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('wifiqr', this)">
+                      <span class="sidebar-item-icon">📶</span>
+                      <span class="sidebar-item-text">WiFi二维码</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('svgplaceholder', this)">
+                      <span class="sidebar-item-icon">🖼️</span>
+                      <span class="sidebar-item-text">SVG占位图</span>
+                    </div>
+                    <div class="sidebar-item" onclick="switchTool('camera', this)">
+                      <span class="sidebar-item-icon">📷</span>
+                      <span class="sidebar-item-text">摄像头录制</span>
                     </div>
                   </div>
                 </div>

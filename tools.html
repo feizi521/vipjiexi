@@ -169,6 +169,21 @@ http://api.myzch.cn/?url=</textarea>
                 </div>
             </div>
 
+            <!-- 短视频解析 -->
+            <div class="tool-panel" id="panel-douyin">
+                <div class="form-group">
+                    <label for="douyin-url">视频链接:</label>
+                    <input type="text" class="form-control" id="douyin-url" placeholder="粘贴抖音、快手等短视频链接">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="parseDouyinVideo()" style="background: linear-gradient(135deg, #FF6B6B, #FF8E53); border: none;">
+                    <i class="fas fa-wand-magic-sparkles"></i> 魔法解析
+                </button>
+                <div class="alert alert-info mt-3">
+                    支持抖音、快手、小红书、微博等短视频去水印解析，仅供学习使用。
+                </div>
+                <div id="douyin-result" style="margin-top: 15px;"></div>
+            </div>
+
             <!-- 默认工具面板（用于未配置的工具） -->
             <div class="tool-panel" id="panel-default">
                 <div class="alert alert-info">
@@ -218,6 +233,11 @@ http://api.myzch.cn/?url=</textarea>
                             icon: '🎬',
                             title: 'VIP视频解析',
                             description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
+                        },
+                        douyin: {
+                            icon: '📱',
+                            title: '短视频解析',
+                            description: '支持抖音、快手等短视频去水印解析'
                         }
                     };
                 }
@@ -229,6 +249,11 @@ http://api.myzch.cn/?url=</textarea>
                         icon: '🎬',
                         title: 'VIP视频解析',
                         description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
+                    },
+                    douyin: {
+                        icon: '📱',
+                        title: '短视频解析',
+                        description: '支持抖音、快手等短视频去水印解析'
                     }
                 };
             }
@@ -316,6 +341,79 @@ http://api.myzch.cn/?url=</textarea>
         document.addEventListener('DOMContentLoaded', function() {
             initVipApi();
         });
+
+        // 短视频解析功能
+        function extractDouyinUrl(text) {
+            const urlRegex = /(https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*))/g;
+            const matches = text.match(urlRegex);
+            return matches ? matches[0] : null;
+        }
+
+        async function parseDouyinVideo() {
+            const input = document.getElementById('douyin-url');
+            const resultDiv = document.getElementById('douyin-result');
+            const url = extractDouyinUrl(input.value);
+            
+            if (!url) {
+                alert('请输入有效的短视频链接！');
+                return;
+            }
+            
+            resultDiv.innerHTML = '<div class="alert alert-warning">正在解析中，请稍候...</div>';
+            
+            try {
+                const apiUrl = `https://api.kxzjoker.cn/api/jiexi_video?url=${encodeURIComponent(url)}`;
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error('API请求失败');
+                }
+                
+                const data = await response.json();
+                
+                if (data.success !== 200 && data.success !== true) {
+                    throw new Error('解析失败，请检查链接是否正确');
+                }
+                
+                const result = data.data;
+                
+                if (result.images && result.images.length > 0) {
+                    // 图集
+                    let imagesHtml = result.images.map((img, index) => 
+                        `<img src="${img}" alt="图片${index+1}" style="width: 100%; max-width: 200px; margin: 5px; border-radius: 8px; cursor: pointer;" onclick="window.open('${img}', '_blank')">`
+                    ).join('');
+                    
+                    resultDiv.innerHTML = `
+                        <div class="alert alert-success">
+                            <h5>${result.title || '图集解析成功'}</h5>
+                            <p>共 ${result.images.length} 张图片</p>
+                            <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                                ${imagesHtml}
+                            </div>
+                        </div>
+                    `;
+                } else if (result.video_url) {
+                    // 视频
+                    resultDiv.innerHTML = `
+                        <div class="alert alert-success">
+                            <h5>${result.video_title || '视频解析成功'}</h5>
+                            <video controls style="width: 100%; border-radius: 8px; margin-top: 10px;">
+                                <source src="${result.video_url}" type="video/mp4">
+                            </video>
+                            <div style="margin-top: 10px;">
+                                <a href="${result.download_url || result.video_url}" target="_blank" class="btn btn-primary" style="background: linear-gradient(135deg, #FF6B6B, #FF8E53); border: none;">
+                                    <i class="fas fa-download"></i> 下载视频
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<div class="alert alert-warning">解析成功，但未找到可用的媒体内容</div>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="alert alert-danger">解析失败: ${error.message}</div>`;
+            }
+        }
 
         // URL编码解码功能
         function urlEncode() {

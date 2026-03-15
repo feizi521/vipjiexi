@@ -7,6 +7,11 @@ let toolsConfig = {
     icon: '🎬',
     title: 'VIP视频解析',
     description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
+  },
+  douyin: {
+    icon: '📱',
+    title: '短视频解析',
+    description: '支持抖音、快手等短视频去水印解析'
   }
 };
 

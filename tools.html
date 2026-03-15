@@ -135,74 +135,8 @@
 
         <!-- 工具面板 -->
         <div class="tool-panels">
-            <!-- VIP视频解析 -->
-            <div class="tool-panel" id="panel-vip">
-                <div class="form-group">
-                    <label for="vip-api">视频解析API:</label>
-                    <select class="form-control" id="vip-api">
-                        <option value="https://jxnfv.com/?url=">jxnfv</option>
-                        <option value="https://www.jxlao.com/jx?url=">jxlao</option>
-                        <option value="https://api.03964.com/vip/?url=">03964</option>
-                        <option value="https://www.vipjiexi.com/yun?url=">vipjiexi</option>
-                        <option value="https://api.baiyug.cn/vip/?url=">baiyug</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="vip-url">视频地址:</label>
-                    <input type="text" class="form-control" id="vip-url" placeholder="请输入视频播放地址">
-                </div>
-                <button class="btn btn-primary btn-block" onclick="startVipParse()" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none;">
-                    开始解析
-                </button>
-                <div class="alert alert-info mt-3">
-                    支持爱奇艺、优酷、腾讯等VIP视频解析，视频解析项目仅供学习使用。
-                </div>
-            </div>
-
-
-
-
-
-            <!-- m3u8视频提取工具 -->
-            <div class="tool-panel" id="panel-m3u8">
-                <div class="form-group">
-                    <label for="m3u8-url">视频地址:</label>
-                    <input type="text" class="form-control" id="m3u8-url" placeholder="请输入包含m3u8的视频地址">
-                </div>
-                <button class="btn btn-primary btn-block" onclick="startM3u8Extract()" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none;">
-                    提取m3u8
-                </button>
-                <div class="alert alert-info mt-3">
-                    支持提取在线视频的m3u8地址，方便下载和播放。
-                </div>
-            </div>
-
-            <!-- 傲星工具箱 -->
-            <div class="tool-panel" id="panel-aoxing">
-                <div class="form-group">
-                    <label for="aoxing-tool">选择工具:</label>
-                    <select class="form-control" id="aoxing-tool">
-                        <option value="base64">Base64编码/解码</option>
-                        <option value="url">URL编码/解码</option>
-                        <option value="json">JSON格式化</option>
-                        <option value="timestamp">时间戳转换</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="aoxing-input">输入内容:</label>
-                    <textarea class="form-control" id="aoxing-input" rows="4" placeholder="请输入要处理的内容"></textarea>
-                </div>
-                <button class="btn btn-primary btn-block" onclick="runAoxingTool()" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none;">
-                    执行工具
-                </button>
-                <div class="form-group mt-3">
-                    <label for="aoxing-output">输出结果:</label>
-                    <textarea class="form-control" id="aoxing-output" rows="4" readonly></textarea>
-                </div>
-            </div>
-
             <!-- 默认工具面板（用于未配置的工具） -->
-            <div class="tool-panel" id="panel-default">
+            <div class="tool-panel active" id="panel-default">
                 <div class="alert alert-info">
                     <h4>工具详情</h4>
                     <p>该工具正在开发中，敬请期待！</p>
@@ -337,17 +271,6 @@
             console.log('工具页面初始化完成');
         }
 
-        // VIP视频解析功能
-        function startVipParse() {
-            const api = document.getElementById('vip-api').value;
-            const url = document.getElementById('vip-url').value;
-            if (!url) {
-                alert('请输入视频地址');
-                return;
-            }
-            window.open(api + url, '_blank');
-        }
-
         // URL编码解码功能
         function urlEncode() {
             const input = document.getElementById('url-input').value;
@@ -388,72 +311,6 @@
             } catch(e) {
                 document.getElementById('base64-output').value = '解码错误: ' + e.message;
             }
-        }
-
-        // m3u8视频提取功能
-        function startM3u8Extract() {
-            const url = document.getElementById('m3u8-url').value.trim();
-            if (!url) {
-                alert('请输入视频地址');
-                return;
-            }
-            
-            // 简单的m3u8提取逻辑
-            setTimeout(() => {
-                const output = `提取的m3u8地址: ${url.replace(/\.mp4$/, '.m3u8')}`;
-                alert('提取完成！\n' + output);
-            }, 1000);
-        }
-
-        // 傲星工具箱功能
-        function runAoxingTool() {
-            const tool = document.getElementById('aoxing-tool').value;
-            const input = document.getElementById('aoxing-input').value;
-            const output = document.getElementById('aoxing-output');
-            
-            if (!input) {
-                alert('请输入要处理的内容');
-                return;
-            }
-            
-            let result = '';
-            
-            switch (tool) {
-                case 'base64':
-                    // 尝试解码，如果失败则编码
-                    try {
-                        result = atob(input);
-                    } catch (e) {
-                        result = btoa(unescape(encodeURIComponent(input)));
-                    }
-                    break;
-                case 'url':
-                    // 尝试解码，如果失败则编码
-                    try {
-                        result = decodeURIComponent(input);
-                    } catch (e) {
-                        result = encodeURIComponent(input);
-                    }
-                    break;
-                case 'json':
-                    try {
-                        const obj = JSON.parse(input);
-                        result = JSON.stringify(obj, null, 2);
-                    } catch (e) {
-                        result = 'JSON格式错误';
-                    }
-                    break;
-                case 'timestamp':
-                    // 尝试转换时间戳
-                    if (!isNaN(input)) {
-                        result = new Date(parseInt(input) * 1000).toLocaleString();
-                    } else {
-                        result = Math.floor(new Date(input).getTime() / 1000).toString();
-                    }
-                    break;
-            }
-            
-            output.value = result;
         }
 
         // 时间戳转换功能

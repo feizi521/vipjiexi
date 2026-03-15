@@ -1,23 +1,9 @@
 // Cloudflare Workers 后台管理系统
 // 用于动态管理工具配置
 
-// 工具配置数据
+// 工具配置数据（已清空，等待重新添加）
 let toolsConfig = {
-  vip: {
-    icon: '🎬',
-    title: 'VIP视频解析',
-    description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
-  },
-  m3u8: {
-    icon: '📹',
-    title: 'm3u8视频提取',
-    description: '提取在线视频的m3u8地址，方便下载和播放'
-  },
-  aoxing: {
-    icon: '🧰',
-    title: '傲星工具箱',
-    description: '多功能在线工具箱，包含Base64、URL编码解码等功能'
-  }
+  // 工具已移除，等待重新添加
 };
 
 // 处理请求

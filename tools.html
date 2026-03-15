@@ -375,6 +375,62 @@ http://api.myzch.cn/?url=</textarea>
                 </div>
             </div>
 
+            <!-- 音乐下载 -->
+            <div class="tool-panel" id="panel-musicdownload">
+                <div class="alert alert-info" style="background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border: none;">
+                    <i class="fas fa-music"></i> 搜索歌曲名称或歌手，支持无损音质下载
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="music-search-input" placeholder="输入歌曲名称或歌手名..." style="height: 45px; font-size: 16px;">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" onclick="searchMusic()" style="height: 45px; padding: 0 25px; background: linear-gradient(135deg, #11998e, #38ef7d); border: none;">
+                                <i class="fas fa-search"></i> 搜索
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>音质选择:</label>
+                    <select class="form-control" id="music-quality">
+                        <option value="standard">标准音质 (128kbps)</option>
+                        <option value="high">高品质 (320kbps)</option>
+                        <option value="lossless" selected>无损音质 (FLAC)</option>
+                        <option value="hires">Hi-Res (24bit/96kHz)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>搜索平台:</label>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <label class="checkbox-inline"><input type="checkbox" id="platform-qq" checked> QQ音乐</label>
+                        <label class="checkbox-inline"><input type="checkbox" id="platform-163" checked> 网易云</label>
+                        <label class="checkbox-inline"><input type="checkbox" id="platform-kugou" checked> 酷狗</label>
+                        <label class="checkbox-inline"><input type="checkbox" id="platform-kuwo" checked> 酷我</label>
+                    </div>
+                </div>
+                <div id="music-loading" style="display: none; text-align: center; padding: 20px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 30px; color: #11998e;"></i>
+                    <p style="margin-top: 10px; color: #666;">正在搜索中...</p>
+                </div>
+                <div class="form-group">
+                    <label><strong>搜索结果:</strong></label>
+                    <div id="music-results" style="max-height: 400px; overflow-y: auto;">
+                        <p style="color: #999; text-align: center; padding: 30px;">输入关键词搜索歌曲</p>
+                    </div>
+                </div>
+                <div id="music-player" style="display: none; background: #f5f5f5; border-radius: 10px; padding: 15px; margin-top: 15px;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <img id="music-cover" src="" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover;">
+                        <div style="flex: 1;">
+                            <h5 id="music-title" style="margin: 0;"></h5>
+                            <p id="music-artist" style="color: #666; margin: 5px 0;"></p>
+                            <audio id="music-audio" controls style="width: 100%;"></audio>
+                        </div>
+                    </div>
+                    <div id="music-lyrics" style="margin-top: 15px; max-height: 200px; overflow-y: auto; font-size: 14px; line-height: 1.8;"></div>
+                </div>
+            </div>
+
             <!-- Base64编解码 -->
             <div class="tool-panel" id="panel-base64">
                 <div class="form-group">
@@ -2936,6 +2992,186 @@ http://api.myzch.cn/?url=</textarea>
             document.getElementById('animation-result').innerHTML = '<p style="color: #999; text-align: center; margin: 50px 0;">动画短剧生成结果将显示在这里</p>';
             document.getElementById('download-animation-btn').disabled = true;
             document.getElementById('preview-animation-btn').disabled = true;
+        }
+
+        // ========== 音乐下载功能 ==========
+        async function searchMusic() {
+            const keyword = document.getElementById('music-search-input').value.trim();
+            if (!keyword) {
+                alert('请输入歌曲名称或歌手名！');
+                return;
+            }
+
+            const quality = document.getElementById('music-quality').value;
+            const platforms = [];
+            if (document.getElementById('platform-qq').checked) platforms.push('qq');
+            if (document.getElementById('platform-163').checked) platforms.push('163');
+            if (document.getElementById('platform-kugou').checked) platforms.push('kugou');
+            if (document.getElementById('platform-kuwo').checked) platforms.push('kuwo');
+
+            if (platforms.length === 0) {
+                alert('请至少选择一个搜索平台！');
+                return;
+            }
+
+            const loadingDiv = document.getElementById('music-loading');
+            const resultsDiv = document.getElementById('music-results');
+            
+            loadingDiv.style.display = 'block';
+            resultsDiv.innerHTML = '';
+
+            try {
+                const mockResults = generateMockMusicResults(keyword, platforms);
+                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                loadingDiv.style.display = 'none';
+                
+                if (mockResults.length === 0) {
+                    resultsDiv.innerHTML = '<p style="color: #999; text-align: center; padding: 30px;">未找到相关歌曲</p>';
+                    return;
+                }
+
+                let html = '<div class="list-group">';
+                mockResults.forEach((song, index) => {
+                    html += `
+                        <div class="list-group-item" style="display: flex; align-items: center; gap: 15px; border-left: 4px solid ${getPlatformColor(song.platform)};">
+                            <div style="width: 50px; height: 50px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                                🎵
+                            </div>
+                            <div style="flex: 1;">
+                                <h5 style="margin: 0; font-size: 15px;">${song.name}</h5>
+                                <p style="margin: 3px 0 0 0; font-size: 12px; color: #666;">
+                                    ${song.artist} - ${song.album} 
+                                    <span style="background: ${getPlatformColor(song.platform)}; color: white; padding: 1px 6px; border-radius: 3px; font-size: 10px;">${getPlatformName(song.platform)}</span>
+                                </p>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="font-size: 12px; color: #999;">${song.duration}</span>
+                                <br>
+                                <span style="font-size: 11px; color: ${quality === 'lossless' || quality === 'hires' ? '#11998e' : '#666'};">${getQualityText(quality)}</span>
+                            </div>
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn btn-sm btn-success" onclick="playMusic(${index})" title="试听">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="btn btn-sm btn-primary" onclick="downloadMusic(${index})" title="下载">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                
+                resultsDiv.innerHTML = html;
+                window.musicResults = mockResults;
+                window.musicQuality = quality;
+
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                resultsDiv.innerHTML = `<div class="alert alert-danger">搜索失败: ${error.message}</div>`;
+            }
+        }
+
+        function generateMockMusicResults(keyword, platforms) {
+            const results = [];
+            const platformCount = Math.min(platforms.length, 3);
+            
+            for (let i = 0; i < 8; i++) {
+                const platform = platforms[i % platforms.length];
+                results.push({
+                    id: Date.now() + i,
+                    name: `${keyword} - ${['原版', 'DJ版', '伴奏', '现场版', 'Remix'][i % 5]}`,
+                    artist: ['周杰伦', '林俊杰', '邓紫棋', '薛之谦', '毛不易'][i % 5],
+                    album: ['热门单曲', '精选集', '新歌首发', '经典老歌'][i % 4],
+                    duration: ['3:45', '4:12', '3:28', '5:01', '4:33'][i % 5],
+                    platform: platform,
+                    cover: `https://picsum.photos/100?random=${i}`,
+                    url: '#'
+                });
+            }
+            return results;
+        }
+
+        function getPlatformColor(platform) {
+            const colors = {
+                'qq': '#31C27C',
+                '163': '#C20C0C',
+                'kugou': '#2EADFB',
+                'kuwo': '#FF8500'
+            };
+            return colors[platform] || '#666';
+        }
+
+        function getPlatformName(platform) {
+            const names = {
+                'qq': 'QQ音乐',
+                '163': '网易云',
+                'kugou': '酷狗',
+                'kuwo': '酷我'
+            };
+            return names[platform] || platform;
+        }
+
+        function getQualityText(quality) {
+            const texts = {
+                'standard': '128kbps',
+                'high': '320kbps',
+                'lossless': 'FLAC无损',
+                'hires': 'Hi-Res'
+            };
+            return texts[quality] || quality;
+        }
+
+        function playMusic(index) {
+            if (!window.musicResults || !window.musicResults[index]) {
+                alert('歌曲信息获取失败');
+                return;
+            }
+
+            const song = window.musicResults[index];
+            const player = document.getElementById('music-player');
+            
+            document.getElementById('music-cover').src = song.cover;
+            document.getElementById('music-title').textContent = song.name;
+            document.getElementById('music-artist').textContent = song.artist + ' - ' + song.album;
+            
+            player.style.display = 'block';
+            
+            document.getElementById('music-lyrics').innerHTML = `
+                <p style="color: #666; text-align: center;">
+                    🎵 正在加载歌词...<br>
+                    <small>提示：这是模拟数据，实际使用需接入真实API</small>
+                </p>
+            `;
+            
+            alert(`🎵 正在播放: ${song.name}\n\n提示：这是演示功能，实际播放需接入真实音乐API`);
+        }
+
+        function downloadMusic(index) {
+            if (!window.musicResults || !window.musicResults[index]) {
+                alert('歌曲信息获取失败');
+                return;
+            }
+
+            const song = window.musicResults[index];
+            const quality = window.musicQuality;
+            const qualityText = getQualityText(quality);
+            
+            const fileSize = {
+                'standard': '3-5',
+                'high': '8-10',
+                'lossless': '25-35',
+                'hires': '80-150'
+            };
+
+            alert(`📥 准备下载: ${song.name}\n\n` +
+                  `歌手: ${song.artist}\n` +
+                  `专辑: ${song.album}\n` +
+                  `音质: ${qualityText}\n` +
+                  `大小: 约 ${fileSize[quality]}MB\n\n` +
+                  `提示：这是演示功能，实际下载需接入真实音乐API`);
         }
 
         // URL编码解码功能

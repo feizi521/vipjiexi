@@ -185,17 +185,45 @@
             return urlParams.get('tool') || 'vip';
         }
 
-        // 工具配置
-        const toolsConfig = {
-            vip: {
-                icon: '🎬',
-                title: 'VIP视频解析',
-                description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
+        // 从API获取工具配置
+        let toolsConfig = {};
+        
+        // API 基础 URL
+        const API_BASE = 'https://jiexihoutai.farholme.com';
+        
+        // 获取工具配置
+        async function fetchToolsConfig() {
+            try {
+                const response = await fetch(`${API_BASE}/api/tools`);
+                if (response.ok) {
+                    toolsConfig = await response.json();
+                } else {
+                    // 如果API请求失败，使用默认配置
+                    toolsConfig = {
+                        vip: {
+                            icon: '🎬',
+                            title: 'VIP视频解析',
+                            description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
+                        }
+                    };
+                }
+            } catch (error) {
+                // 网络错误时使用默认配置
+                toolsConfig = {
+                    vip: {
+                        icon: '🎬',
+                        title: 'VIP视频解析',
+                        description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
+                    }
+                };
             }
-        };
+        }
 
         // 初始化工具页面
-        function initToolPage() {
+        async function initToolPage() {
+            // 先获取工具配置
+            await fetchToolsConfig();
+            
             const toolId = getToolId();
             const config = toolsConfig[toolId];
             
@@ -1630,4 +1658,6 @@
         }
 
         // 页面加载完成后初始化
-        window.onload = initToolPage;
+        window.onload = async function() {
+            await initToolPage();
+        };

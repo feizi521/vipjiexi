@@ -506,6 +506,120 @@ http://api.myzch.cn/?url=</textarea>
                 </div>
             </div>
 
+            <!-- 图片视频压缩 -->
+            <div class="tool-panel" id="panel-mediacompress">
+                <div class="alert alert-info" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none;">
+                    <i class="fas fa-compress-alt"></i> 智能压缩图片和视频，保持高质量输出
+                </div>
+                <ul class="nav nav-tabs" style="margin-bottom: 15px;">
+                    <li class="active"><a href="#compress-image-tab" data-toggle="tab">🖼️ 图片压缩</a></li>
+                    <li><a href="#compress-video-tab" data-toggle="tab">🎬 视频压缩</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="compress-image-tab">
+                        <div class="form-group">
+                            <label>选择图片文件 (支持 JPG/PNG/WebP/GIF):</label>
+                            <input type="file" class="form-control" id="compress-image-input" accept="image/*" multiple>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>压缩质量: <span id="img-quality-value">80</span>%</label>
+                                    <input type="range" class="form-control" id="img-compress-quality" min="10" max="100" value="80" oninput="document.getElementById('img-quality-value').textContent = this.value">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>输出格式:</label>
+                                    <select class="form-control" id="img-output-format">
+                                        <option value="original">保持原格式</option>
+                                        <option value="jpeg">JPEG</option>
+                                        <option value="png">PNG</option>
+                                        <option value="webp">WebP</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>最大尺寸限制 (像素):</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="number" class="form-control" id="img-max-width" placeholder="最大宽度" value="1920">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="number" class="form-control" id="img-max-height" placeholder="最大高度" value="1080">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="compressImages()" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none; padding: 12px;">
+                            <i class="fas fa-compress"></i> 开始压缩图片
+                        </button>
+                    </div>
+                    <div class="tab-pane" id="compress-video-tab">
+                        <div class="form-group">
+                            <label>选择视频文件 (支持 MP4/AVI/MOV/WebM):</label>
+                            <input type="file" class="form-control" id="compress-video-input" accept="video/*">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>压缩模式:</label>
+                                    <select class="form-control" id="video-compress-mode">
+                                        <option value="balanced">平衡模式</option>
+                                        <option value="quality">优先画质</option>
+                                        <option value="size">优先体积</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>输出分辨率:</label>
+                                    <select class="form-control" id="video-resolution">
+                                        <option value="original">保持原分辨率</option>
+                                        <option value="1080p">1080p (1920x1080)</option>
+                                        <option value="720p" selected>720p (1280x720)</option>
+                                        <option value="480p">480p (854x480)</option>
+                                        <option value="360p">360p (640x360)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>视频码率:</label>
+                                    <select class="form-control" id="video-bitrate">
+                                        <option value="auto">自动</option>
+                                        <option value="2000">2 Mbps</option>
+                                        <option value="1500" selected>1.5 Mbps</option>
+                                        <option value="1000">1 Mbps</option>
+                                        <option value="500">500 Kbps</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="video-audio-compress" checked> 压缩音频</label>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="compressVideo()" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none; padding: 12px;">
+                            <i class="fas fa-compress"></i> 开始压缩视频
+                        </button>
+                    </div>
+                </div>
+                <div id="compress-progress" style="display: none; margin-top: 15px;">
+                    <div class="progress" style="height: 25px;">
+                        <div class="progress-bar progress-bar-striped active" id="compress-progress-bar" role="progressbar" style="width: 0%;">0%</div>
+                    </div>
+                    <p id="compress-status" style="text-align: center; margin-top: 10px; color: #666;">准备中...</p>
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label><strong>压缩结果:</strong></label>
+                    <div id="compress-results" style="background: #f5f5f5; border-radius: 8px; padding: 15px; min-height: 150px;">
+                        <p style="color: #999; text-align: center; margin: 30px 0;">压缩结果将显示在这里</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Base64编解码 -->
             <div class="tool-panel" id="panel-base64">
                 <div class="form-group">
@@ -3395,6 +3509,245 @@ http://api.myzch.cn/?url=</textarea>
             if (!extractedImages[index]) return;
             const img = extractedImages[index];
             alert(`📥 准备下载: ${img.name}\n\n提示：这是演示功能，实际下载需接入后端服务`);
+        }
+
+        // ========== 图片视频压缩功能 ==========
+        let compressedFiles = [];
+
+        async function compressImages() {
+            const input = document.getElementById('compress-image-input');
+            const files = input.files;
+            
+            if (!files || files.length === 0) {
+                alert('请选择要压缩的图片文件！');
+                return;
+            }
+
+            const quality = parseInt(document.getElementById('img-compress-quality').value) / 100;
+            const outputFormat = document.getElementById('img-output-format').value;
+            const maxWidth = parseInt(document.getElementById('img-max-width').value) || 1920;
+            const maxHeight = parseInt(document.getElementById('img-max-height').value) || 1080;
+
+            const progressDiv = document.getElementById('compress-progress');
+            const progressBar = document.getElementById('compress-progress-bar');
+            const statusText = document.getElementById('compress-status');
+            const resultsDiv = document.getElementById('compress-results');
+
+            progressDiv.style.display = 'block';
+            compressedFiles = [];
+            resultsDiv.innerHTML = '';
+
+            const results = [];
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const progress = Math.round(((i + 1) / files.length) * 100);
+                progressBar.style.width = progress + '%';
+                progressBar.textContent = progress + '%';
+                statusText.textContent = `正在压缩: ${file.name} (${i + 1}/${files.length})`;
+
+                try {
+                    const compressed = await compressImage(file, quality, outputFormat, maxWidth, maxHeight);
+                    results.push({
+                        name: file.name,
+                        originalSize: file.size,
+                        compressedSize: compressed.size,
+                        ratio: ((1 - compressed.size / file.size) * 100).toFixed(1),
+                        dataUrl: compressed.dataUrl,
+                        width: compressed.width,
+                        height: compressed.height
+                    });
+                } catch (error) {
+                    results.push({
+                        name: file.name,
+                        error: error.message
+                    });
+                }
+
+                await new Promise(resolve => setTimeout(resolve, 300));
+            }
+
+            statusText.textContent = '压缩完成！';
+            compressedFiles = results;
+
+            let html = '<div class="table-responsive"><table class="table table-bordered table-striped">';
+            html += '<thead><tr><th>文件名</th><th>原大小</th><th>压缩后</th><th>压缩率</th><th>尺寸</th><th>操作</th></tr></thead><tbody>';
+            
+            results.forEach((result, index) => {
+                if (result.error) {
+                    html += `<tr><td colspan="6" class="text-danger">${result.name}: ${result.error}</td></tr>`;
+                } else {
+                    html += `<tr>
+                        <td>${result.name}</td>
+                        <td>${formatFileSize(result.originalSize)}</td>
+                        <td>${formatFileSize(result.compressedSize)}</td>
+                        <td><span style="color: ${result.ratio > 0 ? 'green' : 'red'}">${result.ratio}%</span></td>
+                        <td>${result.width}x${result.height}</td>
+                        <td>
+                            <button class="btn btn-xs btn-success" onclick="downloadCompressedFile(${index})">
+                                <i class="fas fa-download"></i> 下载
+                            </button>
+                        </td>
+                    </tr>`;
+                }
+            });
+            
+            html += '</tbody></table></div>';
+            
+            if (results.filter(r => !r.error).length > 1) {
+                html += '<button class="btn btn-success btn-block" onclick="downloadAllCompressed()" style="margin-top: 10px;"><i class="fas fa-download"></i> 全部下载</button>';
+            }
+            
+            resultsDiv.innerHTML = html;
+        }
+
+        async function compressImage(file, quality, outputFormat, maxWidth, maxHeight) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > maxWidth || height > maxHeight) {
+                            const ratio = Math.min(maxWidth / width, maxHeight / height);
+                            width = Math.round(width * ratio);
+                            height = Math.round(height * ratio);
+                        }
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        let mimeType = file.type;
+                        if (outputFormat !== 'original') {
+                            mimeType = `image/${outputFormat}`;
+                        }
+
+                        canvas.toBlob((blob) => {
+                            const reader2 = new FileReader();
+                            reader2.onload = () => {
+                                resolve({
+                                    size: blob.size,
+                                    dataUrl: reader2.result,
+                                    width: width,
+                                    height: height
+                                });
+                            };
+                            reader2.readAsDataURL(blob);
+                        }, mimeType, quality);
+                    };
+                    img.onerror = () => reject(new Error('图片加载失败'));
+                    img.src = e.target.result;
+                };
+                reader.onerror = () => reject(new Error('文件读取失败'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function compressVideo() {
+            const input = document.getElementById('compress-video-input');
+            const file = input.files[0];
+            
+            if (!file) {
+                alert('请选择要压缩的视频文件！');
+                return;
+            }
+
+            const mode = document.getElementById('video-compress-mode').value;
+            const resolution = document.getElementById('video-resolution').value;
+            const bitrate = document.getElementById('video-bitrate').value;
+            const audioCompress = document.getElementById('video-audio-compress').checked;
+
+            const progressDiv = document.getElementById('compress-progress');
+            const progressBar = document.getElementById('compress-progress-bar');
+            const statusText = document.getElementById('compress-status');
+            const resultsDiv = document.getElementById('compress-results');
+
+            progressDiv.style.display = 'block';
+            resultsDiv.innerHTML = '';
+
+            const steps = [
+                { progress: 10, text: '正在分析视频...' },
+                { progress: 20, text: '正在提取视频轨道...' },
+                { progress: 40, text: '正在压缩视频...' },
+                { progress: 60, text: '正在处理音频...' },
+                { progress: 80, text: '正在合成视频...' },
+                { progress: 100, text: '压缩完成！' }
+            ];
+
+            for (let i = 0; i < steps.length; i++) {
+                progressBar.style.width = steps[i].progress + '%';
+                progressBar.textContent = steps[i].progress + '%';
+                statusText.textContent = steps[i].text;
+                await new Promise(resolve => setTimeout(resolve, 800));
+            }
+
+            const resolutionText = {
+                'original': '保持原分辨率',
+                '1080p': '1920x1080',
+                '720p': '1280x720',
+                '480p': '854x480',
+                '360p': '640x360'
+            };
+
+            const modeText = {
+                'balanced': '平衡模式',
+                'quality': '优先画质',
+                'size': '优先体积'
+            };
+
+            const estimatedSize = file.size * (mode === 'quality' ? 0.7 : mode === 'size' ? 0.3 : 0.5);
+
+            resultsDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <h4><i class="fas fa-check-circle"></i> 视频压缩完成！</h4>
+                </div>
+                <table class="table table-bordered">
+                    <tr><td width="30%">原文件名</td><td>${file.name}</td></tr>
+                    <tr><td>原文件大小</td><td>${formatFileSize(file.size)}</td></tr>
+                    <tr><td>压缩后大小</td><td>约 ${formatFileSize(estimatedSize)}</td></tr>
+                    <tr><td>压缩模式</td><td>${modeText[mode]}</td></tr>
+                    <tr><td>输出分辨率</td><td>${resolutionText[resolution]}</td></tr>
+                    <tr><td>视频码率</td><td>${bitrate === 'auto' ? '自动' : bitrate + ' Mbps'}</td></tr>
+                    <tr><td>音频压缩</td><td>${audioCompress ? '是' : '否'}</td></tr>
+                </table>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> 提示：这是演示功能，实际视频压缩需要后端服务支持（如FFmpeg）。
+                </div>
+                <button class="btn btn-success btn-block" onclick="alert('📥 准备下载压缩后的视频...\\n\\n提示：这是演示功能，实际下载需接入后端服务')">
+                    <i class="fas fa-download"></i> 下载压缩后的视频
+                </button>
+            `;
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function downloadCompressedFile(index) {
+            if (!compressedFiles[index] || compressedFiles[index].error) return;
+            
+            const result = compressedFiles[index];
+            const link = document.createElement('a');
+            link.download = 'compressed_' + result.name;
+            link.href = result.dataUrl;
+            link.click();
+        }
+
+        function downloadAllCompressed() {
+            compressedFiles.forEach((result, index) => {
+                if (!result.error) {
+                    setTimeout(() => downloadCompressedFile(index), index * 200);
+                }
+            });
         }
 
         // URL编码解码功能

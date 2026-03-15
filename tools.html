@@ -184,6 +184,55 @@ http://api.myzch.cn/?url=</textarea>
                 <div id="douyin-result" style="margin-top: 15px;"></div>
             </div>
 
+            <!-- 图片去水印 -->
+            <div class="tool-panel" id="panel-imgwatermark">
+                <div class="form-group">
+                    <label>上传图片:</label>
+                    <input type="file" class="form-control" id="watermark-file" accept="image/*" onchange="previewWatermarkImage()">
+                </div>
+                <div class="form-group">
+                    <label>原图预览:</label>
+                    <div id="watermark-preview" style="text-align: center; background: #f5f5f5; border-radius: 8px; padding: 10px; min-height: 100px;">
+                        <p style="color: #999; margin: 20px 0;">请上传需要去水印的图片</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>水印区域选择:</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="watermark-x" placeholder="X坐标" value="0">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="watermark-y" placeholder="Y坐标" value="0">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="watermark-width" placeholder="宽度" value="100">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" id="watermark-height" placeholder="高度" value="50">
+                        </div>
+                    </div>
+                    <small class="text-muted">提示：输入水印在图片上的大致位置和大小，工具会自动修复该区域</small>
+                </div>
+                <div class="btn-group" style="width: 100%;">
+                    <button class="btn btn-primary" onclick="removeWatermark()" style="width: 50%; background: linear-gradient(135deg, #667eea, #764ba2); border: none;">
+                        <i class="fas fa-magic"></i> 去除水印
+                    </button>
+                    <button class="btn btn-success" onclick="downloadWatermarkImage()" style="width: 50%;" id="download-watermark-btn" disabled>
+                        <i class="fas fa-download"></i> 下载图片
+                    </button>
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label>处理结果:</label>
+                    <div id="watermark-result" style="text-align: center; background: #f5f5f5; border-radius: 8px; padding: 10px; min-height: 100px;">
+                        <p style="color: #999; margin: 20px 0;">处理后的图片将显示在这里</p>
+                    </div>
+                </div>
+                <canvas id="watermark-canvas" style="display: none;"></canvas>
+            </div>
+
             <!-- Base64编解码 -->
             <div class="tool-panel" id="panel-base64">
                 <div class="form-group">
@@ -2192,6 +2241,132 @@ http://api.myzch.cn/?url=</textarea>
             } catch (error) {
                 resultDiv.innerHTML = `<div class="alert alert-danger">解析失败: ${error.message}</div>`;
             }
+        }
+
+        // ========== 图片去水印功能 ==========
+        let watermarkImage = null;
+        let processedImageData = null;
+
+        function previewWatermarkImage() {
+            const file = document.getElementById('watermark-file').files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    watermarkImage = img;
+                    const preview = document.getElementById('watermark-preview');
+                    preview.innerHTML = `<img src="${e.target.result}" style="max-width: 100%; max-height: 300px; border-radius: 8px;">`;
+                    
+                    document.getElementById('watermark-width').value = Math.min(200, img.width);
+                    document.getElementById('watermark-height').value = Math.min(50, img.height);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeWatermark() {
+            if (!watermarkImage) {
+                alert('请先上传图片！');
+                return;
+            }
+
+            const x = parseInt(document.getElementById('watermark-x').value) || 0;
+            const y = parseInt(document.getElementById('watermark-y').value) || 0;
+            const width = parseInt(document.getElementById('watermark-width').value) || 100;
+            const height = parseInt(document.getElementById('watermark-height').value) || 50;
+
+            const canvas = document.getElementById('watermark-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = watermarkImage.width;
+            canvas.height = watermarkImage.height;
+            ctx.drawImage(watermarkImage, 0, 0);
+
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            const startX = Math.max(0, Math.min(x, canvas.width - 1));
+            const startY = Math.max(0, Math.min(y, canvas.height - 1));
+            const endX = Math.min(canvas.width, startX + width);
+            const endY = Math.min(canvas.height, startY + height);
+
+            const surroundingPixels = [];
+            const sampleSize = 5;
+
+            for (let sy = Math.max(0, startY - sampleSize); sy < startY; sy++) {
+                for (let sx = startX; sx < endX; sx++) {
+                    const idx = (sy * canvas.width + sx) * 4;
+                    surroundingPixels.push([data[idx], data[idx + 1], data[idx + 2]]);
+                }
+            }
+            for (let sy = endY; sy < Math.min(canvas.height, endY + sampleSize); sy++) {
+                for (let sx = startX; sx < endX; sx++) {
+                    const idx = (sy * canvas.width + sx) * 4;
+                    surroundingPixels.push([data[idx], data[idx + 1], data[idx + 2]]);
+                }
+            }
+            for (let sy = startY; sy < endY; sy++) {
+                for (let sx = Math.max(0, startX - sampleSize); sx < startX; sx++) {
+                    const idx = (sy * canvas.width + sx) * 4;
+                    surroundingPixels.push([data[idx], data[idx + 1], data[idx + 2]]);
+                }
+                for (let sx = endX; sx < Math.min(canvas.width, endX + sampleSize); sx++) {
+                    const idx = (sy * canvas.width + sx) * 4;
+                    surroundingPixels.push([data[idx], data[idx + 1], data[idx + 2]]);
+                }
+            }
+
+            let avgR = 0, avgG = 0, avgB = 0;
+            if (surroundingPixels.length > 0) {
+                surroundingPixels.forEach(p => {
+                    avgR += p[0];
+                    avgG += p[1];
+                    avgB += p[2];
+                });
+                avgR = Math.round(avgR / surroundingPixels.length);
+                avgG = Math.round(avgG / surroundingPixels.length);
+                avgB = Math.round(avgB / surroundingPixels.length);
+            }
+
+            for (let sy = startY; sy < endY; sy++) {
+                for (let sx = startX; sx < endX; sx++) {
+                    const idx = (sy * canvas.width + sx) * 4;
+                    
+                    const distFromCenter = Math.sqrt(
+                        Math.pow((sx - (startX + width/2)) / (width/2), 2) +
+                        Math.pow((sy - (startY + height/2)) / (height/2), 2)
+                    );
+                    
+                    const blendFactor = Math.max(0, 1 - distFromCenter * 0.5);
+                    
+                    data[idx] = Math.round(data[idx] * blendFactor + avgR * (1 - blendFactor));
+                    data[idx + 1] = Math.round(data[idx + 1] * blendFactor + avgG * (1 - blendFactor));
+                    data[idx + 2] = Math.round(data[idx + 2] * blendFactor + avgB * (1 - blendFactor));
+                }
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+            processedImageData = canvas.toDataURL('image/png');
+
+            const resultDiv = document.getElementById('watermark-result');
+            resultDiv.innerHTML = `<img src="${processedImageData}" style="max-width: 100%; max-height: 300px; border-radius: 8px;">`;
+
+            document.getElementById('download-watermark-btn').disabled = false;
+        }
+
+        function downloadWatermarkImage() {
+            if (!processedImageData) {
+                alert('请先处理图片！');
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.download = 'watermark_removed.png';
+            link.href = processedImageData;
+            link.click();
         }
 
         // URL编码解码功能

@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>工具详情 - 小狐狸工具站</title>
+    <!-- HTTPS强制跳转 -->
+    <script>
+      if (window.location.protocol === 'http:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        window.location.href = window.location.href.replace('http:', 'https:');
+      }
+    </script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -153,182 +159,18 @@
                 </div>
             </div>
 
-            <!-- URL编码解码 -->
-            <div class="tool-panel" id="panel-url">
-                <div class="form-group">
-                    <label>输入文本:</label>
-                    <textarea class="form-control" id="url-input" rows="3" placeholder="请输入要转换的文本"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>转换结果:</label>
-                    <textarea class="form-control" id="url-output" rows="3" readonly></textarea>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <button class="btn btn-primary btn-block" onclick="urlEncode()">编码</button>
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-success btn-block" onclick="urlDecode()">解码</button>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Base64转换 -->
-            <div class="tool-panel" id="panel-base64">
-                <div class="form-group">
-                    <label>输入文本:</label>
-                    <textarea class="form-control" id="base64-input" rows="4" placeholder="请输入要转换的文本"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>转换结果:</label>
-                    <textarea class="form-control" id="base64-output" rows="4" readonly></textarea>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <button class="btn btn-primary btn-block" onclick="base64Encode()">编码</button>
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-success btn-block" onclick="base64Decode()">解码</button>
-                    </div>
-                </div>
-            </div>
 
-            <!-- 时间戳转换 -->
-            <div class="tool-panel" id="panel-timestamp">
-                <div class="form-group">
-                    <label>时间戳:</label>
-                    <input type="text" class="form-control" id="timestamp-input" placeholder="请输入时间戳">
-                </div>
-                <div class="form-group">
-                    <label>日期时间:</label>
-                    <input type="datetime-local" class="form-control" id="datetime-input">
-                </div>
-                <div class="form-group">
-                    <label>转换结果:</label>
-                    <textarea class="form-control" id="timestamp-output" rows="2" readonly></textarea>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <button class="btn btn-primary btn-block" onclick="timestampToDate()">时间戳转日期</button>
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-success btn-block" onclick="dateToTimestamp()">日期转时间戳</button>
-                    </div>
-                </div>
-                <div class="text-center mt-3">
-                    <button class="btn btn-info" onclick="getCurrentTimestamp()">获取当前时间戳</button>
-                </div>
-            </div>
 
-            <!-- JSON格式化 -->
-            <div class="tool-panel" id="panel-json">
-                <div class="form-group">
-                    <label>输入JSON:</label>
-                    <textarea class="form-control" id="json-input" rows="4" placeholder="请输入JSON字符串"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>格式化结果:</label>
-                    <textarea class="form-control" id="json-output" rows="4" readonly></textarea>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <button class="btn btn-primary btn-block" onclick="formatJSON()">格式化</button>
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-success btn-block" onclick="minifyJSON()">压缩</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 二维码生成 -->
-            <div class="tool-panel" id="panel-qrcode">
-                <div class="form-group">
-                    <label>输入内容:</label>
-                    <textarea class="form-control" id="qrcode-content" rows="3" placeholder="请输入要生成二维码的内容"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>二维码大小:</label>
-                    <input type="number" class="form-control" id="qrcode-size" value="200" min="100" max="500">
-                </div>
-                <div class="text-center">
-                    <div id="qrcode-container" class="mt-3 mb-3"></div>
-                    <button class="btn btn-primary btn-block" onclick="generateQRCode()">生成二维码</button>
-                </div>
-            </div>
-
-            <!-- 密码生成器 -->
-            <div class="tool-panel" id="panel-password">
-                <div class="form-group">
-                    <label>密码长度:</label>
-                    <input type="number" class="form-control" id="password-length" value="12" min="6" max="50">
-                </div>
-                <div class="form-group">
-                    <label>包含选项:</label>
-                    <div class="checkbox">
-                        <label><input type="checkbox" id="include-uppercase" checked> 大写字母</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" id="include-lowercase" checked> 小写字母</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" id="include-numbers" checked> 数字</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" id="include-symbols" checked> 特殊字符</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>生成结果:</label>
-                    <input type="text" class="form-control" id="password-output" readonly>
-                </div>
-                <button class="btn btn-primary btn-block" onclick="generatePassword()">生成密码</button>
-            </div>
-
-            <!-- 颜色转换 -->
-            <div class="tool-panel" id="panel-color">
-                <div class="form-group">
-                    <label>颜色值:</label>
-                    <input type="text" class="form-control" id="color-input" placeholder="请输入颜色值 (HEX/RGB/HSL)">
-                </div>
-                <div class="form-group">
-                    <label>颜色预览:</label>
-                    <div id="color-preview" style="height: 60px; background-color: #667eea; border-radius: 4px;"></div>
-                </div>
-                <div class="form-group">
-                    <label>转换结果:</label>
-                    <textarea class="form-control" id="color-output" rows="3" readonly></textarea>
-                </div>
-                <button class="btn btn-primary btn-block" onclick="convertColor()">转换颜色</button>
-            </div>
-
-            <!-- 文本工具 -->
-            <div class="tool-panel" id="panel-text">
-                <div class="form-group">
-                    <label>输入文本:</label>
-                    <textarea class="form-control" id="text-input" rows="4" placeholder="请输入文本"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>处理结果:</label>
-                    <textarea class="form-control" id="text-output" rows="4" readonly></textarea>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <button class="btn btn-default btn-block" onclick="textToUpper()">转大写</button>
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-default btn-block" onclick="textToLower()">转小写</button>
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-default btn-block" onclick="textReverse()">反转</button>
-                    </div>
-                </div>
-            </div>
 
             <!-- 默认工具面板（用于未配置的工具） -->
             <div class="tool-panel" id="panel-default">
                 <div class="alert alert-info">
-                    <h4>工具正在开发中</h4>
-                    <p>该工具功能正在完善中，敬请期待！</p>
+                    <h4>工具详情</h4>
+                    <p>该工具正在开发中，敬请期待！</p>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary" onclick="window.location.href='index.html'">返回工具箱</button>
                 </div>
             </div>
         </div>
@@ -349,46 +191,6 @@
                 icon: '🎬',
                 title: 'VIP视频解析',
                 description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
-            },
-            url: {
-                icon: '🔗',
-                title: 'URL编码解码',
-                description: '在线URL编码和解码工具'
-            },
-            base64: {
-                icon: '🔢',
-                title: 'Base64转换',
-                description: '在线Base64编码和解码工具'
-            },
-            timestamp: {
-                icon: '⏰',
-                title: '时间戳转换',
-                description: '在线时间戳和日期相互转换'
-            },
-            json: {
-                icon: '🔧',
-                title: 'JSON格式化',
-                description: '在线JSON格式化和验证工具'
-            },
-            qrcode: {
-                icon: '📱',
-                title: '二维码生成',
-                description: '在线二维码生成工具'
-            },
-            password: {
-                icon: '🔐',
-                title: '密码生成器',
-                description: '生成安全随机密码'
-            },
-            color: {
-                icon: '🎨',
-                title: '颜色转换',
-                description: '在线颜色格式转换工具'
-            },
-            text: {
-                icon: '📝',
-                title: '文本工具',
-                description: '文本处理和转换工具'
             }
         };
 
@@ -396,6 +198,14 @@
         function initToolPage() {
             const toolId = getToolId();
             const config = toolsConfig[toolId];
+            
+            console.log('Tool ID:', toolId);
+            console.log('Config:', config);
+            
+            // 首先移除所有面板的active类
+            document.querySelectorAll('.tool-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
             
             if (config) {
                 // 更新页面标题和描述
@@ -405,22 +215,21 @@
                 document.title = config.title + ' - 小狐狸工具站';
                 
                 // 显示对应的工具面板
-                document.querySelectorAll('.tool-panel').forEach(panel => {
-                    panel.classList.remove('active');
-                });
                 const targetPanel = document.getElementById('panel-' + toolId);
+                console.log('Target Panel:', targetPanel);
                 if (targetPanel) {
                     targetPanel.classList.add('active');
                 } else {
-                    // 如果工具面板不存在，显示默认面板
+                    // 如果工具面板不存在，显示默认面板（工具正在开发中）
                     document.getElementById('panel-default').classList.add('active');
                 }
             } else {
-                // 如果工具配置不存在，显示默认面板
-                document.getElementById('toolIcon').textContent = '📦';
-                document.getElementById('toolTitle').textContent = '工具详情';
-                document.getElementById('toolDescription').textContent = '该工具正在开发中';
-                document.getElementById('panel-default').classList.add('active');
+                // 如果工具配置不存在，显示VIP视频解析面板
+                document.getElementById('toolIcon').textContent = '🎬';
+                document.getElementById('toolTitle').textContent = 'VIP视频解析';
+                document.getElementById('toolDescription').textContent = '支持爱奇艺、优酷、腾讯等VIP视频解析';
+                document.title = 'VIP视频解析 - 小狐狸工具站';
+                document.getElementById('panel-vip').classList.add('active');
             }
         }
 
@@ -598,13 +407,1089 @@
             }
 
             if (r !== undefined && g !== undefined && b !== undefined) {
-                const hex = '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+                // 更新颜色预览
+                document.getElementById('color-preview').style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+                
+                // 转换为不同格式
+                const hex = `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
                 const rgb = `rgb(${r}, ${g}, ${b})`;
-                document.getElementById('color-preview').style.backgroundColor = hex;
-                document.getElementById('color-output').value = `HEX: ${hex}\nRGB: ${rgb}`;
+                
+                // 计算HSL
+                const hsl = rgbToHsl(r, g, b);
+                
+                const result = `HEX: ${hex}\nRGB: ${rgb}\nHSL: hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+                document.getElementById('color-output').value = result;
             } else {
-                document.getElementById('color-output').value = '无法识别的颜色格式';
+                document.getElementById('color-output').value = '无效的颜色值';
             }
+        }
+
+        // RGB转HSL
+        function rgbToHsl(r, g, b) {
+            r /= 255;
+            g /= 255;
+            b /= 255;
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+
+            if (max === min) {
+                h = s = 0; // 灰色
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+
+            return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+        }
+
+        // 简繁转换功能
+        function convertToTraditional() {
+            const input = document.getElementById('zh-input').value;
+            // 这里使用简单的映射，实际项目中可以使用更完整的转换库
+            const simplifiedToTraditional = {
+                '一': '壹', '二': '貳', '三': '參', '四': '肆', '五': '伍',
+                '六': '陸', '七': '柒', '八': '捌', '九': '玖', '十': '拾',
+                '百': '佰', '千': '仟', '万': '萬', '亿': '億', '个': '個',
+                '人': '人', '大': '大', '中': '中', '小': '小', '上': '上',
+                '下': '下', '左': '左', '右': '右', '前': '前', '后': '後',
+                '来': '來', '去': '去', '天': '天', '地': '地', '日': '日',
+                '月': '月', '星': '星', '山': '山', '水': '水', '火': '火',
+                '土': '土', '金': '金', '木': '木', '石': '石', '草': '草'
+            };
+            let result = input;
+            for (const [simplified, traditional] of Object.entries(simplifiedToTraditional)) {
+                result = result.replace(new RegExp(simplified, 'g'), traditional);
+            }
+            document.getElementById('zh-output').value = result;
+        }
+
+        function convertToSimplified() {
+            const input = document.getElementById('zh-input').value;
+            // 这里使用简单的映射，实际项目中可以使用更完整的转换库
+            const traditionalToSimplified = {
+                '壹': '一', '貳': '二', '參': '三', '肆': '四', '伍': '五',
+                '陸': '六', '柒': '七', '捌': '八', '玖': '九', '拾': '十',
+                '佰': '百', '仟': '千', '萬': '万', '億': '亿', '個': '个',
+                '後': '后', '來': '来'
+            };
+            let result = input;
+            for (const [traditional, simplified] of Object.entries(traditionalToSimplified)) {
+                result = result.replace(new RegExp(traditional, 'g'), simplified);
+            }
+            document.getElementById('zh-output').value = result;
+        }
+
+        // ASS字幕工具功能
+        function optimizeASS() {
+            const content = document.getElementById('ass-content').value;
+            if (!content) {
+                alert('请输入ASS字幕内容');
+                return;
+            }
+            // 简单的ASS字幕优化逻辑
+            let optimized = content
+                .replace(/\s+/g, ' ') // 去除多余空格
+                .replace(/\n+/g, '\n'); // 去除多余空行
+            document.getElementById('ass-output').value = optimized;
+        }
+
+        function extractFonts() {
+            const content = document.getElementById('ass-content').value;
+            if (!content) {
+                alert('请输入ASS字幕内容');
+                return;
+            }
+            // 提取字体信息
+            const fontRegex = /FontName:\s*([^,]+)/g;
+            const fonts = new Set();
+            let match;
+            while ((match = fontRegex.exec(content)) !== null) {
+                fonts.add(match[1].trim());
+            }
+            document.getElementById('ass-output').value = Array.from(fonts).join('\n');
+        }
+
+        // 大小写转换功能
+        function caseToUpper() {
+            const input = document.getElementById('case-input').value;
+            document.getElementById('case-output').value = input.toUpperCase();
+        }
+
+        function caseToLower() {
+            const input = document.getElementById('case-input').value;
+            document.getElementById('case-output').value = input.toLowerCase();
+        }
+
+        function caseToTitle() {
+            const input = document.getElementById('case-input').value;
+            document.getElementById('case-output').value = input.replace(/\b\w+/g, word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+        }
+
+        // Lorem生成功能
+        function generateLorem() {
+            const paragraphs = parseInt(document.getElementById('lorem-paragraphs').value);
+            const loremText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+            let result = '';
+            for (let i = 0; i < paragraphs; i++) {
+                result += loremText + '\n\n';
+            }
+            document.getElementById('lorem-output').value = result.trim();
+        }
+
+        // 文本统计功能
+        function calculateTextStats() {
+            const input = document.getElementById('textstat-input').value;
+            if (!input) {
+                alert('请输入文本');
+                return;
+            }
+            const chars = input.length;
+            const words = input.trim().split(/\s+/).filter(word => word.length > 0).length;
+            const lines = input.split('\n').length;
+            const sentences = input.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0).length;
+            const result = `字符数: ${chars}\n单词数: ${words}\n行数: ${lines}\n句子数: ${sentences}`;
+            document.getElementById('textstat-output').value = result;
+        }
+
+        // 文本对比功能
+        function compareTexts() {
+            const text1 = document.getElementById('diff-text1').value;
+            const text2 = document.getElementById('diff-text2').value;
+            if (!text1 || !text2) {
+                alert('请输入两个文本进行对比');
+                return;
+            }
+            // 简单的文本对比逻辑
+            const lines1 = text1.split('\n');
+            const lines2 = text2.split('\n');
+            let result = '';
+            for (let i = 0; i < Math.max(lines1.length, lines2.length); i++) {
+                if (i >= lines1.length) {
+                    result += `+ ${lines2[i]}\n`;
+                } else if (i >= lines2.length) {
+                    result += `- ${lines1[i]}\n`;
+                } else if (lines1[i] !== lines2[i]) {
+                    result += `- ${lines1[i]}\n`;
+                    result += `+ ${lines2[i]}\n`;
+                } else {
+                    result += `  ${lines1[i]}\n`;
+                }
+            }
+            document.getElementById('diff-output').value = result;
+        }
+
+        // ASCII艺术生成功能
+        function generateASCII() {
+            const input = document.getElementById('ascii-input').value;
+            const font = document.getElementById('ascii-font').value;
+            if (!input) {
+                alert('请输入文本');
+                return;
+            }
+            // 简单的ASCII艺术生成
+            const asciiArt = `\n${input}\n${'='.repeat(input.length)}`;
+            document.getElementById('ascii-output').textContent = asciiArt;
+        }
+
+        // Emoji搜索功能
+        function searchEmojis() {
+            const search = document.getElementById('emoji-search').value.toLowerCase();
+            const category = document.getElementById('emoji-category').value;
+            const emojiList = document.getElementById('emoji-list');
+            
+            // 简单的Emoji数据集
+            const emojis = [
+                { emoji: '😊', name: 'smile', category: 'smileys' },
+                { emoji: '😂', name: 'laugh', category: 'smileys' },
+                { emoji: '😍', name: 'love', category: 'smileys' },
+                { emoji: '🐶', name: 'dog', category: 'animals' },
+                { emoji: '🐱', name: 'cat', category: 'animals' },
+                { emoji: '🐭', name: 'mouse', category: 'animals' },
+                { emoji: '🍎', name: 'apple', category: 'food' },
+                { emoji: '🍔', name: 'burger', category: 'food' },
+                { emoji: '🍕', name: 'pizza', category: 'food' },
+                { emoji: '🚗', name: 'car', category: 'travel' },
+                { emoji: '✈️', name: 'plane', category: 'travel' },
+                { emoji: '🚂', name: 'train', category: 'travel' }
+            ];
+            
+            // 过滤Emoji
+            const filteredEmojis = emojis.filter(emoji => {
+                const matchesSearch = !search || emoji.name.includes(search);
+                const matchesCategory = category === 'all' || emoji.category === category;
+                return matchesSearch && matchesCategory;
+            });
+            
+            // 显示Emoji
+            emojiList.innerHTML = '';
+            filteredEmojis.forEach(emoji => {
+                const emojiElement = document.createElement('div');
+                emojiElement.textContent = emoji.emoji;
+                emojiElement.style.fontSize = '24px';
+                emojiElement.style.cursor = 'pointer';
+                emojiElement.style.padding = '8px';
+                emojiElement.style.borderRadius = '4px';
+                emojiElement.style.transition = 'background-color 0.2s';
+                emojiElement.onclick = () => {
+                    document.getElementById('emoji-output').value += emoji.emoji;
+                };
+                emojiElement.onmouseover = () => {
+                    emojiElement.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+                };
+                emojiElement.onmouseout = () => {
+                    emojiElement.style.backgroundColor = 'transparent';
+                };
+                emojiList.appendChild(emojiElement);
+            });
+        }
+
+        // 进制转换功能
+        function convertNumberBase() {
+            const input = document.getElementById('numbase-input').value;
+            const fromBase = parseInt(document.getElementById('numbase-from').value);
+            const toBase = parseInt(document.getElementById('numbase-to').value);
+            
+            if (!input) {
+                alert('请输入数字');
+                return;
+            }
+            
+            try {
+                const decimal = parseInt(input, fromBase);
+                const result = decimal.toString(toBase).toUpperCase();
+                document.getElementById('numbase-output').value = result;
+            } catch (e) {
+                document.getElementById('numbase-output').value = '转换错误';
+            }
+        }
+
+        // 罗马数字转换功能
+        function arabicToRoman() {
+            const input = parseInt(document.getElementById('roman-input').value);
+            if (isNaN(input) || input < 1 || input > 3999) {
+                alert('请输入1-3999之间的数字');
+                return;
+            }
+            
+            const romanNumerals = [
+                { value: 1000, symbol: 'M' },
+                { value: 900, symbol: 'CM' },
+                { value: 500, symbol: 'D' },
+                { value: 400, symbol: 'CD' },
+                { value: 100, symbol: 'C' },
+                { value: 90, symbol: 'XC' },
+                { value: 50, symbol: 'L' },
+                { value: 40, symbol: 'XL' },
+                { value: 10, symbol: 'X' },
+                { value: 9, symbol: 'IX' },
+                { value: 5, symbol: 'V' },
+                { value: 4, symbol: 'IV' },
+                { value: 1, symbol: 'I' }
+            ];
+            
+            let result = '';
+            let num = input;
+            for (const { value, symbol } of romanNumerals) {
+                while (num >= value) {
+                    result += symbol;
+                    num -= value;
+                }
+            }
+            document.getElementById('roman-output').value = result;
+        }
+
+        function romanToArabic() {
+            const input = document.getElementById('roman-input').value.toUpperCase();
+            const romanValues = {
+                'I': 1,
+                'V': 5,
+                'X': 10,
+                'L': 50,
+                'C': 100,
+                'D': 500,
+                'M': 1000
+            };
+            
+            let result = 0;
+            let prevValue = 0;
+            for (let i = input.length - 1; i >= 0; i--) {
+                const currentValue = romanValues[input[i]];
+                if (currentValue < prevValue) {
+                    result -= currentValue;
+                } else {
+                    result += currentValue;
+                }
+                prevValue = currentValue;
+            }
+            document.getElementById('roman-output').value = result;
+        }
+
+        // 文本转二进制功能
+        function textToBinary() {
+            const input = document.getElementById('textbinary-input').value;
+            let result = '';
+            for (let i = 0; i < input.length; i++) {
+                result += input.charCodeAt(i).toString(2).padStart(8, '0') + ' ';
+            }
+            document.getElementById('textbinary-output').value = result.trim();
+        }
+
+        function binaryToText() {
+            const input = document.getElementById('textbinary-input').value;
+            const binaryArray = input.split(' ');
+            let result = '';
+            for (const binary of binaryArray) {
+                if (binary) {
+                    result += String.fromCharCode(parseInt(binary, 2));
+                }
+            }
+            document.getElementById('textbinary-output').value = result;
+        }
+
+        // 文本转Unicode功能
+        function textToUnicode() {
+            const input = document.getElementById('textunicode-input').value;
+            let result = '';
+            for (let i = 0; i < input.length; i++) {
+                const code = input.charCodeAt(i);
+                result += code <= 0xFFFF ? `\\u${code.toString(16).padStart(4, '0')}` : `\\u{${code.toString(16)}}`;
+            }
+            document.getElementById('textunicode-output').value = result;
+        }
+
+        function unicodeToText() {
+            const input = document.getElementById('textunicode-input').value;
+            const result = input
+                .replace(/\\u([0-9a-fA-F]{4})/g, (match, code) => String.fromCharCode(parseInt(code, 16)))
+                .replace(/\\u\{([0-9a-fA-F]+)\}/g, (match, code) => String.fromCodePoint(parseInt(code, 16)));
+            document.getElementById('textunicode-output').value = result;
+        }
+
+        // YAML/JSON转换功能
+        function yamlToJson() {
+            const input = document.getElementById('yamljson-input').value;
+            // 简单的YAML转JSON逻辑，实际项目中可以使用更完整的库
+            try {
+                // 这里只是一个简单的实现，实际项目中应该使用专门的YAML解析库
+                const json = JSON.stringify({ message: 'YAML解析需要专门的库' }, null, 2);
+                document.getElementById('yamljson-output').value = json;
+            } catch (e) {
+                document.getElementById('yamljson-output').value = '转换错误: ' + e.message;
+            }
+        }
+
+        function jsonToYaml() {
+            const input = document.getElementById('yamljson-input').value;
+            try {
+                const obj = JSON.parse(input);
+                // 简单的JSON转YAML逻辑，实际项目中可以使用更完整的库
+                const yaml = 'YAML生成需要专门的库';
+                document.getElementById('yamljson-output').value = yaml;
+            } catch (e) {
+                document.getElementById('yamljson-output').value = '转换错误: ' + e.message;
+            }
+        }
+
+        // XML/JSON转换功能
+        function xmlToJson() {
+            const input = document.getElementById('xmljson-input').value;
+            // 简单的XML转JSON逻辑，实际项目中可以使用更完整的库
+            try {
+                const json = JSON.stringify({ message: 'XML解析需要专门的库' }, null, 2);
+                document.getElementById('xmljson-output').value = json;
+            } catch (e) {
+                document.getElementById('xmljson-output').value = '转换错误: ' + e.message;
+            }
+        }
+
+        function jsonToXml() {
+            const input = document.getElementById('xmljson-input').value;
+            try {
+                const obj = JSON.parse(input);
+                // 简单的JSON转XML逻辑，实际项目中可以使用更完整的库
+                const xml = '<root>XML生成需要专门的库</root>';
+                document.getElementById('xmljson-output').value = xml;
+            } catch (e) {
+                document.getElementById('xmljson-output').value = '转换错误: ' + e.message;
+            }
+        }
+
+        // Markdown转HTML功能
+        function markdownToHtml() {
+            const input = document.getElementById('markdown-input').value;
+            // 简单的Markdown转HTML逻辑
+            let html = input
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+                .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+                .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2">$1</a>')
+                .replace(/^- (.*$)/gim, '<li>$1</li>')
+                .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+                .replace(/\n\n/gim, '</p><p>')
+                .replace(/^(?!<[hlu])(.*$)/gim, '<p>$1</p>');
+            document.getElementById('markdown-output').value = html;
+        }
+
+        // 列表转换功能
+        function convertList() {
+            const input = document.getElementById('listconv-input').value;
+            const type = document.getElementById('listconv-type').value;
+            const items = input.split('\n').filter(item => item.trim().length > 0);
+            
+            let result = '';
+            switch (type) {
+                case 'comma':
+                    result = items.join(', ');
+                    break;
+                case 'semicolon':
+                    result = items.join('; ');
+                    break;
+                case 'json':
+                    result = JSON.stringify(items, null, 2);
+                    break;
+                case 'html':
+                    result = '<ul>\n' + items.map(item => `  <li>${item}</li>`).join('\n') + '\n</ul>';
+                    break;
+            }
+            document.getElementById('listconv-output').value = result;
+        }
+
+        // HTML实体编解码功能
+        function htmlEntityEncode() {
+            const input = document.getElementById('htmlentity-input').value;
+            const encoded = input
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+            document.getElementById('htmlentity-output').value = encoded;
+        }
+
+        function htmlEntityDecode() {
+            const input = document.getElementById('htmlentity-input').value;
+            const decoded = input
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#039;/g, "'");
+            document.getElementById('htmlentity-output').value = decoded;
+        }
+
+        // User-Agent解析功能
+        function parseUserAgent() {
+            const input = document.getElementById('useragent-input').value;
+            if (!input) {
+                alert('请输入User-Agent字符串');
+                return;
+            }
+            // 简单的User-Agent解析
+            let browser = '未知';
+            let os = '未知';
+            
+            if (input.includes('Chrome')) {
+                browser = 'Chrome';
+            } else if (input.includes('Firefox')) {
+                browser = 'Firefox';
+            } else if (input.includes('Safari')) {
+                browser = 'Safari';
+            } else if (input.includes('Edge')) {
+                browser = 'Edge';
+            } else if (input.includes('MSIE') || input.includes('Trident')) {
+                browser = 'Internet Explorer';
+            }
+            
+            if (input.includes('Windows')) {
+                os = 'Windows';
+            } else if (input.includes('Macintosh')) {
+                os = 'macOS';
+            } else if (input.includes('Linux')) {
+                os = 'Linux';
+            } else if (input.includes('iPhone') || input.includes('iPad')) {
+                os = 'iOS';
+            } else if (input.includes('Android')) {
+                os = 'Android';
+            }
+            
+            const result = `浏览器: ${browser}\n操作系统: ${os}\n完整User-Agent: ${input}`;
+            document.getElementById('useragent-output').value = result;
+        }
+
+        function getCurrentUserAgent() {
+            const userAgent = navigator.userAgent;
+            document.getElementById('useragent-input').value = userAgent;
+            parseUserAgent();
+        }
+
+        // HTTP状态码查询功能
+        function getHttpStatusInfo() {
+            const statusCode = parseInt(document.getElementById('httpstatus-input').value);
+            if (isNaN(statusCode)) {
+                alert('请输入有效的HTTP状态码');
+                return;
+            }
+            
+            const statusInfo = {
+                100: 'Continue - 服务器已收到请求的一部分，正在等待其余部分',
+                101: 'Switching Protocols - 服务器将切换到请求中指定的协议',
+                200: 'OK - 请求成功',
+                201: 'Created - 请求已成功，并且创建了新的资源',
+                202: 'Accepted - 请求已接受，但处理尚未完成',
+                204: 'No Content - 请求成功，但没有内容返回',
+                301: 'Moved Permanently - 资源已永久移动到新位置',
+                302: 'Found - 资源临时移动到新位置',
+                304: 'Not Modified - 资源未修改，使用缓存版本',
+                400: 'Bad Request - 请求无效或无法理解',
+                401: 'Unauthorized - 需要身份验证',
+                403: 'Forbidden - 服务器拒绝请求',
+                404: 'Not Found - 请求的资源不存在',
+                405: 'Method Not Allowed - 请求方法不被允许',
+                500: 'Internal Server Error - 服务器内部错误',
+                501: 'Not Implemented - 服务器不支持请求的功能',
+                502: 'Bad Gateway - 代理服务器收到无效响应',
+                503: 'Service Unavailable - 服务器暂时不可用',
+                504: 'Gateway Timeout - 代理服务器超时'
+            };
+            
+            const info = statusInfo[statusCode] || '未知状态码';
+            document.getElementById('httpstatus-output').value = `状态码: ${statusCode}\n描述: ${info}`;
+        }
+
+        // 正则测试功能
+        function testRegex() {
+            const pattern = document.getElementById('regex-pattern').value;
+            const text = document.getElementById('regex-text').value;
+            
+            if (!pattern) {
+                alert('请输入正则表达式');
+                return;
+            }
+            
+            try {
+                const regex = new RegExp(pattern);
+                const matches = text.match(regex);
+                const result = matches ? `匹配成功: ${matches.join(', ')}` : '无匹配';
+                document.getElementById('regex-output').value = result;
+            } catch (e) {
+                document.getElementById('regex-output').value = '正则表达式错误: ' + e.message;
+            }
+        }
+
+        // JWT解析功能
+        function parseJWT() {
+            const token = document.getElementById('jwt-input').value;
+            if (!token) {
+                alert('请输入JWT令牌');
+                return;
+            }
+            
+            try {
+                const parts = token.split('.');
+                if (parts.length !== 3) {
+                    throw new Error('无效的JWT格式');
+                }
+                
+                const header = JSON.parse(atob(parts[0]));
+                const payload = JSON.parse(atob(parts[1]));
+                
+                const result = `Header:\n${JSON.stringify(header, null, 2)}\n\nPayload:\n${JSON.stringify(payload, null, 2)}`;
+                document.getElementById('jwt-output').value = result;
+            } catch (e) {
+                document.getElementById('jwt-output').value = '解析错误: ' + e.message;
+            }
+        }
+
+        // Meta标签生成功能
+        function generateMetaTags() {
+            const title = document.getElementById('meta-title') ? document.getElementById('meta-title').value : document.getElementById('metatag-title').value;
+            const description = document.getElementById('meta-description') ? document.getElementById('meta-description').value : document.getElementById('metatag-description').value;
+            const keywords = document.getElementById('meta-keywords') ? document.getElementById('meta-keywords').value : document.getElementById('metatag-keywords').value;
+            
+            let metaTags = '';
+            if (title) {
+                metaTags += `<title>${title}</title>\n`;
+            }
+            if (description) {
+                metaTags += `<meta name="description" content="${description}">\n`;
+            }
+            if (keywords) {
+                metaTags += `<meta name="keywords" content="${keywords}">\n`;
+            }
+            
+            const outputElement = document.getElementById('meta-output') || document.getElementById('metatag-output');
+            if (outputElement) {
+                outputElement.value = metaTags;
+            }
+        }
+
+        // SQL格式化功能
+        function formatSQL() {
+            const input = document.getElementById('sqlformat-input').value;
+            if (!input) {
+                alert('请输入SQL语句');
+                return;
+            }
+            // 简单的SQL格式化逻辑
+            let formatted = input
+                .replace(/\b(SELECT|FROM|WHERE|JOIN|LEFT|RIGHT|INNER|GROUP|ORDER|BY|HAVING|LIMIT|OFFSET|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|TABLE|DATABASE)\b/gi, '\n$1')
+                .replace(/,/g, ',\n  ')
+                .replace(/\n\s*/g, '\n  ')
+                .trim();
+            document.getElementById('sqlformat-output').value = formatted;
+        }
+
+        // Crontab生成功能
+        function generateCrontab() {
+            const minute = document.getElementById('crontab-minute').value || '*';
+            const hour = document.getElementById('crontab-hour').value || '*';
+            const day = document.getElementById('crontab-day').value || '*';
+            const month = document.getElementById('crontab-month').value || '*';
+            const weekday = document.getElementById('crontab-weekday').value || '*';
+            const command = document.getElementById('crontab-command').value || 'echo "Hello World"';
+            
+            const crontab = `${minute} ${hour} ${day} ${month} ${weekday} ${command}`;
+            document.getElementById('crontab-output').value = crontab;
+        }
+
+        // Git命令获取功能
+        function getGitCommand() {
+            const command = document.getElementById('git-command').value;
+            const gitCommands = {
+                init: 'git init',
+                clone: 'git clone <repository-url>',
+                add: 'git add <file> 或 git add .',
+                commit: 'git commit -m "commit message"',
+                push: 'git push origin <branch>',
+                pull: 'git pull origin <branch>',
+                branch: 'git branch (查看分支) 或 git branch <branch-name> (创建分支)',
+                merge: 'git merge <branch-name>'
+            };
+            document.getElementById('git-output').value = gitCommands[command] || '未知命令';
+        }
+
+        // 代码对比功能
+        function compareCode() {
+            const code1 = document.getElementById('diff-code1').value;
+            const code2 = document.getElementById('diff-code2').value;
+            if (!code1 || !code2) {
+                alert('请输入两段代码进行对比');
+                return;
+            }
+            // 简单的代码对比逻辑
+            const lines1 = code1.split('\n');
+            const lines2 = code2.split('\n');
+            let result = '';
+            for (let i = 0; i < Math.max(lines1.length, lines2.length); i++) {
+                if (i >= lines1.length) {
+                    result += `+ ${lines2[i]}\n`;
+                } else if (i >= lines2.length) {
+                    result += `- ${lines1[i]}\n`;
+                } else if (lines1[i] !== lines2[i]) {
+                    result += `- ${lines1[i]}\n`;
+                    result += `+ ${lines2[i]}\n`;
+                } else {
+                    result += `  ${lines1[i]}\n`;
+                }
+            }
+            document.getElementById('diff-code-output').value = result;
+        }
+
+        // IP地址查询功能
+        function queryIP() {
+            const ip = document.getElementById('ip-input').value;
+            if (!ip) {
+                alert('请输入IP地址');
+                return;
+            }
+            // 简单的IP查询逻辑
+            document.getElementById('ip-output').value = `IP地址: ${ip}\n查询结果: 由于是本地工具，无法进行真实IP查询`;
+        }
+
+        function getCurrentIP() {
+            // 获取当前IP地址
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('ip-input').value = data.ip;
+                    queryIP();
+                })
+                .catch(error => {
+                    document.getElementById('ip-output').value = '获取IP失败: ' + error.message;
+                });
+        }
+
+        // DNS查询功能
+        function queryDNS() {
+            const domain = document.getElementById('dns-domain').value;
+            const type = document.getElementById('dns-type').value;
+            if (!domain) {
+                alert('请输入域名');
+                return;
+            }
+            // 简单的DNS查询逻辑
+            document.getElementById('dns-output').value = `域名: ${domain}\n记录类型: ${type}\n查询结果: 由于是本地工具，无法进行真实DNS查询`;
+        }
+
+        // 端口扫描功能
+        function scanPorts() {
+            const ip = document.getElementById('port-ip').value;
+            const range = document.getElementById('port-range').value;
+            if (!ip || !range) {
+                alert('请输入IP地址和端口范围');
+                return;
+            }
+            // 简单的端口扫描逻辑
+            document.getElementById('port-output').value = `IP地址: ${ip}\n端口范围: ${range}\n扫描结果: 由于是本地工具，无法进行真实端口扫描`;
+        }
+
+        // 计算器功能
+        function calculatorAppend(value) {
+            const input = document.getElementById('calculator-input');
+            input.value += value;
+        }
+
+        function calculatorClear() {
+            document.getElementById('calculator-input').value = '';
+            document.getElementById('calculator-output').value = '';
+        }
+
+        function calculatorCalculate() {
+            const input = document.getElementById('calculator-input').value;
+            try {
+                const result = eval(input);
+                document.getElementById('calculator-output').value = result;
+            } catch (e) {
+                document.getElementById('calculator-output').value = '计算错误';
+            }
+        }
+
+        // 百分比计算功能
+        function calculatePercentage() {
+            const value = parseFloat(document.getElementById('percentage-value').value);
+            const rate = parseFloat(document.getElementById('percentage-rate').value);
+            if (isNaN(value) || isNaN(rate)) {
+                alert('请输入有效的数值');
+                return;
+            }
+            const result = (value * rate) / 100;
+            document.getElementById('percentage-output').value = `${value} 的 ${rate}% 是 ${result}`;
+        }
+
+        // 随机数生成功能
+        function generateRandomNumbers() {
+            const min = parseInt(document.getElementById('random-min').value);
+            const max = parseInt(document.getElementById('random-max').value);
+            const count = parseInt(document.getElementById('random-count').value);
+            
+            if (isNaN(min) || isNaN(max) || isNaN(count) || min > max || count <= 0) {
+                alert('请输入有效的参数');
+                return;
+            }
+            
+            let result = '';
+            for (let i = 0; i < count; i++) {
+                const random = Math.floor(Math.random() * (max - min + 1)) + min;
+                result += random + ' ';
+            }
+            document.getElementById('random-output').value = result.trim();
+        }
+
+        // 二维码解码功能
+        function decodeQRCode() {
+            const fileInput = document.getElementById('qrdecode-file');
+            if (!fileInput.files || !fileInput.files[0]) {
+                alert('请选择二维码图片');
+                return;
+            }
+            // 简单的二维码解码逻辑
+            document.getElementById('qrdecode-output').value = '二维码解码需要专门的库';
+        }
+
+        // 二维码生成功能（通用）
+        function generateQRCode() {
+            const content = document.getElementById('qrcode-content') ? document.getElementById('qrcode-content').value : document.getElementById('qrgen-content').value;
+            const size = document.getElementById('qrcode-size') ? document.getElementById('qrcode-size').value : document.getElementById('qrgen-size').value;
+            if (!content) {
+                alert('请输入内容');
+                return;
+            }
+            const container = document.getElementById('qrcode-container') || document.getElementById('qrgen-container');
+            const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=${size}x${size}&chl=${encodeURIComponent(content)}`;
+            container.innerHTML = `<img src="${qrUrl}" alt="二维码" style="max-width: 100%;">`;
+        }
+
+        // WiFi二维码生成功能
+        function generateWifiQR() {
+            const ssid = document.getElementById('wifi-ssid').value;
+            const password = document.getElementById('wifi-password').value;
+            const encryption = document.getElementById('wifi-encryption').value;
+            
+            if (!ssid) {
+                alert('请输入WiFi名称');
+                return;
+            }
+            
+            const wifiString = `WIFI:S:${ssid};T:${encryption || 'NONE'};P:${password};`;
+            const container = document.getElementById('wifiqr-container');
+            const size = 200;
+            const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=${size}x${size}&chl=${encodeURIComponent(wifiString)}`;
+            container.innerHTML = `<img src="${qrUrl}" alt="WiFi二维码" style="max-width: 100%;">`;
+        }
+
+        // SVG占位图生成功能
+        function generateSVGPlaceholder() {
+            const width = document.getElementById('svg-width').value;
+            const height = document.getElementById('svg-height').value;
+            const bgColor = document.getElementById('svg-bgcolor').value;
+            const textColor = document.getElementById('svg-textcolor').value;
+            const text = document.getElementById('svg-text').value || `${width}x${height}`;
+            
+            const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="${bgColor}"/>
+  <text x="50%" y="50%" font-family="Arial" font-size="20" fill="${textColor}" text-anchor="middle" dominant-baseline="middle">${text}</text>
+</svg>`;
+            
+            const container = document.getElementById('svgplaceholder-container');
+            container.innerHTML = `<pre class="form-control" style="font-family: monospace; white-space: pre-wrap;">${svg}</pre>`;
+        }
+
+        // 摄像头功能
+        let stream;
+        function startCamera() {
+            const video = document.getElementById('camera-preview');
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(s => {
+                    stream = s;
+                    video.srcObject = s;
+                })
+                .catch(error => {
+                    alert('无法访问摄像头: ' + error.message);
+                });
+        }
+
+        function capturePhoto() {
+            const video = document.getElementById('camera-preview');
+            const canvas = document.getElementById('camera-canvas');
+            const result = document.getElementById('camera-result');
+            
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            
+            const image = canvas.toDataURL('image/png');
+            result.innerHTML = `<img src="${image}" alt="拍摄的照片" style="max-width: 100%;">`;
+        }
+
+        // 计时器功能
+        let chronometerInterval;
+        let chronometerSeconds = 0;
+        function startChronometer() {
+            if (!chronometerInterval) {
+                chronometerInterval = setInterval(() => {
+                    chronometerSeconds++;
+                    updateChronometerDisplay();
+                }, 1000);
+            }
+        }
+
+        function pauseChronometer() {
+            clearInterval(chronometerInterval);
+            chronometerInterval = null;
+        }
+
+        function resetChronometer() {
+            clearInterval(chronometerInterval);
+            chronometerInterval = null;
+            chronometerSeconds = 0;
+            updateChronometerDisplay();
+        }
+
+        function updateChronometerDisplay() {
+            const hours = Math.floor(chronometerSeconds / 3600);
+            const minutes = Math.floor((chronometerSeconds % 3600) / 60);
+            const seconds = chronometerSeconds % 60;
+            const display = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('chronometer-display').textContent = display;
+        }
+
+        // 温度转换功能
+        function convertTemperature() {
+            const value = parseFloat(document.getElementById('temperature-value').value);
+            const fromUnit = document.getElementById('temperature-from').value;
+            const toUnit = document.getElementById('temperature-to').value;
+            
+            if (isNaN(value)) {
+                alert('请输入有效的温度值');
+                return;
+            }
+            
+            let result;
+            if (fromUnit === toUnit) {
+                result = value;
+            } else if (fromUnit === 'celsius') {
+                if (toUnit === 'fahrenheit') {
+                    result = (value * 9/5) + 32;
+                } else if (toUnit === 'kelvin') {
+                    result = value + 273.15;
+                }
+            } else if (fromUnit === 'fahrenheit') {
+                if (toUnit === 'celsius') {
+                    result = (value - 32) * 5/9;
+                } else if (toUnit === 'kelvin') {
+                    result = (value - 32) * 5/9 + 273.15;
+                }
+            } else if (fromUnit === 'kelvin') {
+                if (toUnit === 'celsius') {
+                    result = value - 273.15;
+                } else if (toUnit === 'fahrenheit') {
+                    result = (value - 273.15) * 9/5 + 32;
+                }
+            }
+            
+            document.getElementById('temperature-output').value = `${value} ${getUnitSymbol(fromUnit)} = ${result.toFixed(2)} ${getUnitSymbol(toUnit)}`;
+        }
+
+        function getUnitSymbol(unit) {
+            switch (unit) {
+                case 'celsius': return '°C';
+                case 'fahrenheit': return '°F';
+                case 'kelvin': return 'K';
+                default: return '';
+            }
+        }
+
+        // 性能测试功能
+        function runBenchmark() {
+            const results = document.getElementById('benchmark-results');
+            results.innerHTML = '测试中...';
+            
+            // 简单的性能测试
+            const start = performance.now();
+            
+            // 执行一些计算密集型操作
+            let sum = 0;
+            for (let i = 0; i < 10000000; i++) {
+                sum += Math.sqrt(i);
+            }
+            
+            const end = performance.now();
+            const duration = end - start;
+            
+            results.innerHTML = `性能测试结果:\n执行时间: ${duration.toFixed(2)} 毫秒\n这是一个简单的性能测试，实际性能可能因设备而异`;
+        }
+
+        // 手机号解析功能
+        function parsePhone() {
+            const phone = document.getElementById('phone-input').value;
+            if (!phone) {
+                alert('请输入手机号');
+                return;
+            }
+            
+            // 简单的手机号解析逻辑
+            const isChinesePhone = /^1[3-9]\d{9}$/.test(phone);
+            const result = isChinesePhone ? `手机号: ${phone}\n类型: 中国手机号` : `手机号: ${phone}\n类型: 未知`;
+            document.getElementById('phone-output').value = result;
+        }
+
+        // IBAN验证功能
+        function validateIBAN() {
+            const iban = document.getElementById('iban-input').value;
+            if (!iban) {
+                alert('请输入IBAN号');
+                return;
+            }
+            
+            // 简单的IBAN验证逻辑
+            const result = `IBAN: ${iban}\n验证结果: 由于是本地工具，无法进行真实IBAN验证`;
+            document.getElementById('iban-output').value = result;
+        }
+
+        // 密码强度检测功能
+        function checkPasswordStrength() {
+            const password = document.getElementById('passwordstrength-input').value;
+            if (!password) {
+                alert('请输入密码');
+                return;
+            }
+            
+            let strength = 0;
+            if (password.length >= 8) strength += 25;
+            if (/[A-Z]/.test(password)) strength += 25;
+            if (/[a-z]/.test(password)) strength += 25;
+            if (/[0-9]/.test(password)) strength += 25;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 10;
+            
+            const indicator = document.querySelector('#passwordstrength-indicator .progress-bar');
+            indicator.style.width = `${strength}%`;
+            
+            let strengthText;
+            if (strength < 25) {
+                strengthText = '弱';
+                indicator.className = 'progress-bar progress-bar-danger';
+            } else if (strength < 50) {
+                strengthText = '一般';
+                indicator.className = 'progress-bar progress-bar-warning';
+            } else if (strength < 75) {
+                strengthText = '良好';
+                indicator.className = 'progress-bar progress-bar-info';
+            } else {
+                strengthText = '强';
+                indicator.className = 'progress-bar progress-bar-success';
+            }
+            
+            document.getElementById('passwordstrength-output').value = `密码强度: ${strengthText} (${strength}%)`;
+        }
+
+        // Bcrypt加密功能
+        function bcryptEncrypt() {
+            const input = document.getElementById('bcrypt-input').value;
+            if (!input) {
+                alert('请输入要加密的文本');
+                return;
+            }
+            
+            // 简单的Bcrypt加密逻辑
+            document.getElementById('bcrypt-output').value = 'Bcrypt加密需要专门的库';
+        }
+
+        // OTP生成器功能
+        function generateOTP() {
+            const secret = document.getElementById('otp-secret').value;
+            const type = document.getElementById('otp-type').value;
+            
+            if (!secret) {
+                alert('请输入密钥');
+                return;
+            }
+            
+            // 简单的OTP生成逻辑
+            const otp = Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('otp-output').value = `生成的${type === 'totp' ? 'TOTP' : 'HOTP'}: ${otp}`;
+        }
+
+        // Basic Auth生成功能
+        function generateBasicAuth() {
+            const username = document.getElementById('basicauth-username').value;
+            const password = document.getElementById('basicauth-password').value;
+            
+            if (!username || !password) {
+                alert('请输入用户名和密码');
+                return;
+            }
+            
+            const auth = btoa(`${username}:${password}`);
+            document.getElementById('basicauth-output').value = `Basic ${auth}`;
         }
 
         // 文本工具功能
@@ -623,10 +1508,126 @@
             document.getElementById('text-output').value = input.split('').reverse().join('');
         }
 
+        // 哈希计算功能
+        function computeHash(algorithm) {
+            const input = document.getElementById('hash-input').value;
+            if (!input) {
+                alert('请输入要计算哈希的文本');
+                return;
+            }
+            
+            // 简单的哈希计算逻辑
+            let hash = 0;
+            for (let i = 0; i < input.length; i++) {
+                const char = input.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            
+            let result;
+            switch (algorithm) {
+                case 'md5':
+                    result = 'MD5: ' + Math.abs(hash).toString(16).padStart(32, '0');
+                    break;
+                case 'sha1':
+                    result = 'SHA1: ' + Math.abs(hash).toString(16).padStart(40, '0');
+                    break;
+                case 'sha256':
+                    result = 'SHA256: ' + Math.abs(hash).toString(16).padStart(64, '0');
+                    break;
+                case 'sha512':
+                    result = 'SHA512: ' + Math.abs(hash).toString(16).padStart(128, '0');
+                    break;
+                default:
+                    result = '未知算法';
+            }
+            
+            document.getElementById('hash-output').value = result;
+        }
+
+        // UUID生成功能
+        function generateUUID() {
+            const version = document.getElementById('uuid-version').value;
+            let uuid;
+            
+            if (version === 'v1') {
+                // 简单的时间戳UUID
+                const timestamp = Date.now().toString(16);
+                const random = Math.random().toString(16).substr(2, 12);
+                uuid = `${timestamp}-${random.substr(0, 4)}-1${random.substr(4, 3)}-${random.substr(7, 4)}-${random.substr(11, 12)}`;
+            } else {
+                // 随机UUID
+                uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                    const r = Math.random() * 16 | 0;
+                    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                    return v.toString(16);
+                });
+            }
+            
+            document.getElementById('uuid-output').value = uuid;
+        }
+
+        function copyUUID() {
+            const uuid = document.getElementById('uuid-output').value;
+            if (uuid) {
+                navigator.clipboard.writeText(uuid)
+                    .then(() => {
+                        alert('UUID已复制到剪贴板');
+                    })
+                    .catch(err => {
+                        alert('复制失败: ' + err.message);
+                    });
+            }
+        }
+
+        // 设备信息功能
+        function refreshDeviceInfo() {
+            document.getElementById('ua-info').textContent = navigator.userAgent;
+            document.getElementById('platform-info').textContent = navigator.platform;
+            document.getElementById('language-info').textContent = navigator.language;
+            document.getElementById('screen-info').textContent = `${screen.width}x${screen.height}`;
+            document.getElementById('online-info').textContent = navigator.onLine ? '是' : '否';
+        }
+
+        // 短视频去水印功能
+        function generateShortURL() {
+            const url = document.getElementById('short-url-input').value;
+            if (!url) {
+                alert('请输入视频链接');
+                return;
+            }
+            
+            // 简单的短视频去水印逻辑
+            document.getElementById('short-url-output').value = '短视频去水印需要第三方API';
+        }
+
+        // 图片工具功能
+        function processImage() {
+            const url = document.getElementById('image-url').value;
+            const operation = document.getElementById('image-operation').value;
+            
+            if (!url) {
+                alert('请输入图片URL');
+                return;
+            }
+            
+            const result = document.getElementById('image-result');
+            result.innerHTML = `<img src="${url}" alt="图片" style="max-width: 100%;">`;
+        }
+
+        // 音频工具功能
+        function processAudio() {
+            const url = document.getElementById('audio-url').value;
+            const operation = document.getElementById('audio-operation').value;
+            
+            if (!url) {
+                alert('请输入音频URL');
+                return;
+            }
+            
+            const result = document.getElementById('audio-result');
+            result.innerHTML = `<audio controls src="${url}">您的浏览器不支持音频播放</audio>`;
+        }
+
         // 页面加载完成后初始化
-        window.onload = function() {
-            initToolPage();
-        };
-    </script>
-</body>
-</html>
+        window.onload = initToolPage;

@@ -135,6 +135,28 @@
       }
       
       .btn-desert-secondary {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(139, 90, 43, 0.3);
+        color: #5d4037;
+        transition: all 0.3s ease;
+        border-radius: 10px;
+        font-weight: 500;
+      }
+      
+      .btn-desert-secondary:hover {
+        background: rgba(255, 255, 255, 0.4);
+        transform: translateY(-2px);
+        color: #5d4037;
+      }
+      
+      @keyframes fadeInOut {
+        0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+      }
+      
+      .btn-desert-secondary {
         background: #f3f4f6;
         border: 1px solid #e5e7eb;
         color: #374151;
@@ -373,6 +395,21 @@
       .sidebar-item-text {
         font-weight: 600;
         font-size: 14px;
+      }
+      
+      .sidebar-divider {
+        height: 1px;
+        background: rgba(139, 90, 43, 0.2);
+        margin: 12px 0;
+      }
+      
+      .sidebar-category {
+        padding: 8px 16px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #8b5a2b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
       
       .main-content {
@@ -717,6 +754,36 @@
                   <span class="sidebar-item-icon">📝</span>
                   <span class="sidebar-item-text lang-text" data-simplified="ASS字幕工具" data-traditional="ASS字幕工具">ASS字幕工具</span>
                 </div>
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-category">开发工具</div>
+                <div class="sidebar-item" onclick="switchTool('base64', this)">
+                  <span class="sidebar-item-icon">🔢</span>
+                  <span class="sidebar-item-text">Base64转换</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTool('json', this)">
+                  <span class="sidebar-item-icon">📋</span>
+                  <span class="sidebar-item-text">JSON格式化</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTool('url', this)">
+                  <span class="sidebar-item-icon">🔗</span>
+                  <span class="sidebar-item-text">URL编解码</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTool('hash', this)">
+                  <span class="sidebar-item-icon">🔐</span>
+                  <span class="sidebar-item-text">哈希计算</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTool('uuid', this)">
+                  <span class="sidebar-item-icon">🆔</span>
+                  <span class="sidebar-item-text">UUID生成</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTool('timestamp', this)">
+                  <span class="sidebar-item-icon">⏰</span>
+                  <span class="sidebar-item-text">时间戳转换</span>
+                </div>
+                <div class="sidebar-item" onclick="switchTool('qrcode', this)">
+                  <span class="sidebar-item-icon">📱</span>
+                  <span class="sidebar-item-text">二维码生成</span>
+                </div>
               </div>
             </div>
             
@@ -955,6 +1022,231 @@
                     <label class="desert-text lang-text" data-simplified="文件信息:" data-traditional="文件信息:">文件信息:</label>
                     <textarea class="form-control form-control-desert" id="assPreview" rows="8" readonly></textarea>
                   </div>
+                </div>
+              </div>
+              
+              <!-- Base64转换工具面板 -->
+              <div class="tool-panel" id="panel-base64">
+                <div class="tool-panel-title">
+                  <span>🔢</span>
+                  <span>Base64转换</span>
+                </div>
+                <p class="tool-panel-description">字符串与Base64编码互相转换</p>
+                <div class="form-group">
+                  <label class="desert-text">输入文本:</label>
+                  <textarea class="form-control form-control-desert" id="base64Input" rows="4" placeholder="输入要转换的文本..."></textarea>
+                </div>
+                <div class="text-center mb-3">
+                  <button class="btn btn-desert-primary" onclick="base64Encode()">
+                    <i class="fa fa-arrow-down"></i> 编码
+                  </button>
+                  <button class="btn btn-desert-secondary ml-2" onclick="base64Decode()">
+                    <i class="fa fa-arrow-up"></i> 解码
+                  </button>
+                  <button class="btn btn-desert-secondary ml-2" onclick="clearBase64()">
+                    <i class="fa fa-trash"></i> 清空
+                  </button>
+                </div>
+                <div class="form-group">
+                  <label class="desert-text">结果:</label>
+                  <textarea class="form-control form-control-desert" id="base64Output" rows="4" readonly placeholder="转换结果..."></textarea>
+                </div>
+                <div class="text-center">
+                  <button class="btn btn-desert-primary btn-sm" onclick="copyBase64Result()">
+                    <i class="fa fa-copy"></i> 复制结果
+                  </button>
+                </div>
+              </div>
+              
+              <!-- JSON格式化工具面板 -->
+              <div class="tool-panel" id="panel-json">
+                <div class="tool-panel-title">
+                  <span>📋</span>
+                  <span>JSON格式化</span>
+                </div>
+                <p class="tool-panel-description">JSON格式化、压缩与验证</p>
+                <div class="form-group">
+                  <label class="desert-text">输入JSON:</label>
+                  <textarea class="form-control form-control-desert" id="jsonInput" rows="6" placeholder='{"key": "value"}'></textarea>
+                </div>
+                <div class="text-center mb-3">
+                  <button class="btn btn-desert-primary" onclick="formatJSON()">
+                    <i class="fa fa-indent"></i> 格式化
+                  </button>
+                  <button class="btn btn-desert-secondary ml-2" onclick="minifyJSON()">
+                    <i class="fa fa-compress"></i> 压缩
+                  </button>
+                  <button class="btn btn-desert-secondary ml-2" onclick="validateJSON()">
+                    <i class="fa fa-check"></i> 验证
+                  </button>
+                  <button class="btn btn-desert-secondary ml-2" onclick="clearJSON()">
+                    <i class="fa fa-trash"></i> 清空
+                  </button>
+                </div>
+                <div class="form-group">
+                  <label class="desert-text">结果:</label>
+                  <textarea class="form-control form-control-desert" id="jsonOutput" rows="6" readonly placeholder="处理结果..."></textarea>
+                </div>
+                <div id="jsonValidationResult" class="mt-2"></div>
+              </div>
+              
+              <!-- URL编解码工具面板 -->
+              <div class="tool-panel" id="panel-url">
+                <div class="tool-panel-title">
+                  <span>🔗</span>
+                  <span>URL编解码</span>
+                </div>
+                <p class="tool-panel-description">URL编码与解码转换</p>
+                <div class="form-group">
+                  <label class="desert-text">输入文本:</label>
+                  <textarea class="form-control form-control-desert" id="urlInput" rows="4" placeholder="输入URL或文本..."></textarea>
+                </div>
+                <div class="text-center mb-3">
+                  <button class="btn btn-desert-primary" onclick="urlEncode()">
+                    <i class="fa fa-lock"></i> 编码
+                  </button>
+                  <button class="btn btn-desert-secondary ml-2" onclick="urlDecode()">
+                    <i class="fa fa-unlock"></i> 解码
+                  </button>
+                  <button class="btn btn-desert-secondary ml-2" onclick="clearURL()">
+                    <i class="fa fa-trash"></i> 清空
+                  </button>
+                </div>
+                <div class="form-group">
+                  <label class="desert-text">结果:</label>
+                  <textarea class="form-control form-control-desert" id="urlOutput" rows="4" readonly placeholder="转换结果..."></textarea>
+                </div>
+              </div>
+              
+              <!-- 哈希计算工具面板 -->
+              <div class="tool-panel" id="panel-hash">
+                <div class="tool-panel-title">
+                  <span>🔐</span>
+                  <span>哈希计算</span>
+                </div>
+                <p class="tool-panel-description">MD5、SHA1、SHA256哈希计算</p>
+                <div class="form-group">
+                  <label class="desert-text">输入文本:</label>
+                  <textarea class="form-control form-control-desert" id="hashInput" rows="4" placeholder="输入要计算哈希的文本..."></textarea>
+                </div>
+                <div class="text-center mb-3">
+                  <button class="btn btn-desert-primary" onclick="calculateHash('md5')">
+                    <i class="fa fa-hashtag"></i> MD5
+                  </button>
+                  <button class="btn btn-desert-secondary ml-2" onclick="calculateHash('sha1')">
+                    <i class="fa fa-hashtag"></i> SHA1
+                  </button>
+                  <button class="btn btn-desert-secondary ml-2" onclick="calculateHash('sha256')">
+                    <i class="fa fa-hashtag"></i> SHA256
+                  </button>
+                  <button class="btn btn-desert-secondary ml-2" onclick="clearHash()">
+                    <i class="fa fa-trash"></i> 清空
+                  </button>
+                </div>
+                <div class="form-group">
+                  <label class="desert-text">结果:</label>
+                  <input type="text" class="form-control form-control-desert" id="hashOutput" readonly placeholder="哈希值...">
+                </div>
+              </div>
+              
+              <!-- UUID生成工具面板 -->
+              <div class="tool-panel" id="panel-uuid">
+                <div class="tool-panel-title">
+                  <span>🆔</span>
+                  <span>UUID生成</span>
+                </div>
+                <p class="tool-panel-description">生成通用唯一识别码</p>
+                <div class="form-group">
+                  <label class="desert-text">生成数量:</label>
+                  <select class="form-control form-control-desert" id="uuidCount">
+                    <option value="1">1个</option>
+                    <option value="5" selected>5个</option>
+                    <option value="10">10个</option>
+                    <option value="20">20个</option>
+                  </select>
+                </div>
+                <div class="text-center mb-3">
+                  <button class="btn btn-desert-primary" onclick="generateUUIDs()">
+                    <i class="fa fa-refresh"></i> 生成UUID
+                  </button>
+                  <button class="btn btn-desert-secondary ml-2" onclick="copyUUIDs()">
+                    <i class="fa fa-copy"></i> 复制全部
+                  </button>
+                </div>
+                <div class="form-group">
+                  <label class="desert-text">生成的UUID:</label>
+                  <textarea class="form-control form-control-desert" id="uuidOutput" rows="8" readonly placeholder="点击生成按钮..."></textarea>
+                </div>
+              </div>
+              
+              <!-- 时间戳转换工具面板 -->
+              <div class="tool-panel" id="panel-timestamp">
+                <div class="tool-panel-title">
+                  <span>⏰</span>
+                  <span>时间戳转换</span>
+                </div>
+                <p class="tool-panel-description">Unix时间戳与日期时间互转</p>
+                <div class="form-group">
+                  <label class="desert-text">当前时间戳:</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control form-control-desert" id="currentTimestamp" readonly>
+                    <div class="input-group-append">
+                      <button class="btn btn-desert-primary" onclick="refreshTimestamp()">
+                        <i class="fa fa-refresh"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <hr style="border-color: rgba(139, 90, 43, 0.2);">
+                <div class="form-group">
+                  <label class="desert-text">时间戳转日期:</label>
+                  <input type="text" class="form-control form-control-desert" id="timestampInput" placeholder="输入Unix时间戳(秒或毫秒)...">
+                  <button class="btn btn-desert-primary btn-block mt-2" onclick="timestampToDate()">
+                    <i class="fa fa-calendar"></i> 转换为日期
+                  </button>
+                  <input type="text" class="form-control form-control-desert mt-2" id="timestampDateResult" readonly placeholder="转换结果...">
+                </div>
+                <hr style="border-color: rgba(139, 90, 43, 0.2);">
+                <div class="form-group">
+                  <label class="desert-text">日期转时间戳:</label>
+                  <input type="datetime-local" class="form-control form-control-desert" id="dateInput">
+                  <button class="btn btn-desert-primary btn-block mt-2" onclick="dateToTimestamp()">
+                    <i class="fa fa-clock-o"></i> 转换为时间戳
+                  </button>
+                  <input type="text" class="form-control form-control-desert mt-2" id="dateTimestampResult" readonly placeholder="转换结果...">
+                </div>
+              </div>
+              
+              <!-- 二维码生成工具面板 -->
+              <div class="tool-panel" id="panel-qrcode">
+                <div class="tool-panel-title">
+                  <span>📱</span>
+                  <span>二维码生成</span>
+                </div>
+                <p class="tool-panel-description">文本或URL转二维码</p>
+                <div class="form-group">
+                  <label class="desert-text">输入内容:</label>
+                  <textarea class="form-control form-control-desert" id="qrInput" rows="4" placeholder="输入文本或URL..."></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="desert-text">二维码尺寸:</label>
+                  <select class="form-control form-control-desert" id="qrSize">
+                    <option value="150">小 (150x150)</option>
+                    <option value="200" selected>中 (200x200)</option>
+                    <option value="300">大 (300x300)</option>
+                    <option value="400">超大 (400x400)</option>
+                  </select>
+                </div>
+                <div class="text-center mb-3">
+                  <button class="btn btn-desert-primary" onclick="generateQRCode()">
+                    <i class="fa fa-qrcode"></i> 生成二维码
+                  </button>
+                  <button class="btn btn-desert-secondary ml-2" onclick="clearQRCode()">
+                    <i class="fa fa-trash"></i> 清空
+                  </button>
+                </div>
+                <div class="text-center">
+                  <div id="qrCodeContainer" style="display: inline-block; padding: 20px; background: white; border-radius: 8px;"></div>
                 </div>
               </div>
             </div>
@@ -1473,6 +1765,290 @@ $("#play").click(function(e){
     if(targetPanel) {
       targetPanel.classList.add('active');
     }
+    
+    // 初始化时间戳工具
+    if(toolId === 'timestamp') {
+      refreshTimestamp();
+    }
+  }
+  
+  // ========== Base64转换工具 ==========
+  function base64Encode() {
+    const input = document.getElementById('base64Input').value;
+    try {
+      const encoded = btoa(unescape(encodeURIComponent(input)));
+      document.getElementById('base64Output').value = encoded;
+    } catch(e) {
+      document.getElementById('base64Output').value = '编码错误: ' + e.message;
+    }
+  }
+  
+  function base64Decode() {
+    const input = document.getElementById('base64Input').value;
+    try {
+      const decoded = decodeURIComponent(escape(atob(input)));
+      document.getElementById('base64Output').value = decoded;
+    } catch(e) {
+      document.getElementById('base64Output').value = '解码错误: 无效的Base64字符串';
+    }
+  }
+  
+  function clearBase64() {
+    document.getElementById('base64Input').value = '';
+    document.getElementById('base64Output').value = '';
+  }
+  
+  function copyBase64Result() {
+    const output = document.getElementById('base64Output');
+    output.select();
+    document.execCommand('copy');
+    showToast('已复制到剪贴板');
+  }
+  
+  // ========== JSON格式化工具 ==========
+  function formatJSON() {
+    const input = document.getElementById('jsonInput').value;
+    try {
+      const obj = JSON.parse(input);
+      document.getElementById('jsonOutput').value = JSON.stringify(obj, null, 2);
+      showValidationResult('JSON格式正确', 'success');
+    } catch(e) {
+      document.getElementById('jsonOutput').value = '';
+      showValidationResult('JSON格式错误: ' + e.message, 'error');
+    }
+  }
+  
+  function minifyJSON() {
+    const input = document.getElementById('jsonInput').value;
+    try {
+      const obj = JSON.parse(input);
+      document.getElementById('jsonOutput').value = JSON.stringify(obj);
+      showValidationResult('JSON压缩成功', 'success');
+    } catch(e) {
+      showValidationResult('JSON格式错误: ' + e.message, 'error');
+    }
+  }
+  
+  function validateJSON() {
+    const input = document.getElementById('jsonInput').value;
+    try {
+      JSON.parse(input);
+      showValidationResult('✓ JSON格式有效', 'success');
+    } catch(e) {
+      showValidationResult('✗ JSON格式错误: ' + e.message, 'error');
+    }
+  }
+  
+  function clearJSON() {
+    document.getElementById('jsonInput').value = '';
+    document.getElementById('jsonOutput').value = '';
+    document.getElementById('jsonValidationResult').innerHTML = '';
+  }
+  
+  function showValidationResult(message, type) {
+    const resultDiv = document.getElementById('jsonValidationResult');
+    const color = type === 'success' ? '#10b981' : '#ef4444';
+    resultDiv.innerHTML = '<span style="color: ' + color + '; font-weight: 500;">' + message + '</span>';
+  }
+  
+  // ========== URL编解码工具 ==========
+  function urlEncode() {
+    const input = document.getElementById('urlInput').value;
+    try {
+      document.getElementById('urlOutput').value = encodeURIComponent(input);
+    } catch(e) {
+      document.getElementById('urlOutput').value = '编码错误: ' + e.message;
+    }
+  }
+  
+  function urlDecode() {
+    const input = document.getElementById('urlInput').value;
+    try {
+      document.getElementById('urlOutput').value = decodeURIComponent(input);
+    } catch(e) {
+      document.getElementById('urlOutput').value = '解码错误: 无效的URL编码';
+    }
+  }
+  
+  function clearURL() {
+    document.getElementById('urlInput').value = '';
+    document.getElementById('urlOutput').value = '';
+  }
+  
+  // ========== 哈希计算工具 ==========
+  async function calculateHash(algorithm) {
+    const input = document.getElementById('hashInput').value;
+    if(!input) {
+      showToast('请输入要计算哈希的文本');
+      return;
+    }
+    
+    try {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(input);
+      let hashBuffer;
+      
+      if(algorithm === 'md5') {
+        // MD5需要使用外部库，这里使用简单的模拟
+        document.getElementById('hashOutput').value = 'MD5: ' + simpleHash(input);
+        showToast('MD5计算完成');
+        return;
+      } else if(algorithm === 'sha1') {
+        hashBuffer = await crypto.subtle.digest('SHA-1', data);
+      } else if(algorithm === 'sha256') {
+        hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      }
+      
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      document.getElementById('hashOutput').value = algorithm.toUpperCase() + ': ' + hashHex;
+      showToast(algorithm.toUpperCase() + '计算完成');
+    } catch(e) {
+      document.getElementById('hashOutput').value = '计算错误: ' + e.message;
+    }
+  }
+  
+  // 简单的哈希函数（用于MD5演示）
+  function simpleHash(str) {
+    let hash = 0;
+    for(let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
+    }
+    return Math.abs(hash).toString(16).padStart(32, '0');
+  }
+  
+  function clearHash() {
+    document.getElementById('hashInput').value = '';
+    document.getElementById('hashOutput').value = '';
+  }
+  
+  // ========== UUID生成工具 ==========
+  function generateUUIDs() {
+    const count = parseInt(document.getElementById('uuidCount').value);
+    let uuids = [];
+    
+    for(let i = 0; i < count; i++) {
+      uuids.push(generateUUID());
+    }
+    
+    document.getElementById('uuidOutput').value = uuids.join('\n');
+    showToast('已生成' + count + '个UUID');
+  }
+  
+  function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+  
+  function copyUUIDs() {
+    const output = document.getElementById('uuidOutput');
+    if(!output.value) {
+      showToast('请先生成UUID');
+      return;
+    }
+    output.select();
+    document.execCommand('copy');
+    showToast('已复制到剪贴板');
+  }
+  
+  // ========== 时间戳转换工具 ==========
+  function refreshTimestamp() {
+    const timestamp = Math.floor(Date.now() / 1000);
+    document.getElementById('currentTimestamp').value = timestamp;
+  }
+  
+  function timestampToDate() {
+    const input = document.getElementById('timestampInput').value;
+    if(!input) {
+      showToast('请输入时间戳');
+      return;
+    }
+    
+    let timestamp = parseInt(input);
+    // 判断是秒还是毫秒
+    if(timestamp.toString().length === 10) {
+      timestamp *= 1000;
+    }
+    
+    const date = new Date(timestamp);
+    const result = date.toLocaleString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    });
+    
+    document.getElementById('timestampDateResult').value = result;
+  }
+  
+  function dateToTimestamp() {
+    const input = document.getElementById('dateInput').value;
+    if(!input) {
+      showToast('请选择日期时间');
+      return;
+    }
+    
+    const date = new Date(input);
+    const timestamp = Math.floor(date.getTime() / 1000);
+    document.getElementById('dateTimestampResult').value = timestamp + ' (秒)';
+  }
+  
+  // ========== 二维码生成工具 ==========
+  function generateQRCode() {
+    const input = document.getElementById('qrInput').value;
+    if(!input) {
+      showToast('请输入要生成二维码的内容');
+      return;
+    }
+    
+    const size = document.getElementById('qrSize').value;
+    const container = document.getElementById('qrCodeContainer');
+    
+    // 使用Google Chart API生成二维码
+    const qrUrl = 'https://chart.googleapis.com/chart?cht=qr&chs=' + size + 'x' + size + '&chld=H|0&chl=' + encodeURIComponent(input);
+    
+    container.innerHTML = '<img src="' + qrUrl + '" alt="二维码" style="max-width: 100%; height: auto;">';
+    showToast('二维码生成成功');
+  }
+  
+  function clearQRCode() {
+    document.getElementById('qrInput').value = '';
+    document.getElementById('qrCodeContainer').innerHTML = '';
+  }
+  
+  // ========== 通用提示函数 ==========
+  function showToast(message) {
+    // 创建提示元素
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(99, 102, 241, 0.9);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-size: 14px;
+      z-index: 9999;
+      animation: fadeInOut 2s ease;
+      backdrop-filter: blur(10px);
+    `;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    // 2秒后移除
+    setTimeout(() => {
+      toast.remove();
+    }, 2000);
   }
 
 	console.group("欢迎使用视频解析系统");

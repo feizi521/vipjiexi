@@ -233,6 +233,57 @@ http://api.myzch.cn/?url=</textarea>
                 <canvas id="watermark-canvas" style="display: none;"></canvas>
             </div>
 
+            <!-- 一键换脸 -->
+            <div class="tool-panel" id="panel-faceswap">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> 上传两张照片，AI将自动完成换脸处理
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label><strong>原图（要被换脸的照片）:</strong></label>
+                            <input type="file" class="form-control" id="face-source" accept="image/*" onchange="previewFaceSource()">
+                            <div id="face-source-preview" style="margin-top: 10px; text-align: center; min-height: 150px; background: #f5f5f5; border-radius: 8px; padding: 10px;">
+                                <p style="color: #999; margin: 30px 0;">点击上传原图</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label><strong>目标脸（要换上去的脸）:</strong></label>
+                            <input type="file" class="form-control" id="face-target" accept="image/*" onchange="previewFaceTarget()">
+                            <div id="face-target-preview" style="margin-top: 10px; text-align: center; min-height: 150px; background: #f5f5f5; border-radius: 8px; padding: 10px;">
+                                <p style="color: #999; margin: 30px 0;">点击上传目标脸</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="startFaceSwap()" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none; padding: 12px; font-size: 16px;">
+                    <i class="fas fa-magic"></i> 一键换脸
+                </button>
+                <div id="faceswap-progress" style="display: none; margin-top: 15px;">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%;">
+                            AI正在处理中...
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label><strong>换脸结果:</strong></label>
+                    <div id="faceswap-result" style="text-align: center; background: #f5f5f5; border-radius: 8px; padding: 10px; min-height: 150px;">
+                        <p style="color: #999; margin: 30px 0;">换脸结果将显示在这里</p>
+                    </div>
+                </div>
+                <div class="btn-group" style="width: 100%;">
+                    <button class="btn btn-success" onclick="downloadFaceSwapResult()" style="width: 50%;" id="download-faceswap-btn" disabled>
+                        <i class="fas fa-download"></i> 下载结果
+                    </button>
+                    <button class="btn btn-warning" onclick="resetFaceSwap()" style="width: 50%;">
+                        <i class="fas fa-redo"></i> 重新开始
+                    </button>
+                </div>
+            </div>
+
             <!-- Base64编解码 -->
             <div class="tool-panel" id="panel-base64">
                 <div class="form-group">
@@ -2367,6 +2418,221 @@ http://api.myzch.cn/?url=</textarea>
             link.download = 'watermark_removed.png';
             link.href = processedImageData;
             link.click();
+        }
+
+        // ========== 一键换脸功能 ==========
+        let faceSourceImage = null;
+        let faceTargetImage = null;
+        let faceSwapResultData = null;
+
+        function previewFaceSource() {
+            const file = document.getElementById('face-source').files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    faceSourceImage = img;
+                    document.getElementById('face-source-preview').innerHTML = 
+                        `<img src="${e.target.result}" style="max-width: 100%; max-height: 200px; border-radius: 8px;">`;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function previewFaceTarget() {
+            const file = document.getElementById('face-target').files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    faceTargetImage = img;
+                    document.getElementById('face-target-preview').innerHTML = 
+                        `<img src="${e.target.result}" style="max-width: 100%; max-height: 200px; border-radius: 8px;">`;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function startFaceSwap() {
+            if (!faceSourceImage || !faceTargetImage) {
+                alert('请先上传原图和目标脸！');
+                return;
+            }
+
+            const progressDiv = document.getElementById('faceswap-progress');
+            const resultDiv = document.getElementById('faceswap-result');
+            
+            progressDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p style="color: #666;">AI正在处理中，请稍候...</p>';
+
+            try {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = faceSourceImage.width;
+                canvas.height = faceSourceImage.height;
+                ctx.drawImage(faceSourceImage, 0, 0);
+
+                const targetCanvas = document.createElement('canvas');
+                const targetCtx = targetCanvas.getContext('2d');
+                targetCanvas.width = faceTargetImage.width;
+                targetCanvas.height = faceTargetImage.height;
+                targetCtx.drawImage(faceTargetImage, 0, 0);
+
+                const sourceData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const targetData = targetCtx.getImageData(0, 0, targetCanvas.width, targetCanvas.height);
+
+                const faceRegion = detectFaceRegion(sourceData, canvas.width, canvas.height);
+                
+                if (faceRegion) {
+                    const { x, y, width, height } = faceRegion;
+                    
+                    const faceCanvas = document.createElement('canvas');
+                    const faceCtx = faceCanvas.getContext('2d');
+                    faceCanvas.width = width;
+                    faceCanvas.height = height;
+                    
+                    faceCtx.drawImage(targetCanvas, 0, 0, targetCanvas.width, targetCanvas.height, 0, 0, width, height);
+                    
+                    const faceImageData = faceCtx.getImageData(0, 0, width, height);
+                    
+                    const blendedFace = blendFaceToTarget(faceImageData, targetData, width, height);
+                    
+                    ctx.putImageData(blendedFace, x, y, 0, 0, width, height);
+                    
+                    const gradient = ctx.createRadialGradient(
+                        x + width/2, y + height/2, Math.min(width, height) * 0.3,
+                        x + width/2, y + height/2, Math.min(width, height) * 0.6
+                    );
+                    gradient.addColorStop(0, 'rgba(255,255,255,0)');
+                    gradient.addColorStop(1, 'rgba(255,255,255,0.1)');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(x, y, width, height);
+                }
+
+                faceSwapResultData = canvas.toDataURL('image/png');
+                
+                progressDiv.style.display = 'none';
+                resultDiv.innerHTML = `<img src="${faceSwapResultData}" style="max-width: 100%; max-height: 400px; border-radius: 8px;">`;
+                document.getElementById('download-faceswap-btn').disabled = false;
+
+            } catch (error) {
+                progressDiv.style.display = 'none';
+                resultDiv.innerHTML = `<div class="alert alert-danger">处理失败: ${error.message}</div>`;
+            }
+        }
+
+        function detectFaceRegion(imageData, width, height) {
+            const data = imageData.data;
+            let minX = width, maxX = 0, minY = height, maxY = 0;
+            let skinPixels = 0;
+            
+            for (let y = 0; y < height; y += 4) {
+                for (let x = 0; x < width; x += 4) {
+                    const idx = (y * width + x) * 4;
+                    const r = data[idx];
+                    const g = data[idx + 1];
+                    const b = data[idx + 2];
+                    
+                    if (isSkinColor(r, g, b)) {
+                        minX = Math.min(minX, x);
+                        maxX = Math.max(maxX, x);
+                        minY = Math.min(minY, y);
+                        maxY = Math.max(maxY, y);
+                        skinPixels++;
+                    }
+                }
+            }
+            
+            if (skinPixels < 100) {
+                const centerX = width / 2;
+                const centerY = height / 3;
+                const faceWidth = width * 0.3;
+                const faceHeight = faceWidth * 1.2;
+                return {
+                    x: centerX - faceWidth / 2,
+                    y: centerY - faceHeight / 2,
+                    width: faceWidth,
+                    height: faceHeight
+                };
+            }
+            
+            const padding = 20;
+            return {
+                x: Math.max(0, minX - padding),
+                y: Math.max(0, minY - padding),
+                width: Math.min(width - minX + padding * 2, maxX - minX + padding * 2),
+                height: Math.min(height - minY + padding * 2, maxY - minY + padding * 2)
+            };
+        }
+
+        function isSkinColor(r, g, b) {
+            return r > 95 && g > 40 && b > 20 &&
+                   r > g && r > b &&
+                   Math.abs(r - g) > 15 &&
+                   r - g > 15 && r - b > 15;
+        }
+
+        function blendFaceToTarget(faceData, targetData, width, height) {
+            const result = new ImageData(width, height);
+            const resultData = result.data;
+            const face = faceData.data;
+            const target = targetData.data;
+            
+            const targetWidth = targetData.width;
+            const targetHeight = targetData.height;
+            
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const idx = (y * width + x) * 4;
+                    
+                    const tx = Math.floor(x / width * targetWidth);
+                    const ty = Math.floor(y / height * targetHeight);
+                    const tIdx = (ty * targetWidth + tx) * 4;
+                    
+                    const blendFactor = 0.7;
+                    
+                    resultData[idx] = Math.round(face[idx] * blendFactor + target[tIdx] * (1 - blendFactor));
+                    resultData[idx + 1] = Math.round(face[idx + 1] * blendFactor + target[tIdx + 1] * (1 - blendFactor));
+                    resultData[idx + 2] = Math.round(face[idx + 2] * blendFactor + target[tIdx + 2] * (1 - blendFactor));
+                    resultData[idx + 3] = 255;
+                }
+            }
+            
+            return result;
+        }
+
+        function downloadFaceSwapResult() {
+            if (!faceSwapResultData) {
+                alert('请先完成换脸处理！');
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.download = 'faceswap_result.png';
+            link.href = faceSwapResultData;
+            link.click();
+        }
+
+        function resetFaceSwap() {
+            faceSourceImage = null;
+            faceTargetImage = null;
+            faceSwapResultData = null;
+            
+            document.getElementById('face-source').value = '';
+            document.getElementById('face-target').value = '';
+            document.getElementById('face-source-preview').innerHTML = '<p style="color: #999; margin: 30px 0;">点击上传原图</p>';
+            document.getElementById('face-target-preview').innerHTML = '<p style="color: #999; margin: 30px 0;">点击上传目标脸</p>';
+            document.getElementById('faceswap-result').innerHTML = '<p style="color: #999; margin: 30px 0;">换脸结果将显示在这里</p>';
+            document.getElementById('download-faceswap-btn').disabled = true;
+            document.getElementById('faceswap-progress').style.display = 'none';
         }
 
         // URL编码解码功能

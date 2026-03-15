@@ -220,7 +220,11 @@
         // 获取URL参数中的工具ID
         function getToolId() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('tool') || 'vip';
+            // 修复URL参数获取，处理可能的编码问题
+            const toolId = urlParams.get('tool') || 'vip';
+            console.log('Raw toolId:', toolId);
+            // 确保返回的是小写的工具ID
+            return toolId.toLowerCase();
         }
 
         // 从API获取工具配置

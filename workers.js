@@ -1,9 +1,13 @@
 // Cloudflare Workers 后台管理系统
 // 用于动态管理工具配置
 
-// 工具配置数据（已清空，等待重新添加）
+// 工具配置数据
 let toolsConfig = {
-  // 工具已移除，等待重新添加
+  vip: {
+    icon: '🎬',
+    title: 'VIP视频解析',
+    description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
+  }
 };
 
 // 处理请求

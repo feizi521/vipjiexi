@@ -135,8 +135,42 @@
 
         <!-- 工具面板 -->
         <div class="tool-panels">
+            <!-- VIP视频解析 -->
+            <div class="tool-panel" id="panel-vip">
+                <div class="form-group">
+                    <label for="vip-api">视频解析API:</label>
+                    <select class="form-control" id="vip-api"></select>
+                </div>
+                <div class="form-group">
+                    <label for="vip-url">视频地址:</label>
+                    <input type="text" class="form-control" id="vip-url" placeholder="请输入视频播放地址">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="startVipParse()" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none;">
+                    开始解析
+                </button>
+                <div class="alert alert-info mt-3">
+                    支持爱奇艺、优酷、腾讯等VIP视频解析，视频解析项目仅供学习使用。
+                </div>
+                <div class="form-group mt-3">
+                    <label>API线路列表:</label>
+                    <textarea rows="5" id="vip-apilist" class="form-control" style="font-size: 12px;">
+https://jx.xmflv.com/?url=
+https://z1.m1907.top/?jx=
+https://www.8090.la/8090/?url=
+https://jx.m3u8.tv/jiexi/?url=
+https://dm.xmflv.com:4433/?url=
+https://jx.playerjy.com/?url=
+https://jx.parwix.com:4433/player/?url=
+https://www.daga.cc/vip1/?url=
+https://www.daga.cc/vip2/?url=
+https://www.bavei.com/vip/?url=
+https://www.nxflv.com/?url=
+http://api.myzch.cn/?url=</textarea>
+                </div>
+            </div>
+
             <!-- 默认工具面板（用于未配置的工具） -->
-            <div class="tool-panel active" id="panel-default">
+            <div class="tool-panel" id="panel-default">
                 <div class="alert alert-info">
                     <h4>工具详情</h4>
                     <p>该工具正在开发中，敬请期待！</p>
@@ -179,12 +213,24 @@
                 } else {
                     console.log('API请求失败，使用默认配置');
                     // 如果API请求失败，使用默认配置
-                    toolsConfig = {};
+                    toolsConfig = {
+                        vip: {
+                            icon: '🎬',
+                            title: 'VIP视频解析',
+                            description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
+                        }
+                    };
                 }
             } catch (error) {
                 console.log('网络错误，使用默认配置:', error);
                 // 网络错误时使用默认配置
-                toolsConfig = {};
+                toolsConfig = {
+                    vip: {
+                        icon: '🎬',
+                        title: 'VIP视频解析',
+                        description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
+                    }
+                };
             }
             console.log('最终的工具配置:', toolsConfig);
         }
@@ -238,6 +284,38 @@
             }
             console.log('工具页面初始化完成');
         }
+
+        // VIP视频解析功能
+        function initVipApi() {
+            const apiList = document.getElementById('vip-apilist').value.split(/\r?\n/).filter(line => line.trim() !== '');
+            const select = document.getElementById('vip-api');
+            select.innerHTML = '';
+            apiList.forEach(api => {
+                const option = document.createElement('option');
+                option.value = api.trim();
+                option.textContent = api.trim();
+                select.appendChild(option);
+            });
+        }
+
+        function startVipParse() {
+            const api = document.getElementById('vip-api').value;
+            const url = document.getElementById('vip-url').value;
+            if (!url || !/^http.*$/.test(url)) {
+                alert('视频地址不正确！');
+                return;
+            }
+            if (!api || !/^http.*=$/.test(api)) {
+                alert('无效API！');
+                return;
+            }
+            window.open(api + url, '_blank');
+        }
+
+        // 初始化VIP解析API列表
+        document.addEventListener('DOMContentLoaded', function() {
+            initVipApi();
+        });
 
         // URL编码解码功能
         function urlEncode() {

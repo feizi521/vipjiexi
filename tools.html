@@ -235,11 +235,15 @@
         
         // 获取工具配置
         async function fetchToolsConfig() {
+            console.log('开始获取工具配置...');
             try {
                 const response = await fetch(`${API_BASE}/api/tools`);
+                console.log('API响应状态:', response.status);
                 if (response.ok) {
                     toolsConfig = await response.json();
+                    console.log('从API获取的工具配置:', toolsConfig);
                 } else {
+                    console.log('API请求失败，使用默认配置');
                     // 如果API请求失败，使用默认配置
                     toolsConfig = {
                         vip: {
@@ -260,6 +264,7 @@
                     };
                 }
             } catch (error) {
+                console.log('网络错误，使用默认配置:', error);
                 // 网络错误时使用默认配置
                 toolsConfig = {
                     vip: {
@@ -279,10 +284,12 @@
                     }
                 };
             }
+            console.log('最终的工具配置:', toolsConfig);
         }
 
         // 初始化工具页面
         async function initToolPage() {
+            console.log('开始初始化工具页面...');
             // 先获取工具配置
             await fetchToolsConfig();
             
@@ -301,6 +308,7 @@
             if (targetPanel) {
                 // 尝试从配置中获取工具信息
                 const config = toolsConfig[toolId];
+                console.log('Tool Config:', config);
                 if (config) {
                     // 更新页面标题和描述
                     document.getElementById('toolIcon').textContent = config.icon;
@@ -316,7 +324,9 @@
                 }
                 // 显示对应的工具面板
                 targetPanel.classList.add('active');
+                console.log('工具面板已激活');
             } else {
+                console.log('工具面板不存在，显示VIP视频解析面板');
                 // 如果工具面板不存在，显示VIP视频解析面板
                 document.getElementById('toolIcon').textContent = '🎬';
                 document.getElementById('toolTitle').textContent = 'VIP视频解析';
@@ -324,6 +334,7 @@
                 document.title = 'VIP视频解析 - 小狐狸工具站';
                 document.getElementById('panel-vip').classList.add('active');
             }
+            console.log('工具页面初始化完成');
         }
 
         // VIP视频解析功能

@@ -30,15 +30,57 @@
       }
       
       body {
-        background: linear-gradient(135deg, #d4a574 0%, #e6c89f 25%, #f0d9b5 50%, #e6c89f 75%, #d4a574 100%);
+        background: linear-gradient(180deg, 
+          #ff6b35 0%, 
+          #ff8c42 15%, 
+          #ffa726 30%, 
+          #ffcc80 45%, 
+          #81d4fa 55%, 
+          #4fc3f7 70%, 
+          #29b6f6 85%, 
+          #0288d1 100%
+        );
         min-height: 100vh;
+        position: relative;
+      }
+      
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+          radial-gradient(circle at 50% 20%, rgba(255, 200, 100, 0.4) 0%, transparent 40%),
+          radial-gradient(circle at 30% 60%, rgba(255, 150, 50, 0.2) 0%, transparent 30%),
+          radial-gradient(circle at 70% 70%, rgba(255, 100, 50, 0.15) 0%, transparent 25%);
+        pointer-events: none;
+        z-index: 0;
+      }
+      
+      body::after {
+        content: '';
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 30%;
+        background: linear-gradient(180deg, 
+          transparent 0%,
+          rgba(2, 136, 209, 0.1) 30%,
+          rgba(2, 136, 209, 0.2) 60%,
+          rgba(1, 87, 155, 0.3) 100%
+        );
+        pointer-events: none;
+        z-index: 0;
       }
       
       .desert-overlay {
         background-image: 
-          radial-gradient(circle at 20% 80%, rgba(255, 165, 0, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 20%, rgba(255, 140, 0, 0.15) 0%, transparent 40%),
-          radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.08) 0%, transparent 60%);
+          radial-gradient(circle at 50% 15%, rgba(255, 220, 150, 0.3) 0%, transparent 35%),
+          radial-gradient(circle at 20% 50%, rgba(255, 180, 100, 0.15) 0%, transparent 30%),
+          radial-gradient(circle at 80% 40%, rgba(255, 140, 80, 0.1) 0%, transparent 25%);
       }
       
       .card-desert {
@@ -153,9 +195,90 @@
         display: none;
       }
       
-      body {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
+      .sunset-sun {
+        position: fixed;
+        top: 8%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 120px;
+        background: radial-gradient(circle, 
+          #fff9c4 0%, 
+          #ffeb3b 20%, 
+          #ff9800 50%, 
+          #ff5722 80%, 
+          transparent 100%
+        );
+        border-radius: 50%;
+        box-shadow: 
+          0 0 60px 30px rgba(255, 152, 0, 0.4),
+          0 0 100px 60px rgba(255, 87, 34, 0.3),
+          0 0 140px 90px rgba(255, 193, 7, 0.2);
+        z-index: 0;
+        pointer-events: none;
+        animation: sunGlow 4s ease-in-out infinite alternate;
+      }
+      
+      @keyframes sunGlow {
+        0% {
+          box-shadow: 
+            0 0 60px 30px rgba(255, 152, 0, 0.4),
+            0 0 100px 60px rgba(255, 87, 34, 0.3),
+            0 0 140px 90px rgba(255, 193, 7, 0.2);
+        }
+        100% {
+          box-shadow: 
+            0 0 80px 40px rgba(255, 152, 0, 0.5),
+            0 0 120px 80px rgba(255, 87, 34, 0.4),
+            0 0 160px 100px rgba(255, 193, 7, 0.25);
+        }
+      }
+      
+      .ocean-waves {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 150px;
+        background: linear-gradient(180deg,
+          transparent 0%,
+          rgba(3, 169, 244, 0.1) 20%,
+          rgba(3, 169, 244, 0.2) 40%,
+          rgba(2, 136, 209, 0.3) 60%,
+          rgba(1, 87, 155, 0.4) 100%
+        );
+        pointer-events: none;
+        z-index: 0;
+      }
+      
+      .ocean-waves::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 20px;
+        background: 
+          repeating-linear-gradient(90deg,
+            transparent 0px,
+            transparent 40px,
+            rgba(255, 255, 255, 0.1) 40px,
+            rgba(255, 255, 255, 0.1) 80px
+          );
+        animation: waveMove 8s linear infinite;
+      }
+      
+      @keyframes waveMove {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-80px); }
+      }
+      
+      .header-global,
+      .sidebar-layout,
+      .stats-section,
+      footer {
+        position: relative;
+        z-index: 1;
       }
       
       .sidebar-layout {
@@ -414,6 +537,8 @@
   </head>
 
   <body class="desert-overlay">
+    <div class="sunset-sun"></div>
+    <div class="ocean-waves"></div>
     <div class="sand-dune"></div>
     <header class="header-global header-desert">
       <nav

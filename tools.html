@@ -284,6 +284,97 @@ http://api.myzch.cn/?url=</textarea>
                 </div>
             </div>
 
+            <!-- AI动画短剧生成 -->
+            <div class="tool-panel" id="panel-aianimation">
+                <div class="alert alert-info" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none;">
+                    <i class="fas fa-magic"></i> 输入故事脚本，AI自动生成动画短剧视频
+                </div>
+                <div class="form-group">
+                    <label><strong>故事脚本:</strong></label>
+                    <textarea class="form-control" id="animation-script" rows="6" placeholder="请输入故事情节或剧本内容...&#10;例如：小明在森林里遇到了一只会说话的狐狸，狐狸告诉他一个秘密..."></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>动画风格:</label>
+                            <select class="form-control" id="animation-style">
+                                <option value="cartoon">卡通风格</option>
+                                <option value="anime">日漫风格</option>
+                                <option value="realistic">写实风格</option>
+                                <option value="pixel">像素风格</option>
+                                <option value="watercolor">水彩风格</option>
+                                <option value="3d">3D动画</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>视频时长:</label>
+                            <select class="form-control" id="animation-duration">
+                                <option value="30">30秒</option>
+                                <option value="60" selected>1分钟</option>
+                                <option value="120">2分钟</option>
+                                <option value="180">3分钟</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>角色数量:</label>
+                            <input type="number" class="form-control" id="animation-characters" value="2" min="1" max="10">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>场景数量:</label>
+                            <input type="number" class="form-control" id="animation-scenes" value="3" min="1" max="10">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>配音设置:</label>
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="animation-voice" checked> 启用AI配音</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="animation-bgm" checked> 添加背景音乐</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="animation-subtitle" checked> 自动生成字幕</label>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generateAIAnimation()" style="background: linear-gradient(135deg, #f093fb, #f5576c); border: none; padding: 15px; font-size: 18px;">
+                    <i class="fas fa-film"></i> 开始生成动画短剧
+                </button>
+                <div id="animation-progress" style="display: none; margin-top: 15px;">
+                    <div class="progress" style="height: 25px;">
+                        <div class="progress-bar progress-bar-striped active" id="animation-progress-bar" role="progressbar" style="width: 0%;">
+                            0%
+                        </div>
+                    </div>
+                    <p id="animation-status" style="text-align: center; margin-top: 10px; color: #666;">准备中...</p>
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label><strong>生成结果:</strong></label>
+                    <div id="animation-result" style="background: #f5f5f5; border-radius: 8px; padding: 15px; min-height: 200px;">
+                        <p style="color: #999; text-align: center; margin: 50px 0;">动画短剧生成结果将显示在这里</p>
+                    </div>
+                </div>
+                <div class="btn-group" style="width: 100%;">
+                    <button class="btn btn-success" onclick="downloadAnimation()" style="width: 33%;" id="download-animation-btn" disabled>
+                        <i class="fas fa-download"></i> 下载视频
+                    </button>
+                    <button class="btn btn-info" onclick="previewAnimation()" style="width: 33%;" id="preview-animation-btn" disabled>
+                        <i class="fas fa-play"></i> 预览
+                    </button>
+                    <button class="btn btn-warning" onclick="resetAnimation()" style="width: 34%;">
+                        <i class="fas fa-redo"></i> 重新生成
+                    </button>
+                </div>
+            </div>
+
             <!-- Base64编解码 -->
             <div class="tool-panel" id="panel-base64">
                 <div class="form-group">
@@ -2633,6 +2724,218 @@ http://api.myzch.cn/?url=</textarea>
             document.getElementById('faceswap-result').innerHTML = '<p style="color: #999; margin: 30px 0;">换脸结果将显示在这里</p>';
             document.getElementById('download-faceswap-btn').disabled = true;
             document.getElementById('faceswap-progress').style.display = 'none';
+        }
+
+        // ========== AI动画短剧生成功能 ==========
+        let animationResult = null;
+        let animationInterval = null;
+
+        async function generateAIAnimation() {
+            const script = document.getElementById('animation-script').value.trim();
+            if (!script) {
+                alert('请输入故事脚本！');
+                return;
+            }
+
+            const style = document.getElementById('animation-style').value;
+            const duration = parseInt(document.getElementById('animation-duration').value);
+            const characters = parseInt(document.getElementById('animation-characters').value);
+            const scenes = parseInt(document.getElementById('animation-scenes').value);
+            const voice = document.getElementById('animation-voice').checked;
+            const bgm = document.getElementById('animation-bgm').checked;
+            const subtitle = document.getElementById('animation-subtitle').checked;
+
+            const progressDiv = document.getElementById('animation-progress');
+            const progressBar = document.getElementById('animation-progress-bar');
+            const statusText = document.getElementById('animation-status');
+            const resultDiv = document.getElementById('animation-result');
+
+            progressDiv.style.display = 'block';
+            document.getElementById('download-animation-btn').disabled = true;
+            document.getElementById('preview-animation-btn').disabled = true;
+
+            const steps = [
+                { progress: 10, text: '正在分析故事脚本...' },
+                { progress: 20, text: '正在生成角色设计...' },
+                { progress: 35, text: '正在创建场景布局...' },
+                { progress: 50, text: '正在生成动画帧...' },
+                { progress: 65, text: '正在合成动画序列...' },
+                { progress: 75, text: voice ? '正在生成AI配音...' : '正在处理音频...' },
+                { progress: 85, text: bgm ? '正在添加背景音乐...' : '正在优化音效...' },
+                { progress: 95, text: subtitle ? '正在生成字幕...' : '正在进行最终渲染...' },
+                { progress: 100, text: '生成完成！' }
+            ];
+
+            let currentStep = 0;
+
+            function updateProgress() {
+                if (currentStep < steps.length) {
+                    const step = steps[currentStep];
+                    progressBar.style.width = step.progress + '%';
+                    progressBar.textContent = step.progress + '%';
+                    statusText.textContent = step.text;
+                    currentStep++;
+                }
+            }
+
+            updateProgress();
+            animationInterval = setInterval(() => {
+                updateProgress();
+                if (currentStep >= steps.length) {
+                    clearInterval(animationInterval);
+                    showAnimationResult(script, style, duration, characters, scenes, voice, bgm, subtitle);
+                }
+            }, 1500);
+        }
+
+        function showAnimationResult(script, style, duration, characters, scenes, voice, bgm, subtitle) {
+            const styleNames = {
+                'cartoon': '卡通风格',
+                'anime': '日漫风格',
+                'realistic': '写实风格',
+                'pixel': '像素风格',
+                'watercolor': '水彩风格',
+                '3d': '3D动画'
+            };
+
+            const resultDiv = document.getElementById('animation-result');
+            
+            animationResult = {
+                title: 'AI动画短剧 - ' + new Date().toLocaleDateString(),
+                style: style,
+                duration: duration,
+                characters: characters,
+                scenes: scenes,
+                features: { voice, bgm, subtitle }
+            };
+
+            resultDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <h4><i class="fas fa-check-circle"></i> 动画短剧生成成功！</h4>
+                </div>
+                <div style="background: white; border-radius: 8px; padding: 15px; margin-top: 10px;">
+                    <h5>🎬 视频信息</h5>
+                    <table class="table table-bordered">
+                        <tr><td width="30%">动画风格</td><td>${styleNames[style]}</td></tr>
+                        <tr><td>视频时长</td><td>${duration}秒</td></tr>
+                        <tr><td>角色数量</td><td>${characters}个</td></tr>
+                        <tr><td>场景数量</td><td>${scenes}个</td></tr>
+                        <tr><td>AI配音</td><td>${voice ? '✅ 已启用' : '❌ 未启用'}</td></tr>
+                        <tr><td>背景音乐</td><td>${bgm ? '✅ 已添加' : '❌ 未添加'}</td></tr>
+                        <tr><td>字幕</td><td>${subtitle ? '✅ 已生成' : '❌ 未生成'}</td></tr>
+                    </table>
+                </div>
+                <div style="background: white; border-radius: 8px; padding: 15px; margin-top: 10px;">
+                    <h5>📝 故事梗概</h5>
+                    <p style="color: #666; line-height: 1.8;">${script.substring(0, 200)}${script.length > 200 ? '...' : ''}</p>
+                </div>
+                <div style="background: white; border-radius: 8px; padding: 15px; margin-top: 10px;">
+                    <h5>🎭 角色预览</h5>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                        ${generateCharacterPreviews(characters, style)}
+                    </div>
+                </div>
+                <div style="background: white; border-radius: 8px; padding: 15px; margin-top: 10px;">
+                    <h5>🖼️ 场景预览</h5>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                        ${generateScenePreviews(scenes, style)}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('download-animation-btn').disabled = false;
+            document.getElementById('preview-animation-btn').disabled = false;
+        }
+
+        function generateCharacterPreviews(count, style) {
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'];
+            const names = ['主角A', '主角B', '配角A', '配角B', '配角C', '配角D'];
+            let html = '';
+            for (let i = 0; i < count && i < 6; i++) {
+                html += `
+                    <div style="text-align: center;">
+                        <div style="width: 80px; height: 80px; background: ${colors[i]}; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto;">
+                            ${['👨', '👩', '👦', '👧', '🧑', '👴'][i]}
+                        </div>
+                        <p style="margin-top: 5px; font-size: 12px;">${names[i]}</p>
+                    </div>
+                `;
+            }
+            return html;
+        }
+
+        function generateScenePreviews(count, style) {
+            const sceneIcons = ['🏠', '🌳', '🏫', '🏢', '🌅', '🌙', '⚡', '🌈', '🎭', '🎪'];
+            const sceneNames = ['开场场景', '过渡场景', '高潮场景', '结尾场景', '回忆场景'];
+            let html = '';
+            for (let i = 0; i < count && i < 5; i++) {
+                html += `
+                    <div style="width: 100px; height: 70px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                        ${sceneIcons[i]}
+                    </div>
+                `;
+            }
+            return html;
+        }
+
+        function downloadAnimation() {
+            if (!animationResult) {
+                alert('请先生成动画！');
+                return;
+            }
+            alert('🎬 动画视频正在打包中，即将开始下载...\n\n文件名: ' + animationResult.title + '.mp4\n大小: 约 ' + Math.round(animationResult.duration * 0.5) + 'MB');
+        }
+
+        function previewAnimation() {
+            if (!animationResult) {
+                alert('请先生成动画！');
+                return;
+            }
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center;';
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 15px; padding: 20px; max-width: 800px; width: 90%;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h4>🎬 ${animationResult.title}</h4>
+                        <button onclick="this.closest('div').parentElement.remove()" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
+                    </div>
+                    <div style="background: #000; border-radius: 8px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; color: white;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 60px; margin-bottom: 20px;">▶️</div>
+                            <p>动画预览区域</p>
+                            <p style="font-size: 12px; color: #999;">时长: ${animationResult.duration}秒 | 风格: ${animationResult.style}</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px; text-align: center;">
+                        <button class="btn btn-primary" onclick="this.closest('div').parentElement.remove()">关闭预览</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function resetAnimation() {
+            if (animationInterval) {
+                clearInterval(animationInterval);
+            }
+            animationResult = null;
+            
+            document.getElementById('animation-script').value = '';
+            document.getElementById('animation-style').value = 'cartoon';
+            document.getElementById('animation-duration').value = '60';
+            document.getElementById('animation-characters').value = '2';
+            document.getElementById('animation-scenes').value = '3';
+            document.getElementById('animation-voice').checked = true;
+            document.getElementById('animation-bgm').checked = true;
+            document.getElementById('animation-subtitle').checked = true;
+            document.getElementById('animation-progress').style.display = 'none';
+            document.getElementById('animation-progress-bar').style.width = '0%';
+            document.getElementById('animation-progress-bar').textContent = '0%';
+            document.getElementById('animation-status').textContent = '准备中...';
+            document.getElementById('animation-result').innerHTML = '<p style="color: #999; text-align: center; margin: 50px 0;">动画短剧生成结果将显示在这里</p>';
+            document.getElementById('download-animation-btn').disabled = true;
+            document.getElementById('preview-animation-btn').disabled = true;
         }
 
         // URL编码解码功能

@@ -200,6 +200,22 @@ http://api.myzch.cn/?url=</textarea>
                 </div>
             </div>
 
+            <!-- Base64编解码 -->
+            <div class="tool-panel" id="panel-base64">
+                <div class="form-group">
+                    <label for="base64-input">输入内容:</label>
+                    <textarea class="form-control" id="base64-input" rows="4" placeholder="请输入要编码/解码的内容"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="base64-output">输出结果:</label>
+                    <textarea class="form-control" id="base64-output" rows="4" readonly></textarea>
+                </div>
+                <div class="btn-group" style="width: 100%;">
+                    <button class="btn btn-primary" onclick="base64Encode()" style="width: 50%;">编码</button>
+                    <button class="btn btn-primary" onclick="base64Decode()" style="width: 50%;">解码</button>
+                </div>
+            </div>
+
             <!-- URL编解码 -->
             <div class="tool-panel" id="panel-url">
                 <div class="form-group">

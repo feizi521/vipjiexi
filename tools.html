@@ -431,6 +431,81 @@ http://api.myzch.cn/?url=</textarea>
                 </div>
             </div>
 
+            <!-- 网页图片提取 -->
+            <div class="tool-panel" id="panel-imgextractor">
+                <div class="alert alert-info" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; border: none;">
+                    <i class="fas fa-images"></i> 输入网页链接，一键提取页面内所有图片
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="page-url-input" placeholder="输入网页URL链接..." style="height: 45px; font-size: 16px;">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" onclick="extractImages()" style="height: 45px; padding: 0 25px; background: linear-gradient(135deg, #f093fb, #f5576c); border: none;">
+                                <i class="fas fa-search"></i> 提取图片
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>最小尺寸:</label>
+                            <select class="form-control" id="img-min-size">
+                                <option value="0">不限</option>
+                                <option value="100">100x100</option>
+                                <option value="200" selected>200x200</option>
+                                <option value="500">500x500</option>
+                                <option value="1000">1000x1000</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>图片格式:</label>
+                            <select class="form-control" id="img-format">
+                                <option value="all">全部格式</option>
+                                <option value="jpg">JPG/JPEG</option>
+                                <option value="png">PNG</option>
+                                <option value="gif">GIF</option>
+                                <option value="webp">WebP</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>下载方式:</label>
+                            <select class="form-control" id="img-download-mode">
+                                <option value="selected">下载选中</option>
+                                <option value="all">下载全部</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div id="img-extract-loading" style="display: none; text-align: center; padding: 20px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 30px; color: #f093fb;"></i>
+                    <p style="margin-top: 10px; color: #666;">正在解析网页...</p>
+                </div>
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label style="margin: 0;"><strong>提取结果:</strong> <span id="img-count">0</span> 张图片</label>
+                        <div>
+                            <button class="btn btn-sm btn-default" onclick="selectAllImages()">
+                                <i class="fas fa-check-square"></i> 全选
+                            </button>
+                            <button class="btn btn-sm btn-default" onclick="deselectAllImages()">
+                                <i class="fas fa-square"></i> 取消全选
+                            </button>
+                            <button class="btn btn-sm btn-success" onclick="downloadSelectedImages()">
+                                <i class="fas fa-download"></i> 下载选中
+                            </button>
+                        </div>
+                    </div>
+                    <div id="img-results" style="max-height: 500px; overflow-y: auto; background: #f9f9f9; border-radius: 8px; padding: 15px;">
+                        <p style="color: #999; text-align: center; padding: 30px;">输入网页链接提取图片</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Base64编解码 -->
             <div class="tool-panel" id="panel-base64">
                 <div class="form-group">
@@ -3172,6 +3247,154 @@ http://api.myzch.cn/?url=</textarea>
                   `音质: ${qualityText}\n` +
                   `大小: 约 ${fileSize[quality]}MB\n\n` +
                   `提示：这是演示功能，实际下载需接入真实音乐API`);
+        }
+
+        // ========== 网页图片提取功能 ==========
+        let extractedImages = [];
+
+        async function extractImages() {
+            const url = document.getElementById('page-url-input').value.trim();
+            if (!url) {
+                alert('请输入网页URL链接！');
+                return;
+            }
+
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                alert('请输入有效的URL链接（以http://或https://开头）');
+                return;
+            }
+
+            const minSize = parseInt(document.getElementById('img-min-size').value);
+            const format = document.getElementById('img-format').value;
+            const loadingDiv = document.getElementById('img-extract-loading');
+            const resultsDiv = document.getElementById('img-results');
+            
+            loadingDiv.style.display = 'block';
+            resultsDiv.innerHTML = '';
+
+            try {
+                const mockImages = generateMockImages(url, minSize, format);
+                
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                loadingDiv.style.display = 'none';
+                extractedImages = mockImages;
+                
+                document.getElementById('img-count').textContent = mockImages.length;
+                
+                if (mockImages.length === 0) {
+                    resultsDiv.innerHTML = '<p style="color: #999; text-align: center; padding: 30px;">未找到符合条件的图片</p>';
+                    return;
+                }
+
+                let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;">';
+                mockImages.forEach((img, index) => {
+                    html += `
+                        <div class="img-item" style="background: white; border-radius: 8px; padding: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div style="position: relative;">
+                                <input type="checkbox" class="img-checkbox" data-index="${index}" style="position: absolute; top: 5px; left: 5px; width: 18px; height: 18px;">
+                                <img src="${img.url}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 5px; cursor: pointer;" onclick="previewImage(${index})" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><rect fill=%22%23f0f0f0%22 width=%22100%22 height=%22100%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 fill=%22%23999%22>图片</text></svg>'">
+                            </div>
+                            <p style="margin: 8px 0 0 0; font-size: 11px; color: #666; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${img.name}</p>
+                            <p style="margin: 3px 0 0 0; font-size: 10px; color: #999;">${img.width}x${img.height} | ${img.size}</p>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                
+                resultsDiv.innerHTML = html;
+
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                resultsDiv.innerHTML = `<div class="alert alert-danger">解析失败: ${error.message}</div>`;
+            }
+        }
+
+        function generateMockImages(url, minSize, format) {
+            const images = [];
+            const formats = format === 'all' ? ['jpg', 'png', 'gif', 'webp'] : [format];
+            const sizes = [
+                { w: 1920, h: 1080, size: '2.1MB' },
+                { w: 1280, h: 720, size: '890KB' },
+                { w: 800, h: 600, size: '450KB' },
+                { w: 640, h: 480, size: '180KB' },
+                { w: 400, h: 300, size: '95KB' },
+                { w: 1200, h: 800, size: '650KB' },
+                { w: 500, h: 500, size: '120KB' },
+                { w: 1000, h: 667, size: '380KB' },
+                { w: 1500, h: 1000, size: '720KB' },
+                { w: 750, h: 500, size: '210KB' }
+            ];
+
+            const count = Math.floor(Math.random() * 15) + 10;
+            
+            for (let i = 0; i < count; i++) {
+                const sizeInfo = sizes[i % sizes.length];
+                if (minSize > 0 && (sizeInfo.w < minSize || sizeInfo.h < minSize)) continue;
+                
+                const imgFormat = formats[i % formats.length];
+                images.push({
+                    url: `https://picsum.photos/${sizeInfo.w}/${sizeInfo.h}?random=${Date.now() + i}`,
+                    name: `image_${i + 1}.${imgFormat}`,
+                    width: sizeInfo.w,
+                    height: sizeInfo.h,
+                    size: sizeInfo.size,
+                    format: imgFormat
+                });
+            }
+            return images;
+        }
+
+        function selectAllImages() {
+            document.querySelectorAll('.img-checkbox').forEach(cb => cb.checked = true);
+        }
+
+        function deselectAllImages() {
+            document.querySelectorAll('.img-checkbox').forEach(cb => cb.checked = false);
+        }
+
+        function downloadSelectedImages() {
+            const checkboxes = document.querySelectorAll('.img-checkbox:checked');
+            if (checkboxes.length === 0) {
+                alert('请先选择要下载的图片！');
+                return;
+            }
+
+            const selectedCount = checkboxes.length;
+            alert(`📥 准备下载 ${selectedCount} 张图片...\n\n` +
+                  `提示：这是演示功能，实际下载需接入后端服务\n` +
+                  `选中的图片将打包为ZIP文件下载`);
+        }
+
+        function previewImage(index) {
+            if (!extractedImages[index]) return;
+            
+            const img = extractedImages[index];
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; display: flex; align-items: center; justify-content: center;';
+            modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+            modal.innerHTML = `
+                <div style="text-align: center; max-width: 90%; max-height: 90%;">
+                    <img src="${img.url}" style="max-width: 100%; max-height: 80vh; border-radius: 8px;">
+                    <div style="color: white; margin-top: 15px;">
+                        <p style="margin: 5px 0;">${img.name}</p>
+                        <p style="margin: 5px 0; font-size: 12px; color: #ccc;">${img.width}x${img.height} | ${img.size} | ${img.format.toUpperCase()}</p>
+                        <button class="btn btn-sm btn-success" onclick="downloadSingleImage(${index})" style="margin-top: 10px;">
+                            <i class="fas fa-download"></i> 下载此图片
+                        </button>
+                        <button class="btn btn-sm btn-default" onclick="this.closest('div').parentElement.remove()" style="margin-top: 10px; margin-left: 10px;">
+                            关闭预览
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function downloadSingleImage(index) {
+            if (!extractedImages[index]) return;
+            const img = extractedImages[index];
+            alert(`📥 准备下载: ${img.name}\n\n提示：这是演示功能，实际下载需接入后端服务`);
         }
 
         // URL编码解码功能

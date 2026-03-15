@@ -289,11 +289,16 @@ http://api.myzch.cn/?url=</textarea>
                     document.getElementById('toolDescription').textContent = config.description;
                     document.title = config.title + ' - 小狐狸工具站';
                 } else {
-                    // 使用默认信息
-                    document.getElementById('toolIcon').textContent = '📦';
-                    document.getElementById('toolTitle').textContent = '工具详情';
-                    document.getElementById('toolDescription').textContent = '工具已加载';
-                    document.title = '工具详情 - 小狐狸工具站';
+                    // 使用工具ID对应的默认信息
+                    const defaultConfigs = {
+                        vip: { icon: '🎬', title: 'VIP视频解析', description: '支持爱奇艺、优酷、腾讯等VIP视频解析' },
+                        douyin: { icon: '📱', title: '短视频解析', description: '支持抖音、快手等短视频去水印解析' }
+                    };
+                    const defaultConfig = defaultConfigs[toolId] || { icon: '📦', title: '工具详情', description: '工具已加载' };
+                    document.getElementById('toolIcon').textContent = defaultConfig.icon;
+                    document.getElementById('toolTitle').textContent = defaultConfig.title;
+                    document.getElementById('toolDescription').textContent = defaultConfig.description;
+                    document.title = defaultConfig.title + ' - 小狐狸工具站';
                 }
                 // 显示对应的工具面板
                 targetPanel.classList.add('active');
@@ -336,11 +341,6 @@ http://api.myzch.cn/?url=</textarea>
             }
             window.open(api + url, '_blank');
         }
-
-        // 初始化VIP解析API列表
-        document.addEventListener('DOMContentLoaded', function() {
-            initVipApi();
-        });
 
         // 短视频解析功能
         function extractDouyinUrl(text) {
@@ -1803,4 +1803,6 @@ http://api.myzch.cn/?url=</textarea>
         // 页面加载完成后初始化
         window.onload = async function() {
             await initToolPage();
+            // 初始化VIP解析API列表
+            initVipApi();
         };

@@ -352,7 +352,7 @@
         font-size: 20px;
         font-weight: 700;
         color: #1a1a2e;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
         display: flex;
         align-items: center;
         gap: 10px;
@@ -361,6 +361,43 @@
         background: rgba(255, 255, 255, 0.95);
         padding-bottom: 10px;
         z-index: 10;
+      }
+      
+      .sidebar-search {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      
+      .search-input {
+        flex: 1;
+        padding: 10px 14px;
+        border: 2px solid rgba(139, 90, 43, 0.2);
+        border-radius: 8px;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+      
+      .search-input:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+      
+      .search-button {
+        padding: 10px 14px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 14px;
+      }
+      
+      .search-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
       }
       
       .sidebar-nav {
@@ -732,6 +769,10 @@
             <div class="sidebar">
               <div class="sidebar-title">
                 📦 <span class="lang-text" data-simplified="工具箱" data-traditional="工具箱">工具箱</span>
+              </div>
+              <div class="sidebar-search">
+                <input type="text" id="tool-search" placeholder="搜索工具..." class="search-input">
+                <button class="search-button" onclick="searchTools()">🔍</button>
               </div>
               <div class="sidebar-nav">
                 <!-- 核心功能 -->
@@ -6940,9 +6981,54 @@ $("#play").click(function(e){
 	console.groupEnd();
 
 	console.group("作者信息");
-		console.log("网名：疯狂的蛤蟆怪");
-		console.log("三楼江湖路漫漫：域名/");
-	console.groupEnd();  
+			console.log("网名：疯狂的蛤蟆怪");
+			console.log("三楼江湖路漫漫：域名/");
+		console.groupEnd();  
+
+		// 搜索工具功能
+		function searchTools() {
+			const searchTerm = document.getElementById('tool-search').value.toLowerCase().trim();
+			if (!searchTerm) {
+				// 搜索词为空，显示所有分类和工具
+				document.querySelectorAll('.sidebar-category-group').forEach(group => {
+					group.style.display = 'block';
+				});
+				document.querySelectorAll('.sidebar-item').forEach(item => {
+					item.style.display = 'flex';
+				});
+				return;
+			}
+
+			// 搜索词不为空，过滤工具
+			document.querySelectorAll('.sidebar-category-group').forEach(group => {
+				const tools = group.querySelectorAll('.sidebar-item');
+				let hasMatch = false;
+
+				tools.forEach(tool => {
+					const toolText = tool.querySelector('.sidebar-item-text').textContent.toLowerCase();
+					if (toolText.includes(searchTerm)) {
+						tool.style.display = 'flex';
+						hasMatch = true;
+					} else {
+						tool.style.display = 'none';
+					}
+				});
+
+				// 只显示有匹配工具的分类
+				if (hasMatch) {
+					group.style.display = 'block';
+				} else {
+					group.style.display = 'none';
+				}
+			});
+		}
+
+		// 回车键触发搜索
+		document.getElementById('tool-search').addEventListener('keypress', function(e) {
+			if (e.key === 'Enter') {
+				searchTools();
+			}
+		});
 </script>
 
 <script src="../assets/vendor/jquery/jquery.min.js"></script>

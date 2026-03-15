@@ -3467,7 +3467,7 @@ http://api.myzch.cn/?url=</textarea>
             document.querySelectorAll('.img-checkbox').forEach(cb => cb.checked = false);
         }
 
-        function downloadSelectedImages() {
+        async function downloadSelectedImages() {
             const checkboxes = document.querySelectorAll('.img-checkbox:checked');
             if (checkboxes.length === 0) {
                 alert('请先选择要下载的图片！');
@@ -3475,9 +3475,56 @@ http://api.myzch.cn/?url=</textarea>
             }
 
             const selectedCount = checkboxes.length;
-            alert(`📥 准备下载 ${selectedCount} 张图片...\n\n` +
-                  `提示：这是演示功能，实际下载需接入后端服务\n` +
-                  `选中的图片将打包为ZIP文件下载`);
+            const statusDiv = document.createElement('div');
+            statusDiv.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 10000; min-width: 300px; text-align: center;';
+            statusDiv.innerHTML = `
+                <h4>📥 正在下载图片</h4>
+                <p>共 ${selectedCount} 张图片</p>
+                <div class="progress" style="height: 20px; margin: 15px 0;">
+                    <div class="progress-bar progress-bar-striped active" id="download-progress" style="width: 0%;">0%</div>
+                </div>
+                <p id="download-status">准备下载...</p>
+            `;
+            document.body.appendChild(statusDiv);
+
+            let downloaded = 0;
+            const indices = Array.from(checkboxes).map(cb => parseInt(cb.dataset.index));
+
+            for (const index of indices) {
+                if (extractedImages[index]) {
+                    const img = extractedImages[index];
+                    try {
+                        await downloadImageFile(img.url, img.name);
+                        downloaded++;
+                        const progress = Math.round((downloaded / selectedCount) * 100);
+                        document.getElementById('download-progress').style.width = progress + '%';
+                        document.getElementById('download-progress').textContent = progress + '%';
+                        document.getElementById('download-status').textContent = `已下载: ${downloaded}/${selectedCount} - ${img.name}`;
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                    } catch (error) {
+                        console.error('下载失败:', error);
+                    }
+                }
+            }
+
+            document.getElementById('download-status').textContent = `下载完成！共 ${downloaded} 张图片`;
+            setTimeout(() => {
+                statusDiv.remove();
+                alert(`✅ 下载完成！共 ${downloaded} 张图片`);
+            }, 1000);
+        }
+
+        async function downloadImageFile(url, filename) {
+            return new Promise((resolve, reject) => {
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                resolve();
+            });
         }
 
         function previewImage(index) {
@@ -3505,10 +3552,23 @@ http://api.myzch.cn/?url=</textarea>
             document.body.appendChild(modal);
         }
 
-        function downloadSingleImage(index) {
+        async function downloadSingleImage(index) {
             if (!extractedImages[index]) return;
             const img = extractedImages[index];
-            alert(`📥 准备下载: ${img.name}\n\n提示：这是演示功能，实际下载需接入后端服务`);
+            
+            const statusDiv = document.createElement('div');
+            statusDiv.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 10000; text-align: center;';
+            statusDiv.innerHTML = '<p>📥 正在下载: ' + img.name + '...</p>';
+            document.body.appendChild(statusDiv);
+            
+            try {
+                await downloadImageFile(img.url, img.name);
+                statusDiv.innerHTML = '<p style="color: green;">✅ 下载成功！</p>';
+                setTimeout(() => statusDiv.remove(), 1000);
+            } catch (error) {
+                statusDiv.innerHTML = '<p style="color: red;">❌ 下载失败</p>';
+                setTimeout(() => statusDiv.remove(), 1500);
+            }
         }
 
         // ========== 图片视频压缩功能 ==========

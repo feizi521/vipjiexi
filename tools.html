@@ -287,34 +287,37 @@
             await fetchToolsConfig();
             
             const toolId = getToolId();
-            const config = toolsConfig[toolId];
-            
             console.log('Tool ID:', toolId);
-            console.log('Config:', config);
             
             // 首先移除所有面板的active类
             document.querySelectorAll('.tool-panel').forEach(panel => {
                 panel.classList.remove('active');
             });
             
-            if (config) {
-                // 更新页面标题和描述
-                document.getElementById('toolIcon').textContent = config.icon;
-                document.getElementById('toolTitle').textContent = config.title;
-                document.getElementById('toolDescription').textContent = config.description;
-                document.title = config.title + ' - 小狐狸工具站';
-                
-                // 显示对应的工具面板
-                const targetPanel = document.getElementById('panel-' + toolId);
-                console.log('Target Panel:', targetPanel);
-                if (targetPanel) {
-                    targetPanel.classList.add('active');
+            // 直接根据toolId查找面板
+            const targetPanel = document.getElementById('panel-' + toolId);
+            console.log('Target Panel:', targetPanel);
+            
+            if (targetPanel) {
+                // 尝试从配置中获取工具信息
+                const config = toolsConfig[toolId];
+                if (config) {
+                    // 更新页面标题和描述
+                    document.getElementById('toolIcon').textContent = config.icon;
+                    document.getElementById('toolTitle').textContent = config.title;
+                    document.getElementById('toolDescription').textContent = config.description;
+                    document.title = config.title + ' - 小狐狸工具站';
                 } else {
-                    // 如果工具面板不存在，显示默认面板（工具正在开发中）
-                    document.getElementById('panel-default').classList.add('active');
+                    // 使用默认信息
+                    document.getElementById('toolIcon').textContent = '📦';
+                    document.getElementById('toolTitle').textContent = '工具详情';
+                    document.getElementById('toolDescription').textContent = '工具已加载';
+                    document.title = '工具详情 - 小狐狸工具站';
                 }
+                // 显示对应的工具面板
+                targetPanel.classList.add('active');
             } else {
-                // 如果工具配置不存在，显示VIP视频解析面板
+                // 如果工具面板不存在，显示VIP视频解析面板
                 document.getElementById('toolIcon').textContent = '🎬';
                 document.getElementById('toolTitle').textContent = 'VIP视频解析';
                 document.getElementById('toolDescription').textContent = '支持爱奇艺、优酷、腾讯等VIP视频解析';

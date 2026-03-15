@@ -135,32 +135,8 @@
 
         <!-- 工具面板 -->
         <div class="tool-panels">
-            <!-- VIP视频解析 -->
-            <div class="tool-panel" id="panel-vip">
-                <div class="form-group">
-                    <label for="vip-api">视频解析API:</label>
-                    <select class="form-control" id="vip-api">
-                        <option value="https://jxnfv.com/?url=">jxnfv</option>
-                        <option value="https://www.jxlao.com/jx?url=">jxlao</option>
-                        <option value="https://api.03964.com/vip/?url=">03964</option>
-                        <option value="https://www.vipjiexi.com/yun?url=">vipjiexi</option>
-                        <option value="https://api.baiyug.cn/vip/?url=">baiyug</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="vip-url">视频地址:</label>
-                    <input type="text" class="form-control" id="vip-url" placeholder="请输入视频播放地址">
-                </div>
-                <button class="btn btn-primary btn-block" onclick="startVipParse()" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none;">
-                    开始解析
-                </button>
-                <div class="alert alert-info mt-3">
-                    支持爱奇艺、优酷、腾讯等VIP视频解析，视频解析项目仅供学习使用。
-                </div>
-            </div>
-
             <!-- 默认工具面板（用于未配置的工具） -->
-            <div class="tool-panel" id="panel-default">
+            <div class="tool-panel active" id="panel-default">
                 <div class="alert alert-info">
                     <h4>工具详情</h4>
                     <p>该工具正在开发中，敬请期待！</p>
@@ -203,24 +179,12 @@
                 } else {
                     console.log('API请求失败，使用默认配置');
                     // 如果API请求失败，使用默认配置
-                    toolsConfig = {
-                        vip: {
-                            icon: '🎬',
-                            title: 'VIP视频解析',
-                            description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
-                        }
-                    };
+                    toolsConfig = {};
                 }
             } catch (error) {
                 console.log('网络错误，使用默认配置:', error);
                 // 网络错误时使用默认配置
-                toolsConfig = {
-                    vip: {
-                        icon: '🎬',
-                        title: 'VIP视频解析',
-                        description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
-                    }
-                };
+                toolsConfig = {};
             }
             console.log('最终的工具配置:', toolsConfig);
         }
@@ -273,17 +237,6 @@
                 document.getElementById('panel-vip').classList.add('active');
             }
             console.log('工具页面初始化完成');
-        }
-
-        // VIP视频解析功能
-        function startVipParse() {
-            const api = document.getElementById('vip-api').value;
-            const url = document.getElementById('vip-url').value;
-            if (!url) {
-                alert('请输入视频地址');
-                return;
-            }
-            window.open(api + url, '_blank');
         }
 
         // URL编码解码功能

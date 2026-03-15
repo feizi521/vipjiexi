@@ -3885,23 +3885,8 @@ $("#play").click(function(e){
   function switchTool(toolId, element) {
     event.stopPropagation();
     
-    document.querySelectorAll('.sidebar-item').forEach(item => {
-      item.classList.remove('active');
-    });
-    element.classList.add('active');
-    
-    document.querySelectorAll('.tool-panel').forEach(panel => {
-      panel.classList.remove('active');
-    });
-    const targetPanel = document.getElementById('panel-' + toolId);
-    if(targetPanel) {
-      targetPanel.classList.add('active');
-    }
-    
-    // 初始化时间戳工具
-    if(toolId === 'timestamp') {
-      refreshTimestamp();
-    }
+    // 跳转到单独的工具页面
+    window.location.href = 'tools.html?tool=' + toolId;
   }
   
   // ========== Base64转换工具 ==========

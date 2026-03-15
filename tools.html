@@ -127,7 +127,7 @@
             <p class="tool-description" id="toolDescription">正在加载工具...</p>
         </div>
 
-        <!-- 工具面板 - 所有工具的面板都在这里 -->
+        <!-- 工具面板 -->
         <div class="tool-panels">
             <!-- VIP视频解析 -->
             <div class="tool-panel" id="panel-vip">
@@ -142,27 +142,46 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="vip-url" class="lang-text" data-simplified="视频地址" data-traditional="視頻地址">视频地址</label>:
-                    <input type="text" class="form-control" id="vip-url" placeholder="请输入视频播放地址" style="width: 100%">
+                    <label for="vip-url">视频地址:</label>
+                    <input type="text" class="form-control" id="vip-url" placeholder="请输入视频播放地址">
                 </div>
-                <button class="btn btn-primary btn-block" onclick="startVipParse()" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none; padding: 12px; font-size: 16px; font-weight: 600;">
-                    <span class="lang-text" data-simplified="开始解析" data-traditional="開始解析">开始解析</span>
+                <button class="btn btn-primary btn-block" onclick="startVipParse()" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none;">
+                    开始解析
                 </button>
-                <div class="alert alert-info mt-3" role="alert">
-                    <span class="lang-text" data-simplified="支持爱奇艺、优酷、腾讯等VIP视频解析，视频解析项目仅供学习使用，点击开始解析即可。" data-traditional="支持愛奇藝、優酷、騰訊等VIP視頻解析，視頻解析項目僅供學習使用，點擊開始解析即可。">支持爱奇艺、优酷、腾讯等VIP视频解析，视频解析项目仅供学习使用，点击开始解析即可。</span>
+                <div class="alert alert-info mt-3">
+                    支持爱奇艺、优酷、腾讯等VIP视频解析，视频解析项目仅供学习使用。
                 </div>
             </div>
 
-            <!-- 其他工具面板 -->
-            <div class="tool-panel" id="panel-base64">
-                <!-- Base64转换工具内容 -->
+            <!-- URL编码解码 -->
+            <div class="tool-panel" id="panel-url">
                 <div class="form-group">
-                    <label for="base64Input">输入文本:</label>
-                    <textarea class="form-control" id="base64Input" rows="4" placeholder="请输入要转换的文本"></textarea>
+                    <label>输入文本:</label>
+                    <textarea class="form-control" id="url-input" rows="3" placeholder="请输入要转换的文本"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="base64Output">转换结果:</label>
-                    <textarea class="form-control" id="base64Output" rows="4" readonly></textarea>
+                    <label>转换结果:</label>
+                    <textarea class="form-control" id="url-output" rows="3" readonly></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-primary btn-block" onclick="urlEncode()">编码</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-success btn-block" onclick="urlDecode()">解码</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Base64转换 -->
+            <div class="tool-panel" id="panel-base64">
+                <div class="form-group">
+                    <label>输入文本:</label>
+                    <textarea class="form-control" id="base64-input" rows="4" placeholder="请输入要转换的文本"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>转换结果:</label>
+                    <textarea class="form-control" id="base64-output" rows="4" readonly></textarea>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
@@ -174,7 +193,144 @@
                 </div>
             </div>
 
-            <!-- 这里可以添加其他工具面板 -->
+            <!-- 时间戳转换 -->
+            <div class="tool-panel" id="panel-timestamp">
+                <div class="form-group">
+                    <label>时间戳:</label>
+                    <input type="text" class="form-control" id="timestamp-input" placeholder="请输入时间戳">
+                </div>
+                <div class="form-group">
+                    <label>日期时间:</label>
+                    <input type="datetime-local" class="form-control" id="datetime-input">
+                </div>
+                <div class="form-group">
+                    <label>转换结果:</label>
+                    <textarea class="form-control" id="timestamp-output" rows="2" readonly></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-primary btn-block" onclick="timestampToDate()">时间戳转日期</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-success btn-block" onclick="dateToTimestamp()">日期转时间戳</button>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <button class="btn btn-info" onclick="getCurrentTimestamp()">获取当前时间戳</button>
+                </div>
+            </div>
+
+            <!-- JSON格式化 -->
+            <div class="tool-panel" id="panel-json">
+                <div class="form-group">
+                    <label>输入JSON:</label>
+                    <textarea class="form-control" id="json-input" rows="4" placeholder="请输入JSON字符串"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>格式化结果:</label>
+                    <textarea class="form-control" id="json-output" rows="4" readonly></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-primary btn-block" onclick="formatJSON()">格式化</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-success btn-block" onclick="minifyJSON()">压缩</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 二维码生成 -->
+            <div class="tool-panel" id="panel-qrcode">
+                <div class="form-group">
+                    <label>输入内容:</label>
+                    <textarea class="form-control" id="qrcode-content" rows="3" placeholder="请输入要生成二维码的内容"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>二维码大小:</label>
+                    <input type="number" class="form-control" id="qrcode-size" value="200" min="100" max="500">
+                </div>
+                <div class="text-center">
+                    <div id="qrcode-container" class="mt-3 mb-3"></div>
+                    <button class="btn btn-primary btn-block" onclick="generateQRCode()">生成二维码</button>
+                </div>
+            </div>
+
+            <!-- 密码生成器 -->
+            <div class="tool-panel" id="panel-password">
+                <div class="form-group">
+                    <label>密码长度:</label>
+                    <input type="number" class="form-control" id="password-length" value="12" min="6" max="50">
+                </div>
+                <div class="form-group">
+                    <label>包含选项:</label>
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="include-uppercase" checked> 大写字母</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="include-lowercase" checked> 小写字母</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="include-numbers" checked> 数字</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="include-symbols" checked> 特殊字符</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>生成结果:</label>
+                    <input type="text" class="form-control" id="password-output" readonly>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="generatePassword()">生成密码</button>
+            </div>
+
+            <!-- 颜色转换 -->
+            <div class="tool-panel" id="panel-color">
+                <div class="form-group">
+                    <label>颜色值:</label>
+                    <input type="text" class="form-control" id="color-input" placeholder="请输入颜色值 (HEX/RGB/HSL)">
+                </div>
+                <div class="form-group">
+                    <label>颜色预览:</label>
+                    <div id="color-preview" style="height: 60px; background-color: #667eea; border-radius: 4px;"></div>
+                </div>
+                <div class="form-group">
+                    <label>转换结果:</label>
+                    <textarea class="form-control" id="color-output" rows="3" readonly></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="convertColor()">转换颜色</button>
+            </div>
+
+            <!-- 文本工具 -->
+            <div class="tool-panel" id="panel-text">
+                <div class="form-group">
+                    <label>输入文本:</label>
+                    <textarea class="form-control" id="text-input" rows="4" placeholder="请输入文本"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>处理结果:</label>
+                    <textarea class="form-control" id="text-output" rows="4" readonly></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <button class="btn btn-default btn-block" onclick="textToUpper()">转大写</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-default btn-block" onclick="textToLower()">转小写</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-default btn-block" onclick="textReverse()">反转</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 默认工具面板（用于未配置的工具） -->
+            <div class="tool-panel" id="panel-default">
+                <div class="alert alert-info">
+                    <h4>工具正在开发中</h4>
+                    <p>该工具功能正在完善中，敬请期待！</p>
+                </div>
+            </div>
         </div>
 
         <a href="index.html" class="back-button">返回工具箱</a>
@@ -194,35 +350,77 @@
                 title: 'VIP视频解析',
                 description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
             },
+            url: {
+                icon: '🔗',
+                title: 'URL编码解码',
+                description: '在线URL编码和解码工具'
+            },
             base64: {
                 icon: '🔢',
                 title: 'Base64转换',
                 description: '在线Base64编码和解码工具'
             },
-            // 这里可以添加其他工具的配置
+            timestamp: {
+                icon: '⏰',
+                title: '时间戳转换',
+                description: '在线时间戳和日期相互转换'
+            },
+            json: {
+                icon: '🔧',
+                title: 'JSON格式化',
+                description: '在线JSON格式化和验证工具'
+            },
+            qrcode: {
+                icon: '📱',
+                title: '二维码生成',
+                description: '在线二维码生成工具'
+            },
+            password: {
+                icon: '🔐',
+                title: '密码生成器',
+                description: '生成安全随机密码'
+            },
+            color: {
+                icon: '🎨',
+                title: '颜色转换',
+                description: '在线颜色格式转换工具'
+            },
+            text: {
+                icon: '📝',
+                title: '文本工具',
+                description: '文本处理和转换工具'
+            }
         };
 
         // 初始化工具页面
         function initToolPage() {
             const toolId = getToolId();
-            const config = toolsConfig[toolId] || toolsConfig.vip;
+            const config = toolsConfig[toolId];
             
-            // 更新页面标题和描述
-            document.getElementById('toolIcon').textContent = config.icon;
-            document.getElementById('toolTitle').textContent = config.title;
-            document.getElementById('toolDescription').textContent = config.description;
-            document.title = config.title + ' - 小狐狸VIP视频解析网';
-            
-            // 显示对应的工具面板
-            document.querySelectorAll('.tool-panel').forEach(panel => {
-                panel.classList.remove('active');
-            });
-            const targetPanel = document.getElementById('panel-' + toolId);
-            if (targetPanel) {
-                targetPanel.classList.add('active');
+            if (config) {
+                // 更新页面标题和描述
+                document.getElementById('toolIcon').textContent = config.icon;
+                document.getElementById('toolTitle').textContent = config.title;
+                document.getElementById('toolDescription').textContent = config.description;
+                document.title = config.title + ' - 小狐狸工具站';
+                
+                // 显示对应的工具面板
+                document.querySelectorAll('.tool-panel').forEach(panel => {
+                    panel.classList.remove('active');
+                });
+                const targetPanel = document.getElementById('panel-' + toolId);
+                if (targetPanel) {
+                    targetPanel.classList.add('active');
+                } else {
+                    // 如果工具面板不存在，显示默认面板
+                    document.getElementById('panel-default').classList.add('active');
+                }
             } else {
-                // 如果工具不存在，显示VIP解析
-                document.getElementById('panel-vip').classList.add('active');
+                // 如果工具配置不存在，显示默认面板
+                document.getElementById('toolIcon').textContent = '📦';
+                document.getElementById('toolTitle').textContent = '工具详情';
+                document.getElementById('toolDescription').textContent = '该工具正在开发中';
+                document.getElementById('panel-default').classList.add('active');
             }
         }
 
@@ -237,25 +435,192 @@
             window.open(api + url, '_blank');
         }
 
+        // URL编码解码功能
+        function urlEncode() {
+            const input = document.getElementById('url-input').value;
+            try {
+                const encoded = encodeURIComponent(input);
+                document.getElementById('url-output').value = encoded;
+            } catch(e) {
+                document.getElementById('url-output').value = '编码错误: ' + e.message;
+            }
+        }
+
+        function urlDecode() {
+            const input = document.getElementById('url-input').value;
+            try {
+                const decoded = decodeURIComponent(input);
+                document.getElementById('url-output').value = decoded;
+            } catch(e) {
+                document.getElementById('url-output').value = '解码错误: ' + e.message;
+            }
+        }
+
         // Base64转换功能
         function base64Encode() {
-            const input = document.getElementById('base64Input').value;
+            const input = document.getElementById('base64-input').value;
             try {
                 const encoded = btoa(unescape(encodeURIComponent(input)));
-                document.getElementById('base64Output').value = encoded;
+                document.getElementById('base64-output').value = encoded;
             } catch(e) {
-                document.getElementById('base64Output').value = '编码错误: ' + e.message;
+                document.getElementById('base64-output').value = '编码错误: ' + e.message;
             }
         }
 
         function base64Decode() {
-            const input = document.getElementById('base64Input').value;
+            const input = document.getElementById('base64-input').value;
             try {
                 const decoded = decodeURIComponent(escape(atob(input)));
-                document.getElementById('base64Output').value = decoded;
+                document.getElementById('base64-output').value = decoded;
             } catch(e) {
-                document.getElementById('base64Output').value = '解码错误: ' + e.message;
+                document.getElementById('base64-output').value = '解码错误: ' + e.message;
             }
+        }
+
+        // 时间戳转换功能
+        function timestampToDate() {
+            const timestamp = document.getElementById('timestamp-input').value;
+            if (!timestamp) {
+                alert('请输入时间戳');
+                return;
+            }
+            const date = new Date(parseInt(timestamp) * 1000);
+            document.getElementById('timestamp-output').value = date.toLocaleString();
+        }
+
+        function dateToTimestamp() {
+            const dateInput = document.getElementById('datetime-input').value;
+            if (!dateInput) {
+                alert('请选择日期时间');
+                return;
+            }
+            const date = new Date(dateInput);
+            document.getElementById('timestamp-output').value = Math.floor(date.getTime() / 1000);
+        }
+
+        function getCurrentTimestamp() {
+            const timestamp = Math.floor(Date.now() / 1000);
+            document.getElementById('timestamp-input').value = timestamp;
+            document.getElementById('timestamp-output').value = new Date(timestamp * 1000).toLocaleString();
+        }
+
+        // JSON格式化功能
+        function formatJSON() {
+            const input = document.getElementById('json-input').value;
+            try {
+                const obj = JSON.parse(input);
+                document.getElementById('json-output').value = JSON.stringify(obj, null, 2);
+            } catch(e) {
+                document.getElementById('json-output').value = 'JSON格式错误: ' + e.message;
+            }
+        }
+
+        function minifyJSON() {
+            const input = document.getElementById('json-input').value;
+            try {
+                const obj = JSON.parse(input);
+                document.getElementById('json-output').value = JSON.stringify(obj);
+            } catch(e) {
+                document.getElementById('json-output').value = 'JSON格式错误: ' + e.message;
+            }
+        }
+
+        // 二维码生成功能（使用Google Chart API）
+        function generateQRCode() {
+            const content = document.getElementById('qrcode-content').value;
+            const size = document.getElementById('qrcode-size').value;
+            if (!content) {
+                alert('请输入内容');
+                return;
+            }
+            const container = document.getElementById('qrcode-container');
+            const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=${size}x${size}&chl=${encodeURIComponent(content)}`;
+            container.innerHTML = `<img src="${qrUrl}" alt="二维码" style="max-width: 100%;">`;
+        }
+
+        // 密码生成功能
+        function generatePassword() {
+            const length = parseInt(document.getElementById('password-length').value);
+            const includeUppercase = document.getElementById('include-uppercase').checked;
+            const includeLowercase = document.getElementById('include-lowercase').checked;
+            const includeNumbers = document.getElementById('include-numbers').checked;
+            const includeSymbols = document.getElementById('include-symbols').checked;
+
+            let chars = '';
+            if (includeUppercase) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (includeLowercase) chars += 'abcdefghijklmnopqrstuvwxyz';
+            if (includeNumbers) chars += '0123456789';
+            if (includeSymbols) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+            if (chars === '') {
+                alert('请至少选择一种字符类型');
+                return;
+            }
+
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('password-output').value = password;
+        }
+
+        // 颜色转换功能
+        function convertColor() {
+            const input = document.getElementById('color-input').value.trim();
+            if (!input) {
+                alert('请输入颜色值');
+                return;
+            }
+
+            let r, g, b;
+
+            // 处理HEX格式
+            if (input.startsWith('#')) {
+                const hex = input.slice(1);
+                if (hex.length === 3) {
+                    r = parseInt(hex[0] + hex[0], 16);
+                    g = parseInt(hex[1] + hex[1], 16);
+                    b = parseInt(hex[2] + hex[2], 16);
+                } else if (hex.length === 6) {
+                    r = parseInt(hex.slice(0, 2), 16);
+                    g = parseInt(hex.slice(2, 4), 16);
+                    b = parseInt(hex.slice(4, 6), 16);
+                }
+            }
+            // 处理RGB格式
+            else if (input.startsWith('rgb')) {
+                const match = input.match(/\d+/g);
+                if (match && match.length >= 3) {
+                    r = parseInt(match[0]);
+                    g = parseInt(match[1]);
+                    b = parseInt(match[2]);
+                }
+            }
+
+            if (r !== undefined && g !== undefined && b !== undefined) {
+                const hex = '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+                const rgb = `rgb(${r}, ${g}, ${b})`;
+                document.getElementById('color-preview').style.backgroundColor = hex;
+                document.getElementById('color-output').value = `HEX: ${hex}\nRGB: ${rgb}`;
+            } else {
+                document.getElementById('color-output').value = '无法识别的颜色格式';
+            }
+        }
+
+        // 文本工具功能
+        function textToUpper() {
+            const input = document.getElementById('text-input').value;
+            document.getElementById('text-output').value = input.toUpperCase();
+        }
+
+        function textToLower() {
+            const input = document.getElementById('text-input').value;
+            document.getElementById('text-output').value = input.toLowerCase();
+        }
+
+        function textReverse() {
+            const input = document.getElementById('text-input').value;
+            document.getElementById('text-output').value = input.split('').reverse().join('');
         }
 
         // 页面加载完成后初始化

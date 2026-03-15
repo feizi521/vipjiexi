@@ -220,30 +220,24 @@ http://api.myzch.cn/?url=</textarea>
         async function fetchToolsConfig() {
             console.log('开始获取工具配置...');
             try {
-                const response = await fetch(`${API_BASE}/api/tools`);
+                // 添加超时机制，5秒后自动放弃
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+                
+                const response = await fetch(`${API_BASE}/api/tools`, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                
                 console.log('API响应状态:', response.status);
                 if (response.ok) {
                     toolsConfig = await response.json();
                     console.log('从API获取的工具配置:', toolsConfig);
                 } else {
                     console.log('API请求失败，使用默认配置');
-                    // 如果API请求失败，使用默认配置
-                    toolsConfig = {
-                        vip: {
-                            icon: '🎬',
-                            title: 'VIP视频解析',
-                            description: '支持爱奇艺、优酷、腾讯等VIP视频解析'
-                        },
-                        douyin: {
-                            icon: '📱',
-                            title: '短视频解析',
-                            description: '支持抖音、快手等短视频去水印解析'
-                        }
-                    };
+                    throw new Error('API请求失败');
                 }
             } catch (error) {
-                console.log('网络错误，使用默认配置:', error);
-                // 网络错误时使用默认配置
+                console.log('获取配置失败，使用默认配置:', error);
+                // 使用默认配置
                 toolsConfig = {
                     vip: {
                         icon: '🎬',
@@ -1802,7 +1796,33 @@ http://api.myzch.cn/?url=</textarea>
 
         // 页面加载完成后初始化
         window.onload = async function() {
-            await initToolPage();
+            try {
+                await initToolPage();
+            } catch (error) {
+                console.error('初始化工具页面失败:', error);
+                // 即使初始化失败，也尝试显示默认工具
+                const toolId = getToolId();
+                const defaultConfigs = {
+                    vip: { icon: '🎬', title: 'VIP视频解析', description: '支持爱奇艺、优酷、腾讯等VIP视频解析' },
+                    douyin: { icon: '📱', title: '短视频解析', description: '支持抖音、快手等短视频去水印解析' }
+                };
+                const defaultConfig = defaultConfigs[toolId] || defaultConfigs.vip;
+                document.getElementById('toolIcon').textContent = defaultConfig.icon;
+                document.getElementById('toolTitle').textContent = defaultConfig.title;
+                document.getElementById('toolDescription').textContent = defaultConfig.description;
+                document.title = defaultConfig.title + ' - 小狐狸工具站';
+                
+                // 移除所有面板的active类
+                document.querySelectorAll('.tool-panel').forEach(panel => {
+                    panel.classList.remove('active');
+                });
+                
+                // 显示对应面板
+                const targetPanel = document.getElementById('panel-' + toolId) || document.getElementById('panel-vip');
+                if (targetPanel) {
+                    targetPanel.classList.add('active');
+                }
+            }
             // 初始化VIP解析API列表
             initVipApi();
         };

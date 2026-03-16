@@ -1531,10 +1531,14 @@ http://api.myzch.cn/?url=</textarea>
             <!-- IPv4子网计算 -->
             <div class="tool-panel" id="panel-ipv4subnet">
                 <div class="form-group">
-                    <label>CIDR (如 192.168.1.0/24):</label>
-                    <input type="text" class="form-control" id="ipv4subnet-input" placeholder="192.168.1.0/24">
+                    <label>IP地址:</label>
+                    <input type="text" class="form-control" id="ipv4-subnet-ip" placeholder="192.168.1.0">
                 </div>
-                <div id="ipv4subnet-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+                <div class="form-group">
+                    <label>CIDR (子网位数):</label>
+                    <input type="number" class="form-control" id="ipv4-subnet-cidr" placeholder="24" min="0" max="32">
+                </div>
+                <div id="ipv4-subnet-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
                 <button class="btn btn-primary btn-block" onclick="calcIPv4Subnet()" style="margin-top: 15px;">计算</button>
             </div>
 
@@ -1542,9 +1546,21 @@ http://api.myzch.cn/?url=</textarea>
             <div class="tool-panel" id="panel-ipv4converter">
                 <div class="form-group">
                     <label>IPv4地址:</label>
-                    <input type="text" class="form-control" id="ipv4conv-input" placeholder="192.168.1.1">
+                    <input type="text" class="form-control" id="ipv4-convert-input" placeholder="192.168.1.1">
                 </div>
-                <div id="ipv4conv-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+                <div class="form-group">
+                    <label>转换类型:</label>
+                    <select class="form-control" id="ipv4-convert-type">
+                        <option value="decimal">十进制</option>
+                        <option value="binary">二进制</option>
+                        <option value="hex">十六进制</option>
+                        <option value="octal">八进制</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>转换结果:</label>
+                    <input type="text" class="form-control" id="ipv4-convert-result" readonly>
+                </div>
                 <button class="btn btn-primary btn-block" onclick="convertIPv4()" style="margin-top: 15px;">转换</button>
             </div>
 
@@ -1552,9 +1568,9 @@ http://api.myzch.cn/?url=</textarea>
             <div class="tool-panel" id="panel-maclookup">
                 <div class="form-group">
                     <label>MAC地址:</label>
-                    <input type="text" class="form-control" id="maclookup-input" placeholder="00:1A:2B:3C:4D:5E">
+                    <input type="text" class="form-control" id="mac-lookup-input" placeholder="00:1A:2B:3C:4D:5E">
                 </div>
-                <div id="maclookup-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
+                <div id="mac-lookup-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
                 <button class="btn btn-primary btn-block" onclick="lookupMac()" style="margin-top: 15px;">查询</button>
             </div>
 
@@ -1562,15 +1578,15 @@ http://api.myzch.cn/?url=</textarea>
             <div class="tool-panel" id="panel-macgen">
                 <div class="form-group">
                     <label>生成数量:</label>
-                    <input type="number" class="form-control" id="macgen-count" value="5" min="1" max="100">
+                    <input type="number" class="form-control" id="mac-count" value="5" min="1" max="100">
                 </div>
                 <div class="form-group">
                     <label>前缀 (可选):</label>
-                    <input type="text" class="form-control" id="macgen-prefix" placeholder="如: 00:1A:2B">
+                    <input type="text" class="form-control" id="mac-prefix" placeholder="如: 00:1A:2B">
                 </div>
                 <div class="form-group">
                     <label>MAC地址列表:</label>
-                    <textarea class="form-control" id="macgen-output" rows="6" readonly></textarea>
+                    <textarea class="form-control" id="mac-generate-result" rows="6" readonly></textarea>
                 </div>
                 <button class="btn btn-primary btn-block" onclick="generateMacs()">生成</button>
             </div>
@@ -1579,7 +1595,7 @@ http://api.myzch.cn/?url=</textarea>
             <div class="tool-panel" id="panel-ipv6ula">
                 <div class="form-group">
                     <label>IPv6 ULA:</label>
-                    <input type="text" class="form-control" id="ipv6ula-output" readonly style="font-size: 14px;">
+                    <input type="text" class="form-control" id="ipv6-ula-result" readonly style="font-size: 14px;">
                 </div>
                 <button class="btn btn-primary btn-block" onclick="generateIPv6ULA()">生成</button>
             </div>
@@ -1591,8 +1607,16 @@ http://api.myzch.cn/?url=</textarea>
                     <input type="number" class="form-control" id="port-count" value="5" min="1" max="50">
                 </div>
                 <div class="form-group">
+                    <label>最小端口:</label>
+                    <input type="number" class="form-control" id="port-min" value="1024" min="1" max="65535">
+                </div>
+                <div class="form-group">
+                    <label>最大端口:</label>
+                    <input type="number" class="form-control" id="port-max" value="65535" min="1" max="65535">
+                </div>
+                <div class="form-group">
                     <label>端口列表:</label>
-                    <textarea class="form-control" id="port-output" rows="6" readonly></textarea>
+                    <textarea class="form-control" id="port-generate-result" rows="6" readonly></textarea>
                 </div>
                 <button class="btn btn-primary btn-block" onclick="generatePorts()">生成</button>
             </div>
@@ -1643,7 +1667,7 @@ http://api.myzch.cn/?url=</textarea>
                     </select>
                 </div>
                 <div id="temp-result" style="background: #f5f5f5; padding: 15px; border-radius: 5px;"></div>
-                <button class="btn btn-primary btn-block" onclick="convertTemp()" style="margin-top: 15px;">转换</button>
+                <button class="btn btn-primary btn-block" onclick="convertTemperature()" style="margin-top: 15px;">转换</button>
             </div>
 
             <!-- ETA计算器 -->
@@ -1669,9 +1693,9 @@ http://api.myzch.cn/?url=</textarea>
                 <div style="text-align: center;">
                     <div id="chrono-display" style="font-size: 48px; font-family: monospace;">00:00:00.000</div>
                     <div style="margin-top: 20px;">
-                        <button class="btn btn-success" onclick="startChrono()">开始</button>
-                        <button class="btn btn-warning" onclick="pauseChrono()">暂停</button>
-                        <button class="btn btn-danger" onclick="resetChrono()">重置</button>
+                        <button class="btn btn-success" onclick="startChronometer()">开始</button>
+                        <button class="btn btn-warning" onclick="pauseChronometer()">暂停</button>
+                        <button class="btn btn-danger" onclick="resetChronometer()">重置</button>
                     </div>
                     <div id="chrono-laps" style="margin-top: 20px; text-align: left;"></div>
                 </div>
@@ -1731,7 +1755,7 @@ http://api.myzch.cn/?url=</textarea>
                     <textarea class="form-control" id="textdiff-2" rows="4" placeholder="修改后文本"></textarea>
                 </div>
                 <div id="textdiff-result" style="background: #f5f5f5; padding: 10px; border-radius: 5px; max-height: 300px; overflow-y: auto;"></div>
-                <button class="btn btn-primary btn-block" onclick="compareText()" style="margin-top: 15px;">对比</button>
+                <button class="btn btn-primary btn-block" onclick="compareTexts()" style="margin-top: 15px;">对比</button>
             </div>
 
             <!-- 数字缩写 -->
@@ -6694,6 +6718,162 @@ http://api.myzch.cn/?url=</textarea>
             else if (bmi < 28) status = '偏胖';
             else status = '肥胖';
             document.getElementById('bmi-result').innerHTML = `BMI: ${bmi} (${status})`;
+        }
+
+        // ========== 数学表达式计算 ==========
+        function evalMath() {
+            const expr = document.getElementById('math-input').value;
+            if (!expr) { alert('请输入表达式'); return; }
+            try {
+                const safeExpr = expr.replace(/[^0-9+\-*/.()^%sqrt sin cos tan log abs pow PIe ]/gi, '');
+                const result = Function('"use strict"; return (' + safeExpr + ')')();
+                document.getElementById('math-output').value = result;
+            } catch (e) {
+                document.getElementById('math-output').value = '错误: 无效表达式';
+            }
+        }
+
+        // ========== ETA计算器 ==========
+        function calcETA() {
+            const total = parseInt(document.getElementById('eta-total').value);
+            const done = parseInt(document.getElementById('eta-done').value);
+            const startStr = document.getElementById('eta-start').value;
+            if (!total || !done || !startStr) { alert('请填写所有字段'); return; }
+            if (done >= total) {
+                document.getElementById('eta-result').innerHTML = '<span style="color: green;">已完成！</span>';
+                return;
+            }
+            const startTime = new Date(startStr).getTime();
+            const elapsed = Date.now() - startTime;
+            const rate = done / elapsed;
+            const remaining = total - done;
+            const etaMs = remaining / rate;
+            const etaDate = new Date(Date.now() + etaMs);
+            const percent = ((done / total) * 100).toFixed(1);
+            document.getElementById('eta-result').innerHTML = `
+                <div style="margin-bottom: 8px;"><strong>进度:</strong> ${percent}%</div>
+                <div style="margin-bottom: 8px;"><strong>预计完成时间:</strong> ${etaDate.toLocaleString('zh-CN')}</div>
+                <div style="margin-bottom: 8px;"><strong>剩余时间:</strong> ${formatTime(etaMs)}</div>
+            `;
+        }
+
+        function formatTime(ms) {
+            const hours = Math.floor(ms / 3600000);
+            const minutes = Math.floor((ms % 3600000) / 60000);
+            const seconds = Math.floor((ms % 60000) / 1000);
+            return `${hours}小时 ${minutes}分钟 ${seconds}秒`;
+        }
+
+        // ========== IPv4子网计算 ==========
+        function calcIPv4Subnet() {
+            const ip = document.getElementById('ipv4-subnet-ip').value;
+            const cidr = parseInt(document.getElementById('ipv4-subnet-cidr').value);
+            if (!ip || isNaN(cidr) || cidr < 0 || cidr > 32) { alert('请输入有效的IP和CIDR'); return; }
+            const parts = ip.split('.').map(Number);
+            const mask = (0xFFFFFFFF << (32 - cidr)) >>> 0;
+            const network = parts.map((p, i) => p & ((mask >>> (24 - i * 8)) & 255));
+            const broadcast = parts.map((p, i) => p | (~((mask >>> (24 - i * 8)) & 255) & 255));
+            const hosts = Math.pow(2, 32 - cidr) - 2;
+            const firstHost = [...network];
+            firstHost[3] += 1;
+            const lastHost = [...broadcast];
+            lastHost[3] -= 1;
+            document.getElementById('ipv4-subnet-result').innerHTML = `
+                <div style="margin-bottom: 8px;"><strong>网络地址:</strong> ${network.join('.')}</div>
+                <div style="margin-bottom: 8px;"><strong>广播地址:</strong> ${broadcast.join('.')}</div>
+                <div style="margin-bottom: 8px;"><strong>子网掩码:</strong> ${[(mask >>> 24) & 255, (mask >>> 16) & 255, (mask >>> 8) & 255, mask & 255].join('.')}</div>
+                <div style="margin-bottom: 8px;"><strong>可用主机范围:</strong> ${firstHost.join('.')} - ${lastHost.join('.')}</div>
+                <div style="margin-bottom: 8px;"><strong>可用主机数:</strong> ${hosts}</div>
+            `;
+        }
+
+        // ========== IPv4转换 ==========
+        function convertIPv4() {
+            const input = document.getElementById('ipv4-convert-input').value;
+            const type = document.getElementById('ipv4-convert-type').value;
+            if (!input) { alert('请输入IP地址'); return; }
+            let result = '';
+            if (type === 'decimal') {
+                const parts = input.split('.');
+                result = parts.reduce((acc, part) => (acc << 8) + parseInt(part), 0) >>> 0;
+            } else if (type === 'binary') {
+                result = input.split('.').map(p => parseInt(p).toString(2).padStart(8, '0')).join('.');
+            } else if (type === 'hex') {
+                result = input.split('.').map(p => parseInt(p).toString(16).toUpperCase().padStart(2, '0')).join(':');
+            } else if (type === 'octal') {
+                result = input.split('.').map(p => parseInt(p).toString(8).padStart(3, '0')).join('.');
+            }
+            document.getElementById('ipv4-convert-result').value = result;
+        }
+
+        // ========== MAC地址查询 ==========
+        function lookupMac() {
+            const mac = document.getElementById('mac-lookup-input').value.replace(/[:-]/g, '').toUpperCase();
+            if (mac.length < 6) { alert('请输入有效的MAC地址'); return; }
+            const oui = mac.substring(0, 6);
+            const knownVendors = {
+                '001A1A': 'Apple, Inc.',
+                '001B63': 'Apple, Inc.',
+                '002312': 'Apple, Inc.',
+                '000C29': 'VMware, Inc.',
+                '001C14': 'VMware, Inc.',
+                '005056': 'VMware, Inc.',
+                '000D3A': 'VMware, Inc.',
+                '0020F2': 'Microsoft Corporation',
+                '0050F2': 'Microsoft Corporation',
+                '001DD8': 'Microsoft Corporation',
+                'F0DEF1': 'Dell Inc.',
+                'D4BED9': 'Dell Inc.',
+                '00248C': 'Dell Inc.',
+                '001E0B': 'Dell Inc.',
+                '001E67': 'Dell Inc.',
+                'B827EB': 'Raspberry Pi Foundation',
+                'DCA632': 'Raspberry Pi Foundation',
+                'E45F01': 'Raspberry Pi Foundation',
+            };
+            const vendor = knownVendors[oui] || '未知厂商';
+            document.getElementById('mac-lookup-result').innerHTML = `
+                <div style="margin-bottom: 8px;"><strong>OUI:</strong> ${oui}</div>
+                <div style="margin-bottom: 8px;"><strong>厂商:</strong> ${vendor}</div>
+                <div style="margin-bottom: 8px;"><strong>完整MAC:</strong> ${mac.match(/.{2}/g).join(':')}</div>
+            `;
+        }
+
+        // ========== 生成MAC地址 ==========
+        function generateMacs() {
+            const count = parseInt(document.getElementById('mac-count').value) || 1;
+            const prefix = document.getElementById('mac-prefix').value || '';
+            let result = [];
+            for (let i = 0; i < count; i++) {
+                let mac = prefix;
+                while (mac.length < 12) {
+                    mac += Math.floor(Math.random() * 256).toString(16).toUpperCase().padStart(2, '0');
+                }
+                result.push(mac.match(/.{2}/g).join(':'));
+            }
+            document.getElementById('mac-generate-result').value = result.join('\n');
+        }
+
+        // ========== 生成IPv6 ULA ==========
+        function generateIPv6ULA() {
+            const prefix = 'fd';
+            const globalId = Array.from({length: 5}, () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0')).join('');
+            const subnet = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
+            const interfaceId = Array.from({length: 3}, () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0')).join('');
+            const ula = `${prefix}${globalId.substring(0,3)}:${globalId.substring(3,7)}:${globalId.substring(7)}${subnet}:0:${interfaceId}`;
+            document.getElementById('ipv6-ula-result').value = ula;
+        }
+
+        // ========== 生成端口 ==========
+        function generatePorts() {
+            const count = parseInt(document.getElementById('port-count').value) || 5;
+            const minPort = parseInt(document.getElementById('port-min').value) || 1024;
+            const maxPort = parseInt(document.getElementById('port-max').value) || 65535;
+            let ports = [];
+            for (let i = 0; i < count; i++) {
+                ports.push(Math.floor(Math.random() * (maxPort - minPort + 1)) + minPort);
+            }
+            document.getElementById('port-generate-result').value = ports.join('\n');
         }
 
         // ========== IP地址转换 ==========

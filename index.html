@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
@@ -92,7 +92,23 @@
     <!-- 站点地图和robots.txt链接 -->
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
     
-    <!-- Favicon -->  
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+    <link rel="manifest" href="./site.webmanifest">
+    
+    <!-- 预连接和预加载优化 -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://picsum.photos" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://picsum.photos">
+    
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="./assets/vendor/font-awesome/css/font-awesome.min.css" as="style">
+    <link rel="preload" href="./assets/css/argon.min.css" as="style">
+    
     <link
       href="./assets/vendor/font-awesome/css/font-awesome.min.css"
       rel="stylesheet"
@@ -837,10 +853,27 @@
 
     <!---->
     <main class="profile-page" style="padding-top: 20px;">
+      <!-- 面包屑导航 -->
+      <nav aria-label="breadcrumb" style="padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 8px; margin: 10px auto; max-width: 1400px;">
+        <ol class="breadcrumb" style="margin: 0; padding: 0; background: transparent;">
+          <li class="breadcrumb-item active" aria-current="page" style="color: #fff;">
+            <i class="fas fa-home"></i> 首页
+          </li>
+        </ol>
+      </nav>
+      
       <section class="section-profile-cover section-shaped my-0" style="min-height: 20px; max-height: 40px; background: transparent; display: none;">
       </section>
       <section class="section">
         <div class="container">
+          <!-- 页面主标题 - SEO优化 -->
+          <h1 style="text-align: center; color: #fff; margin-bottom: 20px; font-size: 28px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+            <i class="fas fa-toolbox"></i> 小狐狸工具站 - 免费在线工具大全
+          </h1>
+          <p style="text-align: center; color: rgba(255,255,255,0.9); margin-bottom: 30px; font-size: 16px;">
+            提供VIP视频解析、图片压缩、音乐下载、开发工具等100+实用工具，无需安装，即开即用
+          </p>
+          
           <!-- 侧边栏布局 -->
           <div class="sidebar-layout">
             <!-- 侧边栏 -->
@@ -1711,28 +1744,46 @@ http://www.jzmhtt.com/zdy/vip/?url=
       </section>
     </main>
 
-    <!-- <footer class="footer footer-desert">
+    <!-- 页脚 - SEO优化 -->
+    <footer class="footer footer-desert" style="margin-top: 50px; padding: 30px 0; background: rgba(0,0,0,0.2);">
       <div class="container">
-        <div class="row row-grid align-items-center mb-2">
-          <div class="col-lg-12 text-center">
-            <h5 class="font-weight-light mb-1" style="color: #ffffff; font-weight: 500;">
-              欢迎使用VIP视频解析系统
-            </h5>
+        <div class="row">
+          <div class="col-md-4">
+            <h4 style="color: #fff; margin-bottom: 15px;">关于我们</h4>
+            <p style="color: rgba(255,255,255,0.8); font-size: 14px;">
+              小狐狸工具站是一个免费的在线工具平台，提供VIP视频解析、图片处理、开发工具等100+实用工具。
+            </p>
+          </div>
+          <div class="col-md-4">
+            <h4 style="color: #fff; margin-bottom: 15px;">热门工具</h4>
+            <ul style="list-style: none; padding: 0;">
+              <li><a href="tools.html?tool=vip" style="color: rgba(255,255,255,0.8);">VIP视频解析</a></li>
+              <li><a href="tools.html?tool=musicdownload" style="color: rgba(255,255,255,0.8);">音乐下载</a></li>
+              <li><a href="tools.html?tool=mediacompress" style="color: rgba(255,255,255,0.8);">图片视频压缩</a></li>
+              <li><a href="tools.html?tool=imgextractor" style="color: rgba(255,255,255,0.8);">网页图片提取</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h4 style="color: #fff; margin-bottom: 15px;">联系我们</h4>
+            <p style="color: rgba(255,255,255,0.8); font-size: 14px;">
+              网站: <a href="https://vipjiexi.farholme.com/" style="color: #6366f1;">vipjiexi.farholme.com</a><br>
+              邮箱: contact@farholme.com
+            </p>
           </div>
         </div>
-        <hr class="my-2" style="border-color: rgba(255, 255, 255, 0.1);" />
-        <div class="row align-items-center justify-content-md-center">
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 0;" />
+        <div class="row">
           <div class="col-md-12 text-center">
-            <div class="copyright" style="color: #a0a0b0;">
-              &copy; 2025 小狐狸VIP视频解析网 |
-              <a href="https://www.farholme.com/" target="_blank" style="color: #6366f1;"
-                >友情链接</a
-              >
-            </div>
+            <p style="color: rgba(255,255,255,0.6); margin: 0;">
+              &copy; 2025 小狐狸工具站 | 
+              <a href="sitemap.xml" style="color: rgba(255,255,255,0.6);">站点地图</a> | 
+              <a href="robots.txt" style="color: rgba(255,255,255,0.6);">Robots</a> |
+              <a href="https://www.farholme.com/" target="_blank" style="color: #6366f1;">友情链接</a>
+            </p>
           </div>
         </div>
       </div>
-    </footer> -->
+    </footer>
     <!-- Core -->
   </div>
 </div>
@@ -4697,7 +4748,7 @@ $("#play").click(function(e){
     const url = URL.createObjectURL(svgBlob);
     
     const resultDiv = document.getElementById('svgPlaceholderResult');
-    resultDiv.innerHTML = `<img src="${url}" style="max-width: 100%; border-radius: 10px;">`;
+    resultDiv.innerHTML = `<img src="${url}" alt="SVG占位图" style="max-width: 100%; border-radius: 10px;">`;
     resultDiv.dataset.svg = svg;
     resultDiv.dataset.url = url;
     showToast('SVG占位图生成成功');
@@ -4759,7 +4810,7 @@ $("#play").click(function(e){
     const imgDiv = document.createElement('div');
     imgDiv.className = 'mb-2';
     imgDiv.innerHTML = `
-      <img src="${imgUrl}" style="max-width: 200px; border-radius: 10px;">
+      <img src="${imgUrl}" alt="AI生成的图片" style="max-width: 200px; border-radius: 10px;">
       <a href="${imgUrl}" download="photo_${Date.now()}.png" class="btn btn-sm btn-desert-secondary ml-2">
         <i class="fa fa-download"></i> 下载
       </a>

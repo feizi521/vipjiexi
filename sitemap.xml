@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- 首页 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- 工具页面 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- VIP视频解析工具 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=vip</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 短视频解析 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=douyin</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 图片去水印 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=imgwatermark</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 一键换脸 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=faceswap</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- AI动画短剧 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=aianimation</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 音乐下载 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=musicdownload</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 网页图片提取 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=imgextractor</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 图片视频压缩 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=mediacompress</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Base64编解码 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=base64</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- URL编解码 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=url</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- JSON格式化 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=json</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 哈希计算 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=hash</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- UUID生成 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=uuid</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 时间戳转换 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=timestamp</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 二维码生成 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=qrcode</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 颜色转换器 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=color</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 正则表达式测试 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=regex</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 代码格式化 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=codeformat</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- HTML压缩 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=htmlmin</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- CSS压缩 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=cssmin</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- JS压缩 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=jsmin</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- 文本对比 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=textdiff</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- 密码生成器 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=password</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- IP地址查询 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=ipquery</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- 端口扫描 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=portscan</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- 单位换算 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=unit</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- 计算器 -->
+  <url>
+    <loc>https://vipjiexi.farholme.com/tools.html?tool=calculator</loc>
+    <lastmod>2025-03-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>

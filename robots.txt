@@ -1,0 +1,44 @@
+# robots.txt for 小狐狸工具站
+# https://vipjiexi.farholme.com/
+
+User-agent: *
+Allow: /
+
+# 禁止访问的目录
+Disallow: /assets/vendor/
+Disallow: /assets/js/
+Disallow: /assets/css/
+Disallow: /.git/
+Disallow: /node_modules/
+
+# 允许访问的重要页面
+Allow: /sitemap.xml
+Allow: /index.html
+Allow: /tools.html
+
+# 网站地图
+Sitemap: https://vipjiexi.farholme.com/sitemap.xml
+
+# 爬虫抓取频率
+Crawl-delay: 1
+
+# 针对特定搜索引擎的优化
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0.5
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0.5
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 1
+
+User-agent: Sogou spider
+Allow: /
+Crawl-delay: 1
+
+User-agent: 360Spider
+Allow: /
+Crawl-delay: 1
